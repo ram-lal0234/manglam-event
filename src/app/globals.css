@@ -1,28 +1,21 @@
 @import "tailwindcss";
-
 :root {
-  /* Primary Colors */
+  /* Light Mode Colors */
   --background: #ffffff;
-  --foreground: #171717;
-  --primary: #e63946;  /* Vibrant red */
-  --primary-light: #ff4d5a;  /* Lighter red */
-  --primary-dark: #c1121f;  /* Darker red */
-  
-  /* Secondary Colors */
-  --secondary: #1d3557;  /* Deep blue */
-  --secondary-light: #457b9d;  /* Lighter blue */
-  --secondary-dark: #0d1b2a;  /* Darker blue */
-  
-  /* Accent Colors */
-  --accent: #f1faee;  /* Off-white */
-  --accent-light: #ffffff;
-  --accent-dark: #e2e8e0;
-  
-  /* Muted Colors */
-  --muted: #f8f9fa;
-  --muted-foreground: #6b7280;
-  --muted-light: #e9ecef;
-  --muted-dark: #dee2e6;
+  --foreground: #1a1a1a;
+  --primary: #D72638;          /* Modern Vibrant Red */
+  --primary-light: #F2545B;    /* Soft Coral Red */
+  --primary-dark: #A4161A;     /* Deep Crimson */
+  --secondary: #14213D;        /* Rich Navy Blue for contrast */
+  --secondary-light: #30415D;  /* Muted Navy */
+  --secondary-dark: #0E1726;   /* Dark Navy */
+  --accent: #F8F9FA;           /* Light Gray */
+  --accent-light: #FFFFFF;     /* Pure White */
+  --accent-dark: #E5E5E5;      /* Soft Gray */
+  --muted: #F5F5F5;
+  --muted-foreground: #6B7280;  /* Neutral Gray */
+  --muted-light: #E2E8F0;
+  --muted-dark: #CBD5E1;
   
   /* Animation Durations */
   --duration-fast: 150ms;
@@ -38,24 +31,22 @@
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: #f1faee;
-  --primary: #ff4d5a;  /* Brighter red for dark mode */
-  --primary-light: #ff6b76;
-  --primary-dark: #e63946;
-  
-  --secondary: #457b9d;
-  --secondary-light: #a8dadc;
-  --secondary-dark: #1d3557;
-  
-  --accent: #1d3557;
-  --accent-light: #2a4d6e;
-  --accent-dark: #0d1b2a;
-  
-  --muted: #1f2937;
-  --muted-foreground: #9ca3af;
-  --muted-light: #374151;
-  --muted-dark: #111827;
+  /* Dark Mode Colors */
+  --background: #0F172A;       /* Dark Blue Background */
+  --foreground: #F8FAFC;       /* Light Text */
+  --primary: #F2545B;          /* Slightly brighter for dark mode */
+  --primary-light: #FF7F88;    /* Lively Coral */
+  --primary-dark: #D72638;     /* Vibrant Red */
+  --secondary: #1E293B;        /* Slightly lighter blue */
+  --secondary-light: #334155;  /* Medium blue */
+  --secondary-dark: #0F172A;   /* Dark blue */
+  --accent: #1E293B;          /* Blue accent */
+  --accent-light: #334155;     /* Lighter blue */
+  --accent-dark: #0F172A;      /* Darker blue */
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+  --muted-light: #334155;
+  --muted-dark: #0F172A;
 }
 
 @theme inline {

@@ -1,22 +1,25 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import gsap from 'gsap';
+import { motion } from 'framer-motion';
+import ThemeToggle from '../common/ThemeToggle';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const navRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
     { name: 'Gallery', path: '/gallery' },
-    // { name: 'Testimonials', path: '/testimonials' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -30,27 +33,49 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      gsap.from('.nav-item', {
-        opacity: 0,
-        y: 20,
-        duration: 0.3,
-        stagger: 0.1,
-        ease: 'power2.out'
-      });
-    }
+    const ctx = gsap.context(() => {
+      if (isOpen) {
+        // Animate menu items
+        gsap.from('.nav-item', {
+          opacity: 0,
+          y: 20,
+          duration: 0.4,
+          stagger: 0.1,
+          ease: 'power2.out'
+        });
+
+        // Animate menu background
+        gsap.from(menuRef.current, {
+          opacity: 0,
+          y: -20,
+          duration: 0.4,
+          ease: 'power2.out'
+        });
+      }
+    }, navRef);
+
+    return () => ctx.revert();
   }, [isOpen]);
 
   return (
     <nav
-      className={`fixed w-full z-40 transition-all duration-300 ${
-        isScrolled ? 'bg-background/80 backdrop-blur-md shadow-md' : 'bg-transparent'
-      }`}
+      ref={navRef}
+      className="fixed w-full z-40 h-20"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div 
+        className={`absolute inset-0 transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-background/90 backdrop-blur-lg shadow-lg' 
+            : 'bg-transparent'
+        }`}
+      />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+        <div className="flex items-center justify-between h-full">
           {/* Logo */}
-          <Link href="/" className="relative w-32 h-12">
+          <Link 
+            href="/" 
+            className="relative w-32 h-12 transition-transform duration-300 hover:scale-105"
+          >
             <Image
               src="/images/logo.png"
               alt="Manglam Event Logo"
@@ -66,70 +91,87 @@ const Navbar = () => {
               <Link
                 key={item.path}
                 href={item.path}
-                className={`nav-item text-sm font-medium transition-colors duration-200 ${
+                className={`nav-item relative text-sm font-medium transition-all duration-300 ${
                   pathname === item.path
                     ? 'text-primary'
                     : 'text-foreground hover:text-primary'
                 }`}
               >
                 {item.name}
+                {pathname === item.path && (
+                  <motion.div
+                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary"
+                    layoutId="navbar-indicator"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
               </Link>
             ))}
           </div>
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-md text-foreground hover:text-primary focus:outline-none"
+            className="md:hidden p-2 rounded-md text-foreground hover:text-primary focus:outline-none transition-colors duration-300"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
           >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {isOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
+            <div className="w-6 h-6 relative">
+              <span
+                className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
+                  isOpen ? 'rotate-45 top-3' : 'top-1'
+                }`}
+              />
+              <span
+                className={`absolute h-0.5 w-6 bg-current top-3 transition-all duration-300 ${
+                  isOpen ? 'opacity-0' : 'opacity-100'
+                }`}
+              />
+              <span
+                className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
+                  isOpen ? '-rotate-45 top-3' : 'top-5'
+                }`}
+              />
+            </div>
           </button>
+
+          <div className="flex items-center space-x-4">
+            <ThemeToggle />
+            <Link
+              href="/contact"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-accent-light transition-colors duration-200"
+            >
+              Get Started
+            </Link>
+          </div>
         </div>
       </div>
 
       {/* Mobile Navigation */}
       <div
-        className={`md:hidden ${
-          isOpen ? 'block' : 'hidden'
-        } bg-background/95 backdrop-blur-md`}
+        ref={menuRef}
+        className={`md:hidden absolute top-full left-0 w-full transition-all duration-300 ${
+          isOpen 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 -translate-y-4 pointer-events-none'
+        }`}
       >
-        <div className="px-2 pt-2 pb-3 space-y-1">
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              href={item.path}
-              className={`nav-item block px-3 py-2 rounded-md text-base font-medium ${
-                pathname === item.path
-                  ? 'text-primary bg-primary/10'
-                  : 'text-foreground hover:text-primary hover:bg-primary/5'
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              {item.name}
-            </Link>
-          ))}
+        <div className="bg-background/95 backdrop-blur-lg shadow-lg">
+          <div className="px-4 py-3 space-y-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                href={item.path}
+                className={`nav-item block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
+                  pathname === item.path
+                    ? 'text-primary bg-primary/10'
+                    : 'text-foreground hover:text-primary hover:bg-primary/5'
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </nav>

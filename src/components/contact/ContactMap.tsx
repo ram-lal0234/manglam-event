@@ -48,7 +48,7 @@ const ContactMap = () => {
           className="w-full h-[400px] rounded-lg overflow-hidden shadow-lg"
         >
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3619.1101277000003!2d75.7872709!3d24.8864356!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394e5d5e0c5e5e5e%3A0x5e5e5e5e5e5e5e5e!2sManglam%20Event!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d988.2151119089691!2d72.96187241549418!3d26.228602512836545!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39418974e2d63f41%3A0xc24a13acec15f737!2sManglam%20Event%20Jodhpur!5e0!3m2!1sen!2sin!4v1747370821309!5m2!1sen!2sin"
             width="100%"
             height="100%"
             style={{ border: 0 }}

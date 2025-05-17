@@ -4,12 +4,17 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { SplitText } from 'gsap/SplitText';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const ServicesHero = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const sparklesRef = useRef<HTMLDivElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"]
@@ -21,34 +26,93 @@ const ServicesHero = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Enhanced text animation
-      gsap.from(textRef.current?.children || [], {
+      // Split text animation
+      const title = textRef.current?.querySelector('.section-title');
+      if (title) {
+        const split = new SplitText(title, { type: "chars,words" });
+        gsap.from(split.chars, {
+          opacity: 0,
+          y: 50,
+          duration: 0.8,
+          stagger: {
+            amount: 1.2,
+            ease: "power2.out"
+          },
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top center+=100',
+            toggleActions: 'play none none reverse'
+          }
+        });
+      }
+
+      // Background video fade in with enhanced parallax
+      gsap.from(bgRef.current, {
         opacity: 0,
-        y: 100,
-        duration: 1.5,
-        stagger: {
-          amount: 1.2,
-          ease: "power2.out"
-        },
-        ease: 'power3.out',
+        scale: 1.2,
+        duration: 2,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top center+=100',
+          start: 'top bottom',
           toggleActions: 'play none none reverse'
         }
       });
 
-      // Parallax effect for background
-      gsap.to('.parallax-bg', {
-        yPercent: 30,
-        ease: 'none',
+      // Enhanced gradient overlay slide in
+      gsap.from(overlayRef.current, {
+        opacity: 0,
+        y: 100,
+        duration: 1.5,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1
+          toggleActions: 'play none none reverse'
         }
       });
+
+      // Create enhanced sparkles
+      const createSparkle = () => {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.left = Math.random() * 100 + '%';
+        sparkle.style.top = Math.random() * 100 + '%';
+        sparklesRef.current?.appendChild(sparkle);
+
+        gsap.to(sparkle, {
+          opacity: 0,
+          scale: 0,
+          duration: 1 + Math.random(),
+          ease: 'power2.out',
+          onComplete: () => {
+            sparkle.remove();
+          }
+        });
+      };
+
+      // Create sparkles at intervals
+      const sparkleInterval = setInterval(createSparkle, 200);
+
+      // Custom cursor effect
+      const handleMouseMove = (e: MouseEvent) => {
+        if (cursorRef.current) {
+          gsap.to(cursorRef.current, {
+            x: e.clientX,
+            y: e.clientY,
+            duration: 0.5,
+            ease: 'power2.out'
+          });
+        }
+      };
+
+      window.addEventListener('mousemove', handleMouseMove);
+
+      return () => {
+        clearInterval(sparkleInterval);
+        window.removeEventListener('mousemove', handleMouseMove);
+      };
     }, sectionRef);
 
     return () => ctx.revert();
@@ -57,12 +121,13 @@ const ServicesHero = () => {
   return (
     <motion.section
       ref={sectionRef}
-      className="relative h-[80vh] w-full overflow-hidden"
+      className="relative h-[90vh] w-full overflow-hidden"
       style={{ opacity }}
     >
       {/* Enhanced Background with Multiple Layers */}
       <div className="absolute inset-0">
         <motion.div
+          ref={bgRef}
           className="absolute inset-0 bg-cover bg-center bg-no-repeat parallax-bg"
           style={{
             backgroundImage: 'url(https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop)',
@@ -71,14 +136,15 @@ const ServicesHero = () => {
           }}
         />
         <motion.div
+          ref={overlayRef}
           className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         />
-        {/* Animated Particles */}
-        <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
+        {/* Enhanced Animated Particles */}
+        <div ref={sparklesRef} className="absolute inset-0">
+          {[...Array(40)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 bg-white/30 rounded-full"
@@ -89,6 +155,7 @@ const ServicesHero = () => {
               animate={{
                 y: [0, -100],
                 opacity: [0, 1, 0],
+                scale: [0, 1, 0],
               }}
               transition={{
                 duration: Math.random() * 3 + 2,
@@ -114,7 +181,7 @@ const ServicesHero = () => {
           <span className="text-6xl">✨</span>
         </motion.div>
         <motion.h1 
-          className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-accent-light to-white"
+          className="section-title text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-accent-light to-white"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -139,11 +206,30 @@ const ServicesHero = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <button className="px-8 py-4 bg-accent text-white rounded-full text-lg font-semibold hover:bg-accent-light transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-            Explore Services
-          </button>
+          <motion.button 
+            className="px-8 py-4 bg-accent text-white rounded-full text-lg font-semibold hover:bg-accent-light transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 relative overflow-hidden group"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <span className="relative z-10">Explore Services</span>
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-accent-light to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              initial={false}
+              animate={{ x: ['-100%', '100%'] }}
+              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+            />
+          </motion.button>
         </motion.div>
       </div>
+
+      {/* Custom Cursor */}
+      <motion.div
+        ref={cursorRef}
+        className="fixed w-8 h-8 rounded-full border-2 border-accent pointer-events-none z-50 mix-blend-difference"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 0.3 }}
+      />
 
       {/* Decorative Elements */}
       <motion.div
@@ -152,6 +238,22 @@ const ServicesHero = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.5 }}
       />
+
+      <style jsx global>{`
+        .sparkle {
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+          border-radius: 50%;
+          pointer-events: none;
+          filter: blur(1px);
+        }
+        .parallax-bg {
+          transform-origin: center center;
+          will-change: transform;
+        }
+      `}</style>
     </motion.section>
   );
 };
