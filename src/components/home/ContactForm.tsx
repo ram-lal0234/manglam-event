@@ -171,7 +171,7 @@ const ContactForm = () => {
             <span className="text-6xl">📬</span>
           </motion.div>
           <motion.h2 
-            className="section-title text-4xl font-bold text-secondary mb-4 bg-clip-text text-transparent bg-gradient-to-r from-secondary via-primary to-secondary"
+            className="section-title text-4xl font-bold text-foreground mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary"
             initial={{ scale: 0.9, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
@@ -295,7 +295,7 @@ const ContactForm = () => {
             <motion.button
               type="submit"
               disabled={isSubmitting}
-              className="inline-block bg-primary hover:bg-primary-dark text-white px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-block bg-primary hover:bg-primary-dark text-white px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
