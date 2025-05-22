@@ -5,11 +5,21 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { AnimatePresence } from 'framer-motion';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { Loader2, CheckCircle, XCircle } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+}
+
 const ContactForm = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     phone: '',
@@ -17,6 +27,7 @@ const ContactForm = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const sectionRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
@@ -78,10 +89,21 @@ const ContactForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    setErrorMessage('');
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Add message to Firestore
+      const messagesRef = collection(db, 'messages');
+      const messageData = {
+        ...formData,
+        createdAt: serverTimestamp(),
+        status: 'new'
+      };
+      
+      console.log('Attempting to add message:', messageData);
+      const docRef = await addDoc(messagesRef, messageData);
+      console.log('Message added successfully with ID:', docRef.id);
+
       setSubmitStatus('success');
       setFormData({
         name: '',
@@ -89,8 +111,29 @@ const ContactForm = () => {
         phone: '',
         message: ''
       });
-    } catch (error) {
+
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 5000);
+    } catch (error: any) {
+      console.error('Error submitting form:', error);
+      console.error('Error code:', error.code);
+      console.error('Error message:', error.message);
+      console.error('Full error:', error);
+      
       setSubmitStatus('error');
+      
+      // Handle specific error cases
+      if (error.code === 'permission-denied') {
+        setErrorMessage('Unable to send message due to permission issues. Please contact support.');
+      } else if (error.code === 'unavailable') {
+        setErrorMessage('Network error. Please check your internet connection and try again.');
+      } else if (error.code === 'invalid-argument') {
+        setErrorMessage('Invalid form data. Please check your input and try again.');
+      } else {
+        setErrorMessage('Failed to send message. Please try again or contact support.');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -218,6 +261,7 @@ const ContactForm = () => {
                 required
                 className="w-full px-4 py-3 rounded-lg border border-muted-foreground/20 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 bg-white/50 backdrop-blur-sm"
                 placeholder="John Doe"
+                disabled={isSubmitting}
               />
             </motion.div>
 
@@ -239,6 +283,7 @@ const ContactForm = () => {
                 required
                 className="w-full px-4 py-3 rounded-lg border border-muted-foreground/20 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 bg-white/50 backdrop-blur-sm"
                 placeholder="john@example.com"
+                disabled={isSubmitting}
               />
             </motion.div>
           </div>
@@ -260,7 +305,8 @@ const ContactForm = () => {
               onChange={handleChange}
               required
               className="w-full px-4 py-3 rounded-lg border border-muted-foreground/20 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 bg-white/50 backdrop-blur-sm"
-              placeholder="+91 1234567890"
+              placeholder="+91 9876543210"
+              disabled={isSubmitting}
             />
           </motion.div>
 
@@ -282,70 +328,59 @@ const ContactForm = () => {
               rows={4}
               className="w-full px-4 py-3 rounded-lg border border-muted-foreground/20 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 bg-white/50 backdrop-blur-sm resize-none"
               placeholder="Tell us about your event..."
+              disabled={isSubmitting}
             />
           </motion.div>
+
+          <AnimatePresence>
+            {submitStatus !== 'idle' && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className={`p-4 rounded-lg ${
+                  submitStatus === 'success'
+                    ? 'bg-green-50 text-green-800'
+                    : 'bg-red-50 text-red-800'
+                }`}
+              >
+                <div className="flex items-center space-x-2">
+                  {submitStatus === 'success' ? (
+                    <CheckCircle className="w-5 h-5" />
+                  ) : (
+                    <XCircle className="w-5 h-5" />
+                  )}
+                  <p>
+                    {submitStatus === 'success'
+                      ? 'Message sent successfully! We will get back to you soon.'
+                      : errorMessage}
+                  </p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="text-center"
           >
-            <motion.button
+            <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-block bg-primary hover:bg-primary-dark text-white px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              className="w-full flex items-center justify-center space-x-2 px-6 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary-dark transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                  </svg>
-                  Sending...
-                </span>
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Sending...</span>
+                </>
               ) : (
-                'Send Message'
+                <span>Send Message</span>
               )}
-            </motion.button>
+            </button>
           </motion.div>
-
-          <AnimatePresence>
-            {submitStatus === 'success' && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="text-center text-green-600 bg-green-50 p-4 rounded-lg border border-green-200"
-              >
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Thank you for your message! We'll get back to you soon.
-                </span>
-              </motion.div>
-            )}
-
-            {submitStatus === 'error' && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="text-center text-red-600 bg-red-50 p-4 rounded-lg border border-red-200"
-              >
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  Oops! Something went wrong. Please try again later.
-                </span>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </motion.form>
       </div>
     </motion.section>

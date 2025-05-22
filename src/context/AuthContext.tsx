@@ -3,70 +3,82 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { 
   User,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  sendPasswordResetEmail,
-  getAuth
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithPhoneNumber,
+  RecaptchaVerifier,
+  signOut as firebaseSignOut
 } from 'firebase/auth';
-import { app } from '@/lib/firebase';
+import { auth } from '@/lib/firebase';
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-  resetPassword: (email: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
+  signInWithPhone: (phoneNumber: string) => Promise<void>;
+  verifyOTP: (otp: string) => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuth = () => useContext(AuthContext);
-
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const auth = getAuth(app);
+  const [confirmationResult, setConfirmationResult] = useState<any>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
       setLoading(false);
     });
 
     return () => unsubscribe();
-  }, [auth]);
+  }, []);
 
-  const signIn = async (email: string, password: string) => {
+  const signInWithGoogle = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
     } catch (error) {
+      console.error('Error signing in with Google:', error);
       throw error;
     }
   };
 
-  const signUp = async (email: string, password: string) => {
+  const signInWithPhone = async (phoneNumber: string) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        size: 'normal',
+        callback: () => {
+          // reCAPTCHA solved
+        },
+      });
+
+      const confirmation = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+      setConfirmationResult(confirmation);
     } catch (error) {
+      console.error('Error signing in with phone:', error);
       throw error;
     }
   };
 
-  const logout = async () => {
+  const verifyOTP = async (otp: string) => {
     try {
-      await signOut(auth);
+      if (confirmationResult) {
+        await confirmationResult.confirm(otp);
+      }
     } catch (error) {
+      console.error('Error verifying OTP:', error);
       throw error;
     }
   };
 
-  const resetPassword = async (email: string) => {
+  const signOut = async () => {
     try {
-      await sendPasswordResetEmail(auth, email);
+      await firebaseSignOut(auth);
     } catch (error) {
+      console.error('Error signing out:', error);
       throw error;
     }
   };
@@ -74,15 +86,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const value = {
     user,
     loading,
-    signIn,
-    signUp,
-    logout,
-    resetPassword
+    signInWithGoogle,
+    signInWithPhone,
+    verifyOTP,
+    signOut,
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
-}; 
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+} 
