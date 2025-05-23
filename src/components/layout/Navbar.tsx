@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import gsap from "gsap";
-import { motion, AnimatePresence } from "framer-motion";
-import ThemeToggle from "../common/ThemeToggle";
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import gsap from 'gsap';
+import { motion } from 'framer-motion';
+import ThemeToggle from '../common/ThemeToggle';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,11 +16,11 @@ const Navbar = () => {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const navItems = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Services", path: "/services" },
-    { name: "Gallery", path: "/gallery" },
-    { name: "Contact", path: "/contact" },
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Services', path: '/services' },
+    { name: 'Gallery', path: '/gallery' },
+    { name: 'Contact', path: '/contact' },
   ];
 
   useEffect(() => {
@@ -28,48 +28,52 @@ const Navbar = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+    const ctx = gsap.context(() => {
+      if (isOpen) {
+        // Animate menu items
+        gsap.from('.nav-item', {
+          opacity: 0,
+          y: 20,
+          duration: 0.4,
+          stagger: 0.1,
+          ease: 'power2.out'
+        });
+
+        // Animate menu background
+        gsap.from(menuRef.current, {
+          opacity: 0,
+          y: -20,
+          duration: 0.4,
+          ease: 'power2.out'
+        });
       }
-    };
+    }, navRef);
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
+    return () => ctx.revert();
   }, [isOpen]);
 
   return (
-    <nav ref={navRef} className="fixed w-full z-50 h-20">
-      <div
+    <nav
+      ref={navRef}
+      className="fixed w-full z-40 h-20"
+    >
+      <div 
         className={`absolute inset-0 transition-all duration-300 ${
-          isScrolled
-            ? "bg-background/90 backdrop-blur-lg shadow-lg"
-            : "bg-transparent"
+          isScrolled 
+            ? 'bg-background/90 backdrop-blur-lg shadow-lg' 
+            : 'bg-transparent'
         }`}
       />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
         <div className="flex items-center justify-between h-full">
           {/* Logo */}
-          <Link
-            href="/"
+          <Link 
+            href="/" 
             className="relative w-32 h-12 transition-transform duration-300 hover:scale-105"
           >
             <Image
@@ -89,8 +93,8 @@ const Navbar = () => {
                 href={item.path}
                 className={`nav-item relative text-sm font-medium transition-all duration-300 ${
                   pathname === item.path
-                    ? "text-primary"
-                    : "text-foreground hover:text-primary"
+                    ? 'text-primary'
+                    : 'text-foreground hover:text-primary'
                 }`}
               >
                 {item.name}
@@ -105,97 +109,73 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Right side items */}
-          <div className="flex items-center space-x-4">
-            <div
-              className={`transition-colors duration-300 ${
-                isScrolled
-                  ? "bg-background/95 backdrop-blur-lg rounded-lg shadow-lg"
-                  : ""
-              }`}
-            >
-              <ThemeToggle />
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden p-2 rounded-md text-foreground hover:text-primary focus:outline-none transition-colors duration-300"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            <div className="w-6 h-6 relative">
+              <span
+                className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
+                  isOpen ? 'rotate-45 top-3' : 'top-1'
+                }`}
+              />
+              <span
+                className={`absolute h-0.5 w-6 bg-current top-3 transition-all duration-300 ${
+                  isOpen ? 'opacity-0' : 'opacity-100'
+                }`}
+              />
+              <span
+                className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
+                  isOpen ? '-rotate-45 top-3' : 'top-5'
+                }`}
+              />
             </div>
-            {/* Mobile menu button */}
-            <button
-              className="md:hidden p-2 rounded-lg text-foreground hover:text-primary focus:outline-none transition-colors duration-300 bg-background/95 hover:bg-background border border-accent/20 hover:border-accent/30 shadow-lg hover:shadow-xl"
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle menu"
+          </button>
+
+          <div className="flex items-center space-x-4">
+            <ThemeToggle />
+            <Link
+              href="/contact"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-accent-light transition-colors duration-200"
             >
-              <div className="flex items-center justify-center w-6 h-6 relative">
-                <span
-                  className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
-                    isOpen ? "rotate-45 top-3" : "top-1"
-                  }`}
-                />
-                <span
-                  className={`absolute h-0.5 w-6 bg-current top-3 transition-all duration-300 ${
-                    isOpen ? "opacity-0" : "opacity-100"
-                  }`}
-                />
-                <span
-                  className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
-                    isOpen ? "-rotate-45 top-3" : "top-5"
-                  }`}
-                />
-              </div>
-            </button>
+              Get Started
+            </Link>
           </div>
         </div>
       </div>
 
       {/* Mobile Navigation */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            ref={menuRef}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden fixed inset-0 z-[100]"
-          >
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-background/80 backdrop-blur-lg"
-              onClick={() => setIsOpen(false)}
-            />
-
-            {/* Menu Content */}
-            <motion.div
-              className="absolute top-20 left-0 w-full"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2, delay: 0.1 }}
-            >
-              <div className="bg-background/95 backdrop-blur-lg shadow-lg border-t border-accent/20">
-                <div className="px-4 py-3 space-y-1">
-                  {navItems.map((item) => (
-                    <Link
-                      key={item.path}
-                      href={item.path}
-                      className={`nav-item block px-4 py-4 rounded-lg text-base font-medium transition-all duration-300 ${
-                        pathname === item.path
-                          ? "text-primary bg-primary/10"
-                          : "text-foreground hover:text-primary hover:bg-primary/5"
-                      }`}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div
+        ref={menuRef}
+        className={`md:hidden absolute top-full left-0 w-full transition-all duration-300 ${
+          isOpen 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 -translate-y-4 pointer-events-none'
+        }`}
+      >
+        <div className="bg-background/95 backdrop-blur-lg shadow-lg">
+          <div className="px-4 py-3 space-y-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                href={item.path}
+                className={`nav-item block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
+                  pathname === item.path
+                    ? 'text-primary bg-primary/10'
+                    : 'text-foreground hover:text-primary hover:bg-primary/5'
+                }`}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
     </nav>
   );
 };
 
-export default Navbar;
+export default Navbar; 
