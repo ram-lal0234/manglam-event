@@ -5,7 +5,7 @@ import ServicesHero from "@/components/services/ServicesHero";
 
 export default function ServicesPage() {
   return (
-    <main className="min-h-screen bg-secondary">
+    <main className="min-h-screen bg-background">
       <ServicesHero />
       <div className="relative z-10">
         <ServiceList />
