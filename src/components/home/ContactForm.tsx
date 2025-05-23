@@ -214,7 +214,7 @@ const ContactForm = () => {
             <span className="text-6xl">📬</span>
           </motion.div>
           <motion.h2 
-            className="section-title text-4xl font-bold text-foreground mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary"
+            className="section-title text-4xl font-bold text-secondary mb-4 bg-clip-text  bg-gradient-to-r from-secondary via-primary to-secondary"
             initial={{ scale: 0.9, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
