@@ -32,17 +32,17 @@ const GalleryCTA = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-background"
+      className="py-20 bg-accent"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           ref={contentRef}
           className="text-center"
         >
-          <h2 className="text-4xl font-bold text-foreground mb-6">
+          <h2 className="text-4xl font-bold text-secondary mb-6">
             Ready to Create Your Perfect Event?
           </h2>
-          <p className="text-lg text-foreground/80 max-w-2xl mx-auto mb-8">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
             Let's turn your vision into reality. Contact us today to start planning
             your unforgettable celebration.
           </p>
