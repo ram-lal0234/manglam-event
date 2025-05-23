@@ -1,23 +1,37 @@
-'use client';
-
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const formSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Invalid email address'),
+  phone: z.string().min(10, 'Phone number must be at least 10 digits'),
+  subject: z.string().min(1, 'Please select a subject'),
+  message: z.string().min(10, 'Message must be at least 10 characters')
+});
+
+type FormData = z.infer<typeof formSchema>;
+
 const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: ''
-  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const sectionRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema)
+  });
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -37,16 +51,7 @@ const ContactForm = () => {
     return () => ctx.revert();
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
@@ -54,13 +59,7 @@ const ContactForm = () => {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       setSubmitStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
-      });
+      reset();
     } catch (error) {
       setSubmitStatus('error');
     } finally {
@@ -71,147 +70,239 @@ const ContactForm = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-secondary"
+      className="py-20 bg-gradient-to-b from-background via-accent/5 to-background relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-accent-light mb-4">
+      {/* Background Elements */}
+      <div className="absolute inset-0">
+        <motion.div
+          className="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            repeatType: 'reverse',
+          }}
+        />
+        <motion.div
+          className="absolute -bottom-24 -left-24 w-96 h-96 bg-accent/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.1, 0.3, 0.1],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            repeatType: 'reverse',
+          }}
+        />
+      </div>
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="text-center mb-12">
+          <motion.h2
+            className="text-4xl font-bold text-foreground mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
             Send us a Message
-          </h2>
-          <p className="text-lg text-accent max-w-2xl mx-auto">
+          </motion.h2>
+          <motion.p
+            className="text-lg text-foreground/80"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
             Have questions or ready to start planning your event? We'd love to hear from you.
-          </p>
+          </motion.p>
         </div>
 
-        <div className="max-w-3xl mx-auto">
-          <form
-            ref={formRef}
-            onSubmit={handleSubmit}
-            className="bg-white rounded-lg shadow-lg p-8"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-secondary mb-2"
-                >
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
-                  required
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-secondary mb-2"
-                >
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-secondary mb-2"
-                >
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
-                  required
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block text-sm font-medium text-secondary mb-2"
-                >
-                  Subject
-                </label>
-                <select
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
-                  required
-                >
-                  <option value="">Select a subject</option>
-                  <option value="wedding">Wedding Planning</option>
-                  <option value="corporate">Corporate Event</option>
-                  <option value="birthday">Birthday Celebration</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="mb-6">
+        <motion.form
+          ref={formRef}
+          onSubmit={handleSubmit(onSubmit)}
+          className="bg-gradient-to-br from-background/80 to-accent/10 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-xl border border-accent/20"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
               <label
-                htmlFor="message"
-                className="block text-sm font-medium text-secondary mb-2"
+                htmlFor="name"
+                className="block text-sm font-medium text-foreground mb-2"
               >
-                Message
+                Full Name
               </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
-                required
+              <input
+                type="text"
+                id="name"
+                {...register('name')}
+                className={`w-full px-4 py-3 bg-background/50 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 ${
+                  errors.name ? 'border-red-500' : 'border-accent/20'
+                }`}
               />
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
+              )}
             </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className={`w-full bg-primary text-white py-3 px-6 rounded-md font-semibold transition-colors ${
-                isSubmitting ? 'opacity-75 cursor-not-allowed' : 'hover:bg-primary-dark'
-              }`}
-            >
-              {isSubmitting ? 'Sending...' : 'Send Message'}
-            </button>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                {...register('email')}
+                className={`w-full px-4 py-3 bg-background/50 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 ${
+                  errors.email ? 'border-red-500' : 'border-accent/20'
+                }`}
+              />
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+              )}
+            </div>
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                {...register('phone')}
+                className={`w-full px-4 py-3 bg-background/50 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 ${
+                  errors.phone ? 'border-red-500' : 'border-accent/20'
+                }`}
+              />
+              {errors.phone && (
+                <p className="mt-1 text-sm text-red-500">{errors.phone.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label
+                htmlFor="subject"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
+                Subject
+              </label>
+              <select
+                id="subject"
+                {...register('subject')}
+                className={`w-full px-4 py-3 bg-background/50 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 ${
+                  errors.subject ? 'border-red-500' : 'border-accent/20'
+                }`}
+              >
+                <option value="">Select a subject</option>
+                <option value="wedding">Wedding Planning</option>
+                <option value="corporate">Corporate Event</option>
+                <option value="birthday">Birthday Celebration</option>
+                <option value="other">Other</option>
+              </select>
+              {errors.subject && (
+                <p className="mt-1 text-sm text-red-500">{errors.subject.message}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="mb-6">
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium text-foreground mb-2"
+            >
+              Message
+            </label>
+            <textarea
+              id="message"
+              {...register('message')}
+              rows={4}
+              className={`w-full px-4 py-3 bg-background/50 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 ${
+                errors.message ? 'border-red-500' : 'border-accent/20'
+              }`}
+            />
+            {errors.message && (
+              <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
+            )}
+          </div>
+
+          <motion.button
+            type="submit"
+            disabled={isSubmitting}
+            className={`w-full bg-primary text-white py-4 px-8 rounded-lg font-semibold transition-all duration-300 ${
+              isSubmitting
+                ? 'opacity-75 cursor-not-allowed'
+                : 'hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1'
+            }`}
+            whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+            whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+          >
+            {isSubmitting ? (
+              <span className="flex items-center justify-center">
+                <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+                Sending...
+              </span>
+            ) : (
+              'Send Message'
+            )}
+          </motion.button>
+
+          <AnimatePresence>
             {submitStatus === 'success' && (
-              <p className="mt-4 text-green-600 text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="mt-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-500 text-center"
+              >
                 Thank you for your message! We'll get back to you soon.
-              </p>
+              </motion.div>
             )}
 
             {submitStatus === 'error' && (
-              <p className="mt-4 text-red-600 text-center">
-                Something went wrong. Please try again later.
-              </p>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="mt-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-center"
+              >
+                Oops! Something went wrong. Please try again later.
+              </motion.div>
             )}
-          </form>
-        </div>
+          </AnimatePresence>
+        </motion.form>
       </div>
     </section>
   );
 };
 
-export default ContactForm; 
+export default ContactForm;
