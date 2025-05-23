@@ -90,13 +90,13 @@ const FeaturedServices = () => {
   return (
     <motion.section
       ref={sectionRef}
-      className="py-32 bg-gradient-to-b from-accent/5 via-accent/10 to-accent/5 relative overflow-hidden"
+      className="py-32 bg-gradient-to-b from-secondary via-secondary/95 to-secondary relative overflow-hidden"
       style={{ opacity, scale }}
     >
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className="floating-element absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
+          className="floating-element absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.2, 0.4, 0.2],
@@ -108,7 +108,7 @@ const FeaturedServices = () => {
           }}
         />
         <motion.div
-          className="floating-element absolute -bottom-24 -left-24 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
+          className="floating-element absolute -bottom-24 -left-24 w-96 h-96 bg-accent/10 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.1, 1],
             opacity: [0.1, 0.3, 0.1],
@@ -124,7 +124,7 @@ const FeaturedServices = () => {
           {[...Array(20)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-1 h-1 bg-accent/20 rounded-full"
+              className="absolute w-1 h-1 bg-accent/30 rounded-full"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -162,7 +162,7 @@ const FeaturedServices = () => {
             <span className="text-6xl">✨</span>
           </motion.div>
           <motion.h2
-            className="section-title text-4xl font-bold text-foreground mb-4"
+            className="section-title text-4xl font-bold text-accent-light mb-4 bg-clip-text text-transparent bg-gradient-to-r from-accent-light via-accent to-accent-light"
             initial={{ scale: 0.9, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
@@ -171,7 +171,7 @@ const FeaturedServices = () => {
             Our Services
           </motion.h2>
           <motion.p
-            className="text-lg text-foreground/80 max-w-2xl mx-auto"
+            className="text-lg text-accent max-w-2xl mx-auto"
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
@@ -221,7 +221,7 @@ const FeaturedServices = () => {
           {services.map((service) => (
             <SwiperSlide key={service.id}>
               <motion.div
-                className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300"
+                className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300"
                 whileHover={{ scale: 1.02, y: -5 }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -236,9 +236,9 @@ const FeaturedServices = () => {
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.3 }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
                   <motion.div
-                    className="absolute top-4 right-4 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-2xl"
+                    className="absolute top-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-2xl"
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true }}
@@ -249,7 +249,7 @@ const FeaturedServices = () => {
                 </div>
                 <div className="p-8">
                   <motion.h3
-                    className="text-2xl font-semibold text-foreground mb-4"
+                    className="text-2xl font-semibold text-accent-light mb-4"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
@@ -258,7 +258,7 @@ const FeaturedServices = () => {
                     {service.title}
                   </motion.h3>
                   <motion.p
-                    className="text-foreground/80 leading-relaxed"
+                    className="text-accent/80 leading-relaxed"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
@@ -275,7 +275,7 @@ const FeaturedServices = () => {
                   >
                     <a
                       href="/services"
-                      className="inline-flex items-center text-primary hover:text-primary-dark transition-colors duration-300"
+                      className="inline-flex items-center text-accent-light hover:text-accent transition-colors duration-300"
                     >
                       Learn More
                       <svg
@@ -305,20 +305,20 @@ const FeaturedServices = () => {
           padding: 2rem 0;
         }
         .featured-services-swiper .swiper-pagination-bullet {
-          background: var(--primary);
+          background: var(--accent);
           opacity: 0.5;
         }
         .featured-services-swiper .swiper-pagination-bullet-active {
-          background: var(--primary);
+          background: var(--accent-light);
           opacity: 1;
         }
         .featured-services-swiper .swiper-button-next,
         .featured-services-swiper .swiper-button-prev {
-          color: var(--primary);
+          color: var(--accent-light);
         }
         .featured-services-swiper .swiper-button-next:hover,
         .featured-services-swiper .swiper-button-prev:hover {
-          color: var(--primary-dark);
+          color: var(--accent);
         }
       `}</style>
     </motion.section>
