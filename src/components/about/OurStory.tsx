@@ -134,7 +134,7 @@ const OurStory = () => {
   return (
     <motion.section
       ref={sectionRef}
-      className="py-20 bg-secondary relative overflow-hidden min-h-screen"
+      className="py-20 bg-gradient-modern relative overflow-hidden min-h-screen"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
@@ -210,7 +210,7 @@ const OurStory = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <motion.h2 
-            className="text-5xl font-bold text-accent-light mb-6 bg-clip-text text-transparent bg-gradient-to-r from-accent-light to-accent"
+            className="text-5xl font-bold text-gradient mb-6"
             initial={{ scale: 0.9, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
@@ -219,7 +219,7 @@ const OurStory = () => {
             Our Journey
           </motion.h2>
           <motion.p 
-            className="text-xl text-accent max-w-2xl mx-auto"
+            className="text-xl text-foreground/80 max-w-2xl mx-auto"
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
@@ -233,15 +233,11 @@ const OurStory = () => {
           {storySections.map((section, index) => (
             <motion.div
               key={section.title}
-              className="bg-accent/5 backdrop-blur-sm rounded-lg p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+              className="bg-gradient-card backdrop-blur-sm rounded-lg p-8 shadow-lg card-hover"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
-              whileHover={{ 
-                scale: 1.02,
-                transition: { duration: 0.2 }
-              }}
             >
               <motion.div
                 className="text-4xl mb-4"
@@ -253,7 +249,7 @@ const OurStory = () => {
                 {section.icon}
               </motion.div>
               <motion.h3 
-                className="text-2xl font-semibold text-accent-light mb-2"
+                className="text-2xl font-semibold text-foreground mb-2"
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -271,7 +267,7 @@ const OurStory = () => {
                 {section.year}
               </motion.p>
               <motion.p 
-                className="text-accent leading-relaxed"
+                className="text-foreground/80 leading-relaxed"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}

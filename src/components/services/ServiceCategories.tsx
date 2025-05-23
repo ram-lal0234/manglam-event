@@ -133,7 +133,7 @@ const ServiceCategories = () => {
   return (
     <motion.section
       ref={sectionRef}
-      className="py-32 bg-gradient-to-b from-secondary via-secondary/95 to-secondary relative overflow-hidden"
+      className="py-32 bg-gradient-to-b from-accent/5 via-accent/10 to-accent/5 relative overflow-hidden"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}

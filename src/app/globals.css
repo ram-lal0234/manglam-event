@@ -6,9 +6,9 @@
   --primary: #D72638;          /* Modern Vibrant Red */
   --primary-light: #F2545B;    /* Soft Coral Red */
   --primary-dark: #A4161A;     /* Deep Crimson */
-  --secondary: #14213D;        /* Rich Navy Blue for contrast */
-  --secondary-light: #30415D;  /* Muted Navy */
-  --secondary-dark: #0E1726;   /* Dark Navy */
+  --secondary: #F8F9FA;        /* Light Gray for contrast */
+  --secondary-light: #FFFFFF;  /* Pure White */
+  --secondary-dark: #E5E5E5;   /* Soft Gray */
   --accent: #F8F9FA;           /* Light Gray */
   --accent-light: #FFFFFF;     /* Pure White */
   --accent-dark: #E5E5E5;      /* Soft Gray */
@@ -127,6 +127,12 @@ body {
   }
   
   /* Background Utilities */
+  .bg-background {
+    background-color: var(--background);
+  }
+  .bg-foreground {
+    background-color: var(--foreground);
+  }
   .bg-primary {
     background-color: var(--primary);
   }
@@ -156,17 +162,14 @@ body {
   }
   
   /* Border Utilities */
-  .border-primary {
-    border-color: var(--primary);
+  .border-accent {
+    border-color: var(--accent);
   }
-  .border-primary-light {
-    border-color: var(--primary-light);
+  .border-accent-light {
+    border-color: var(--accent-light);
   }
-  .border-primary-dark {
-    border-color: var(--primary-dark);
-  }
-  .border-secondary {
-    border-color: var(--secondary);
+  .border-accent-dark {
+    border-color: var(--accent-dark);
   }
   
   /* Ring Utilities */
@@ -265,6 +268,83 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  
+  /* Modern Gradient Backgrounds */
+  .bg-gradient-modern {
+    background: linear-gradient(135deg, var(--background) 0%, var(--accent-light) 100%);
+  }
+  
+  .bg-gradient-subtle {
+    background: linear-gradient(135deg, var(--background) 0%, var(--accent) 100%);
+  }
+  
+  .bg-gradient-card {
+    background: linear-gradient(135deg, var(--background) 0%, var(--accent-light) 100%);
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Scroll-based Animation Classes */
+  .scroll-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .scroll-fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .scroll-scale {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .scroll-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  .scroll-slide-left {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .scroll-slide-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .scroll-slide-right {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .scroll-slide-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  /* Card Hover Effects */
+  .card-hover {
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Gradient Text */
+  .text-gradient {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
 
 /* Keyframe Animations */
@@ -357,4 +437,37 @@ body {
   transition-timing-function: var(--ease-in-out);
   transition-duration: var(--duration-normal);
 }
+
+/* Add this script to your layout or main component */
+@layer base {
+  .scroll-animation {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .scroll-animation.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add this to your JavaScript */
+/*
+const observerOptions = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.1
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.scroll-animation').forEach((el) => observer.observe(el));
+*/
 

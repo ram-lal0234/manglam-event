@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
@@ -21,11 +21,11 @@ const Navbar = () => {
   const { user } = useAuth();
 
   const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Services', path: '/services' },
-    { name: 'Gallery', path: '/gallery' },
-    { name: 'Contact', path: '/contact' },
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Services", path: "/services" },
+    { name: "Gallery", path: "/gallery" },
+    { name: "Contact", path: "/contact" },
   ];
 
   useEffect(() => {
@@ -33,33 +33,32 @@ const Navbar = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close mobile menu when clicking outside
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (isOpen) {
-        // Animate menu items
-        gsap.from('.nav-item', {
-          opacity: 0,
-          y: 20,
-          duration: 0.4,
-          stagger: 0.1,
-          ease: 'power2.out'
-        });
-
-        // Animate menu background
-        gsap.from(menuRef.current, {
-          opacity: 0,
-          y: -20,
-          duration: 0.4,
-          ease: 'power2.out'
-        });
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
       }
-    }, navRef);
+    };
 
-    return () => ctx.revert();
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
   }, [isOpen]);
 
   return (
@@ -242,4 +241,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar; 
+export default Navbar;

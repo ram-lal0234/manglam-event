@@ -112,7 +112,7 @@ const ServiceCTA = () => {
   return (
     <motion.section
       ref={sectionRef}
-      className="py-32 bg-gradient-to-b from-secondary via-secondary/95 to-secondary relative overflow-hidden"
+      className="py-32 bg-gradient-to-b from-background via-accent/5 to-background relative overflow-hidden"
       style={{ opacity, scale }}
     >
       {/* Enhanced Background Elements */}
@@ -174,32 +174,32 @@ const ServiceCTA = () => {
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8 }}
         >
           <motion.div
-            className="inline-block mb-4"
+            className="inline-block mb-8"
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5, type: "spring" }}
           >
-            <span className="text-6xl">✨</span>
+            <span className="text-7xl">✨</span>
           </motion.div>
           <motion.h2 
-            className="section-title text-4xl font-bold text-accent-light mb-4 bg-clip-text text-transparent bg-gradient-to-r from-accent-light via-accent to-accent-light"
+            className="section-title text-5xl font-bold text-gradient mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             Ready to Plan Your Event?
           </motion.h2>
           <motion.p 
-            className="text-lg text-accent max-w-2xl mx-auto"
+            className="text-2xl text-foreground/90 max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             Let's discuss your vision and create an unforgettable experience together.
@@ -211,20 +211,20 @@ const ServiceCTA = () => {
           <motion.form
             ref={formRef}
             onSubmit={handleSubmit}
-            className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-accent/10"
+            className="bg-gradient-to-br from-background to-accent/10 backdrop-blur-sm rounded-3xl shadow-2xl p-10 border border-accent/20"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.2 }}
               >
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-accent-light mb-2"
+                  className="block text-lg font-medium text-foreground/90 mb-3"
                 >
                   Full Name
                 </label>
@@ -232,7 +232,7 @@ const ServiceCTA = () => {
                   type="text"
                   id="name"
                   name="name"
-                  className="w-full px-4 py-3 bg-white/5 border border-accent/20 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent text-accent-light placeholder-accent/50 transition-all duration-300"
+                  className="w-full px-6 py-4 bg-background/50 border border-accent/20 rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent text-foreground/90 placeholder-foreground/50 transition-all duration-300"
                   required
                 />
               </motion.div>
@@ -242,7 +242,7 @@ const ServiceCTA = () => {
               >
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-accent-light mb-2"
+                  className="block text-lg font-medium text-foreground/90 mb-3"
                 >
                   Email Address
                 </label>
@@ -250,7 +250,7 @@ const ServiceCTA = () => {
                   type="email"
                   id="email"
                   name="email"
-                  className="w-full px-4 py-3 bg-white/5 border border-accent/20 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent text-accent-light placeholder-accent/50 transition-all duration-300"
+                  className="w-full px-6 py-4 bg-background/50 border border-accent/20 rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent text-foreground/90 placeholder-foreground/50 transition-all duration-300"
                   required
                 />
               </motion.div>
@@ -258,11 +258,11 @@ const ServiceCTA = () => {
             <motion.div
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
-              className="mb-6"
+              className="mb-8"
             >
               <label
                 htmlFor="message"
-                className="block text-sm font-medium text-accent-light mb-2"
+                className="block text-lg font-medium text-foreground/90 mb-3"
               >
                 Message
               </label>
@@ -270,13 +270,13 @@ const ServiceCTA = () => {
                 id="message"
                 name="message"
                 rows={4}
-                className="w-full px-4 py-3 bg-white/5 border border-accent/20 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent text-accent-light placeholder-accent/50 transition-all duration-300"
+                className="w-full px-6 py-4 bg-background/50 border border-accent/20 rounded-xl focus:ring-2 focus:ring-accent focus:border-transparent text-foreground/90 placeholder-foreground/50 transition-all duration-300"
                 required
               />
             </motion.div>
             <motion.button
               type="submit"
-              className="w-full px-8 py-4 bg-accent text-white rounded-lg text-lg font-semibold hover:bg-accent-light transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              className="w-full px-10 py-5 bg-gradient-to-r from-accent to-primary text-white rounded-xl text-xl font-semibold hover:shadow-lg hover:shadow-accent/20 transition-all duration-300 transform hover:-translate-y-1"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
