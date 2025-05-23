@@ -110,14 +110,14 @@ const WhyChooseUs = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-secondary"
+      className="py-20 bg-background"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-accent-light mb-4">
+          <h2 className="text-4xl font-bold text-foreground mb-4">
             Why Choose Us
           </h2>
-          <p className="text-lg text-accent max-w-2xl mx-auto">
+          <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
             We are committed to making your event truly special and memorable
           </p>
         </div>
@@ -134,7 +134,7 @@ const WhyChooseUs = () => {
               <h3 className="text-4xl font-bold text-primary mb-2">
                 {stat.number}
               </h3>
-              <p className="text-accent">
+              <p className="text-foreground/80">
                 {stat.label}
               </p>
             </div>
@@ -148,15 +148,15 @@ const WhyChooseUs = () => {
           {features.map((feature) => (
             <div
               key={feature.id}
-              className="bg-white rounded-lg p-8 shadow-lg hover:shadow-xl transition-shadow"
+              className="bg-background rounded-lg p-8 shadow-lg hover:shadow-xl transition-shadow border border-accent/10"
             >
               <div className="text-primary mb-4">
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-semibold text-secondary mb-2">
+              <h3 className="text-xl font-semibold text-foreground mb-2">
                 {feature.title}
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-foreground/80">
                 {feature.description}
               </p>
             </div>
