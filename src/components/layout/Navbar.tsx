@@ -61,100 +61,120 @@ const Navbar = () => {
 
   return (
     <>
-      <nav ref={navRef} className="fixed w-full z-50 h-20">
+      <motion.nav
+        ref={navRef}
+        className="fixed w-full z-50"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div
-          className={`absolute inset-0 transition-all duration-300 ${
+          className={`mx-4 mt-4 transition-all duration-500 ${
             isScrolled
-              ? "bg-background/90 backdrop-blur-lg shadow-lg"
-              : "bg-transparent"
+              ? "bg-background/80 backdrop-blur-xl shadow-lg border border-accent/10 rounded-2xl"
+              : "bg-background/50 backdrop-blur-md border border-accent/5 rounded-2xl"
           }`}
-        />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-          <div className="flex items-center justify-between h-full">
-            {/* Logo */}
-            <Link
-              href="/"
-              className="relative w-32 h-12 transition-transform duration-300 hover:scale-105"
-            >
-              <Image
-                src="/images/logo.png"
-                alt="Manglam Event Logo"
-                fill
-                className="object-contain"
-                priority
-              />
-            </Link>
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              {/* Logo */}
+              <Link
+                href="/"
+                className="relative w-32 h-12 transition-all duration-300 hover:scale-105 hover:brightness-110"
+              >
+                <Image
+                  src="/images/logo.png"
+                  alt="Manglam Event Logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  href={item.path}
-                  className={`nav-item relative text-sm font-medium transition-all duration-300 ${
-                    pathname === item.path
-                      ? "text-primary"
-                      : "text-foreground hover:text-primary"
-                  }`}
-                >
-                  {item.name}
-                  {pathname === item.path && (
-                    <motion.div
-                      className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary"
-                      layoutId="navbar-indicator"
-                      transition={{
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-                </Link>
-              ))}
-            </div>
-
-            {/* Right side items */}
-            <div className="flex items-center space-x-4">
-              <div className={`transition-colors duration-300`}></div>
-
-              {/* Auth Buttons */}
-              <div className="hidden md:flex items-center space-x-4">
-                {user ? (
-                  <UserMenu />
-                ) : (
-                  <button
-                    onClick={() => setShowLoginModal(true)}
-                    className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors duration-300"
+              {/* Desktop Navigation */}
+              <div className="hidden md:flex items-center space-x-8">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    href={item.path}
+                    className={`nav-item relative text-sm font-medium transition-all duration-300 group ${
+                      pathname === item.path
+                        ? "text-primary"
+                        : "text-foreground hover:text-primary"
+                    }`}
                   >
-                    Sign In
-                  </button>
-                )}
+                    {item.name}
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent transition-all duration-300 group-hover:w-full" />
+                    {pathname === item.path && (
+                      <motion.div
+                        className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-primary to-accent"
+                        layoutId="navbar-indicator"
+                        transition={{
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+                  </Link>
+                ))}
               </div>
 
-              {/* Mobile menu button */}
-              <button
-                className="md:hidden p-2 rounded-lg text-foreground hover:text-primary focus:outline-none transition-colors duration-300 bg-background/95 hover:bg-background border border-accent/20 hover:border-accent/30 shadow-lg hover:shadow-xl"
-                onClick={() => setIsOpen(!isOpen)}
-                aria-label="Toggle menu"
-              >
-                <div className="flex items-center justify-center w-6 h-6 relative">
-                  <span
-                    className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
-                      isOpen ? "rotate-45 top-3" : "top-1"
-                    }`}
-                  />
-                  <span
-                    className={`absolute h-0.5 w-6 bg-current top-3 transition-all duration-300 ${
-                      isOpen ? "opacity-0" : "opacity-100"
-                    }`}
-                  />
-                  <span
-                    className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
-                      isOpen ? "-rotate-45 top-3" : "top-5"
-                    }`}
-                  />
+              {/* Right side items */}
+              <div className="flex items-center space-x-4">
+                {/* Auth Buttons */}
+                <div className="hidden md:flex items-center space-x-4">
+                  {user ? (
+                    <UserMenu />
+                  ) : (
+                    <motion.button
+                      onClick={() => setShowLoginModal(true)}
+                      className="px-6 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-primary to-accent rounded-full hover:from-primary/90 hover:to-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Sign In
+                    </motion.button>
+                  )}
                 </div>
-              </button>
+
+                {/* Mobile menu button */}
+                <motion.button
+                  className="md:hidden relative w-10 h-10 flex items-center justify-center rounded-xl text-foreground hover:text-primary focus:outline-none transition-all duration-300 bg-gradient-to-br from-background/95 to-background/80 hover:from-background hover:to-background/95 border border-accent/20 hover:border-accent/30 shadow-lg hover:shadow-xl"
+                  onClick={() => setIsOpen(!isOpen)}
+                  aria-label="Toggle menu"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <div className="relative w-6 h-6">
+                    <motion.span
+                      className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
+                        isOpen ? "rotate-45 top-3" : "top-1"
+                      }`}
+                      animate={{
+                        rotate: isOpen ? 45 : 0,
+                        y: isOpen ? 8 : 0,
+                      }}
+                    />
+                    <motion.span
+                      className={`absolute h-0.5 w-6 bg-current top-3 transition-all duration-300`}
+                      animate={{
+                        opacity: isOpen ? 0 : 1,
+                        scale: isOpen ? 0 : 1,
+                      }}
+                    />
+                    <motion.span
+                      className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
+                        isOpen ? "-rotate-45 top-3" : "top-5"
+                      }`}
+                      animate={{
+                        rotate: isOpen ? -45 : 0,
+                        y: isOpen ? -8 : 0,
+                      }}
+                    />
+                  </div>
+                </motion.button>
+              </div>
             </div>
           </div>
         </div>
@@ -164,10 +184,10 @@ const Navbar = () => {
           {isOpen && (
             <motion.div
               ref={menuRef}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
               className="md:hidden fixed inset-0 z-[100]"
             >
               {/* Backdrop */}
@@ -175,56 +195,77 @@ const Navbar = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 bg-background/80 backdrop-blur-lg"
+                className="absolute inset-0 bg-background/90 backdrop-blur-xl"
                 onClick={() => setIsOpen(false)}
               />
 
               {/* Menu Content */}
               <motion.div
-                className="absolute top-20 left-0 w-full"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.2, delay: 0.1 }}
+                className="absolute top-24 left-4 right-4"
+                initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
               >
-                <div className="bg-background/95 backdrop-blur-lg shadow-lg border-t border-accent/20">
-                  <div className="px-4 py-3 space-y-1">
-                    {navItems.map((item) => (
-                      <Link
+                <div className="bg-gradient-to-br from-background/95 to-background/90 backdrop-blur-xl shadow-2xl border border-accent/10 rounded-2xl overflow-hidden">
+                  <div className="px-4 py-3 space-y-2">
+                    {navItems.map((item, index) => (
+                      <motion.div
                         key={item.path}
-                        href={item.path}
-                        className={`nav-item block px-4 py-4 rounded-lg text-base font-medium transition-all duration-300 ${
-                          pathname === item.path
-                            ? "text-primary bg-primary/10"
-                            : "text-foreground hover:text-primary hover:bg-primary/5"
-                        }`}
-                        onClick={() => setIsOpen(false)}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.1 }}
                       >
-                        {item.name}
-                      </Link>
+                        <Link
+                          href={item.path}
+                          className={`nav-item block px-4 py-4 rounded-xl text-base font-medium transition-all duration-300 ${
+                            pathname === item.path
+                              ? "text-primary bg-gradient-to-r from-primary/10 to-accent/5"
+                              : "text-foreground hover:text-primary hover:bg-gradient-to-r hover:from-primary/5 hover:to-accent/5"
+                          }`}
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <motion.span
+                            className="relative inline-block"
+                            whileHover={{ x: 4 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                          >
+                            {item.name}
+                          </motion.span>
+                        </Link>
+                      </motion.div>
                     ))}
 
                     {/* Mobile Auth Section */}
-                    {user ? (
-                      <UserMenu isMobile />
-                    ) : (
-                      <button
-                        onClick={() => {
-                          setShowLoginModal(true);
-                          setIsOpen(false);
-                        }}
-                        className="w-full px-4 py-4 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors duration-300"
-                      >
-                        Sign In
-                      </button>
-                    )}
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: navItems.length * 0.1 }}
+                      className="pt-2"
+                    >
+                      {user ? (
+                        <UserMenu isMobile />
+                      ) : (
+                        <motion.button
+                          onClick={() => {
+                            setShowLoginModal(true);
+                            setIsOpen(false);
+                          }}
+                          className="w-full px-4 py-4 text-base font-medium text-white bg-gradient-to-r from-primary to-accent rounded-xl hover:from-primary/90 hover:to-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          Sign In
+                        </motion.button>
+                      )}
+                    </motion.div>
                   </div>
                 </div>
               </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
-      </nav>
+      </motion.nav>
 
       {/* Login Modal */}
       <LoginModal
