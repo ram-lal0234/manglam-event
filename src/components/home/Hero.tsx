@@ -40,13 +40,14 @@ const Hero = () => {
   }, []);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (!isContentVisible) return;
+    if (!isContentVisible) return;
 
+    const ctx = gsap.context(() => {
       // Split text animation
       const companyName = "Manglam Event";
       const chars = companyName.split("");
       const textContainer = textRef.current;
+      
       if (textContainer) {
         textContainer.innerHTML = "";
         chars.forEach((char, i) => {
@@ -60,19 +61,21 @@ const Hero = () => {
           opacity: 0,
           rotateY: 90,
           y: 50,
-          duration: 0.8,
+          duration: 1.2,
           stagger: 0.05,
           ease: "back.out(1.7)",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top center+=100",
+            start: "top center",
+            end: "bottom center",
             toggleActions: "play none none reverse",
+            markers: false,
           },
         });
       }
 
       // Video animation
-      if (isVideoLoaded) {
+      if (videoRef.current) {
         gsap.from(videoRef.current, {
           opacity: 0,
           scale: 1.05,
@@ -80,8 +83,10 @@ const Hero = () => {
           ease: "power3.out",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top center+=100",
+            start: "top center",
+            end: "bottom center",
             toggleActions: "play none none reverse",
+            markers: false,
           },
         });
       }
@@ -92,6 +97,13 @@ const Hero = () => {
         opacity: 0,
         duration: 1.5,
         ease: "power2.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top center",
+          end: "bottom center",
+          toggleActions: "play none none reverse",
+          markers: false,
+        },
       });
 
       // Tagline animation
@@ -101,6 +113,13 @@ const Hero = () => {
         duration: 1,
         delay: 0.5,
         ease: "power2.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top center",
+          end: "bottom center",
+          toggleActions: "play none none reverse",
+          markers: false,
+        },
       });
 
       // CTA buttons animation
@@ -111,6 +130,13 @@ const Hero = () => {
         stagger: 0.2,
         ease: "back.out(1.7)",
         delay: 0.8,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top center",
+          end: "bottom center",
+          toggleActions: "play none none reverse",
+          markers: false,
+        },
       });
 
       // Scroll indicator animation
@@ -120,6 +146,13 @@ const Hero = () => {
         duration: 1,
         delay: 1.2,
         ease: "power2.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top center",
+          end: "bottom center",
+          toggleActions: "play none none reverse",
+          markers: false,
+        },
       });
 
       // Floating animation for decorative elements
@@ -133,7 +166,7 @@ const Hero = () => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [isContentVisible, isVideoLoaded]);
+  }, [isContentVisible]);
 
   const handleVideoLoad = () => {
     setIsVideoLoaded(true);
@@ -181,32 +214,6 @@ const Hero = () => {
       document.removeEventListener("mouseenter", handleMouseEnter);
       document.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, []);
-
-  // Create sparkles
-  useEffect(() => {
-    const createSparkle = () => {
-      const sparkle = document.createElement("div");
-      sparkle.className = "absolute w-1 h-1 bg-accent rounded-full";
-      sparkle.style.left = `${Math.random() * 100}%`;
-      sparkle.style.top = `${Math.random() * 100}%`;
-      sparklesRef.current?.appendChild(sparkle);
-
-      gsap.to(sparkle, {
-        x: "random(-100, 100)",
-        y: "random(-100, 100)",
-        opacity: "random(0.2, 0.8)",
-        scale: "random(0.5, 1.5)",
-        duration: "random(2, 4)",
-        repeat: -1,
-        yoyo: true,
-        ease: "power1.inOut",
-        onComplete: () => sparkle.remove(),
-      });
-    };
-
-    const sparkleInterval = setInterval(createSparkle, 200);
-    return () => clearInterval(sparkleInterval);
   }, []);
 
   return (
@@ -274,70 +281,51 @@ const Hero = () => {
           className="tagline text-2xl md:text-3xl mb-12 text-white/90 font-light tracking-wide"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 1, delay: 0.5 }}
         >
-          Where Dreams Transform into Unforgettable Celebrations
+          Creating Unforgettable Moments
         </motion.p>
 
         {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <motion.button
+            className="cta-button px-8 py-3 bg-gradient-to-r from-primary to-accent rounded-full text-white font-medium hover:from-primary/90 hover:to-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Get Started
+          </motion.button>
+          <motion.button
+            className="cta-button px-8 py-3 bg-white/10 backdrop-blur-sm rounded-full text-white font-medium hover:bg-white/20 transition-all duration-300 border border-white/20"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Learn More
+          </motion.button>
+        </div>
+
+        {/* Scroll Indicator */}
         <motion.div
-          className="flex flex-col sm:flex-row gap-6"
-          initial={{ opacity: 0, y: 20 }}
+          className="scroll-indicator absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          transition={{ duration: 1, delay: 1.2 }}
         >
-          <motion.a
-            href="/services"
-            className="cta-button bg-primary hover:bg-primary-dark text-white px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-1 relative overflow-hidden group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span className="relative z-10">Explore Services</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-          </motion.a>
-          <motion.a
-            href="/contact"
-            className="cta-button bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:shadow-white/20 hover:-translate-y-1 border border-white/20 relative overflow-hidden group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span className="relative z-10">Get in Touch</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-          </motion.a>
+          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+            <motion.div
+              className="w-1.5 h-3 bg-white/50 rounded-full mt-2"
+              animate={{
+                y: [0, 12, 0],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          </div>
         </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        className="scroll-indicator absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        animate={{
-          y: [0, 10, 0],
-        }}
-        transition={{
-          duration: 1.5,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      >
-        <motion.div
-          className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-        >
-          <motion.div
-            className="w-1 h-2 bg-white/50 rounded-full mt-2"
-            animate={{
-              y: [0, 12, 0],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        </motion.div>
-      </motion.div>
     </motion.section>
   );
 };
