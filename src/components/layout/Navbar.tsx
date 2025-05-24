@@ -4,9 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import gsap from "gsap";
 import { motion, AnimatePresence } from "framer-motion";
-import ThemeToggle from "../common/ThemeToggle";
 import { useAuth } from "@/context/AuthContext";
 import LoginModal from "../auth/LoginModal";
 import UserMenu from "../auth/UserMenu";
@@ -104,7 +102,11 @@ const Navbar = () => {
                     <motion.div
                       className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary"
                       layoutId="navbar-indicator"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                      }}
                     />
                   )}
                 </Link>
@@ -113,15 +115,7 @@ const Navbar = () => {
 
             {/* Right side items */}
             <div className="flex items-center space-x-4">
-              <div
-                className={`transition-colors duration-300 ${
-                  isScrolled
-                    ? "bg-background/95 backdrop-blur-lg rounded-lg shadow-lg"
-                    : ""
-                }`}
-              >
-                <ThemeToggle />
-              </div>
+              <div className={`transition-colors duration-300`}></div>
 
               {/* Auth Buttons */}
               <div className="hidden md:flex items-center space-x-4">
@@ -209,7 +203,7 @@ const Navbar = () => {
                         {item.name}
                       </Link>
                     ))}
-                    
+
                     {/* Mobile Auth Section */}
                     {user ? (
                       <UserMenu isMobile />
@@ -233,9 +227,9 @@ const Navbar = () => {
       </nav>
 
       {/* Login Modal */}
-      <LoginModal 
-        isOpen={showLoginModal} 
-        onClose={() => setShowLoginModal(false)} 
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
       />
     </>
   );

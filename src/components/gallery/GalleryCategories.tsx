@@ -2,10 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-
-interface GalleryCategoriesProps {
-  onSelectCategory: (category: string) => void;
-}
+import { useGallery } from '../../context/GalleryContext';
 
 const categories = [
   { id: 'all', name: 'All Events', icon: '🎉' },
@@ -16,12 +13,13 @@ const categories = [
   { id: 'religious', name: 'Religious', icon: '🙏' }
 ];
 
-const GalleryCategories = ({ onSelectCategory }: GalleryCategoriesProps) => {
+const GalleryCategories = () => {
   const [activeCategory, setActiveCategory] = useState('all');
+  const { setSelectedCategory } = useGallery();
 
   const handleCategorySelect = (category: string) => {
     setActiveCategory(category);
-    onSelectCategory(category);
+    setSelectedCategory(category);
   };
 
   return (

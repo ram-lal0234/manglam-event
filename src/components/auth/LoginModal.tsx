@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import { Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { motion, AnimatePresence } from 'framer-motion';
-import LoginForm from './LoginForm';
-import { X } from 'lucide-react';
+import { Fragment } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { X } from "lucide-react";
+import LoginForm from "./LoginForm";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -52,10 +51,10 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                     as="h3"
                     className="text-2xl font-bold leading-6 text-foreground"
                   >
-                    Welcome Back
+                    Welcome to Manglam Event
                   </Dialog.Title>
                   <p className="mt-2 text-sm text-foreground/60">
-                    Sign in to access your account
+                    Sign in with your Google account to continue
                   </p>
                 </div>
 
@@ -67,4 +66,4 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       </Dialog>
     </Transition>
   );
-} 
+}
