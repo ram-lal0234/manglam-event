@@ -17,6 +17,7 @@ const Quote = () => {
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
+  const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [50, 0, 0, -50]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -43,13 +44,31 @@ const Quote = () => {
         });
       }
 
-      // Floating animation for decorative elements
-      gsap.to('.floating-element', {
-        y: '20px',
-        duration: 2,
-        ease: 'power1.inOut',
-        yoyo: true,
-        repeat: -1
+      // Enhanced quote marks animation
+      gsap.from('.quote-mark', {
+        rotate: -10,
+        opacity: 0,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top center+=100',
+          toggleActions: 'play none none reverse'
+        }
+      });
+
+      // Enhanced signature animation
+      gsap.from('.signature', {
+        x: -50,
+        opacity: 0,
+        duration: 0.8,
+        delay: 0.5,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top center+=100',
+          toggleActions: 'play none none reverse'
+        }
       });
     }, sectionRef);
 
@@ -59,16 +78,25 @@ const Quote = () => {
   return (
     <motion.section
       ref={sectionRef}
-      className="py-32 bg-gradient-to-b from-accent via-accent/5 to-accent relative overflow-hidden"
-      style={{ opacity, scale }}
+      className="py-32 relative overflow-hidden"
+      style={{ opacity, scale, y }}
     >
-      {/* Enhanced Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0">
         <motion.div
-          className="floating-element absolute -top-24 -left-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+          className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        />
+        
+        {/* Enhanced animated gradient orbs */}
+        <motion.div
+          className="absolute top-1/4 -left-24 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.2, 0.4, 0.2],
+            x: [0, 20, 0],
           }}
           transition={{
             duration: 8,
@@ -77,10 +105,11 @@ const Quote = () => {
           }}
         />
         <motion.div
-          className="floating-element absolute -bottom-24 -right-24 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"
+          className="absolute bottom-1/4 -right-24 w-96 h-96 bg-accent/20 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.1, 1],
             opacity: [0.1, 0.3, 0.1],
+            x: [0, -20, 0],
           }}
           transition={{
             duration: 10,
@@ -88,28 +117,6 @@ const Quote = () => {
             repeatType: 'reverse',
           }}
         />
-        {/* Animated Particles */}
-        <div className="absolute inset-0">
-          {[...Array(15)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-primary/30 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -100],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: Math.random() * 3 + 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-        </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -121,15 +128,16 @@ const Quote = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <motion.div
-            className="relative inline-block mb-8"
-            initial={{ scale: 0.8, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
+          <motion.div 
+            className="relative bg-background/50 backdrop-blur-xl rounded-2xl p-8 md:p-12 shadow-xl border border-accent/10"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            whileHover={{ scale: 1.02 }}
           >
             <motion.div
-              className="absolute -top-8 -left-8 w-16 h-16 text-primary/20"
+              className="absolute -top-6 -left-6 w-12 h-12 text-primary/20 quote-mark"
               animate={{
                 rotate: [0, 360],
               }}
@@ -147,47 +155,43 @@ const Quote = () => {
                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
               </svg>
             </motion.div>
-          </motion.div>
 
-          <motion.div 
-            className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-xl"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
             <motion.p 
-              className="quote-text text-lg md:text-xl text-muted-foreground leading-relaxed"
+              className="quote-text text-lg md:text-xl text-foreground/80 leading-relaxed"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.4 }}
             >
-              At the Manglam Event, we started with a simple desire: to enhance the beauty of joyful
-              moments and celebrate the happiness of someone's special day. Our goal has always been
-              to be a part of your joy, bringing your vision to life with love and care. It is a heartfelt honor
-              for us to contribute to the most important day of your life, fully immersing ourselves in every
-              detail of your celebration. Each moment we create together is a beautiful reflection of your
-              dreams.
+              At Manglam Event, we believe in transforming ordinary moments into extraordinary memories. 
+              Our passion lies in crafting celebrations that reflect your unique story, where every detail 
+              is carefully curated to create an unforgettable experience. We don't just plan events; we 
+              create moments that will be cherished forever.
             </motion.p>
 
             <motion.div
-              className="mt-8 text-primary font-semibold flex items-center justify-center gap-2"
+              className="mt-8 text-primary font-semibold flex items-center justify-center gap-2 signature"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
               <motion.div
-                className="w-8 h-[2px] bg-primary"
+                className="w-8 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent"
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.8 }}
               />
-              <span>Manglam Event Team</span>
+              <motion.span 
+                className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+              >
+                Manglam Event Team
+              </motion.span>
               <motion.div
-                className="w-8 h-[2px] bg-primary"
+                className="w-8 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent"
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}

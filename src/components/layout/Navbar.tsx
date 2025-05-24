@@ -58,25 +58,30 @@ const Navbar = () => {
 
   return (
     <nav ref={navRef} className="fixed w-full z-50 h-20">
+      {/* Animated Background */}
       <div
-        className={`absolute inset-0 transition-all duration-300 ${
+        className={`absolute inset-0 transition-all duration-500 ${
           isScrolled
-            ? "bg-background/90 backdrop-blur-lg shadow-lg"
+            ? "bg-background/80 backdrop-blur-xl shadow-lg border-b border-accent/10"
             : "bg-transparent"
         }`}
-      />
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      </div>
+
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
         <div className="flex items-center justify-between h-full">
           {/* Logo */}
           <Link
             href="/"
-            className="relative w-32 h-12 transition-transform duration-300 hover:scale-105"
+            className="relative w-32 h-12 transition-all duration-500 hover:scale-105 group"
           >
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-lg blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <Image
               src="/images/logo.png"
               alt="Manglam Event Logo"
               fill
-              className="object-contain"
+              className="object-contain transition-all duration-500 group-hover:brightness-110 group-hover:contrast-110"
               priority
             />
           </Link>
@@ -87,16 +92,17 @@ const Navbar = () => {
               <Link
                 key={item.path}
                 href={item.path}
-                className={`nav-item relative text-sm font-medium transition-all duration-300 ${
+                className={`nav-item relative text-sm font-medium transition-all duration-300 px-4 py-2 rounded-lg group ${
                   pathname === item.path
-                    ? "text-primary"
-                    : "text-foreground hover:text-primary"
+                    ? "text-primary bg-primary/10"
+                    : "text-foreground hover:text-primary hover:bg-primary/5"
                 }`}
               >
-                {item.name}
+                <span className="relative z-10">{item.name}</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 {pathname === item.path && (
                   <motion.div
-                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-primary"
+                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-primary/50 via-primary to-primary/50"
                     layoutId="navbar-indicator"
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
@@ -108,21 +114,22 @@ const Navbar = () => {
           {/* Right side items */}
           <div className="flex items-center space-x-4">
             <div
-              className={`transition-colors duration-300 ${
+              className={`transition-all duration-500 ${
                 isScrolled
-                  ? "bg-background/95 backdrop-blur-lg rounded-lg shadow-lg"
-                  : ""
+                  ? "bg-background/80 backdrop-blur-xl rounded-lg shadow-lg border border-accent/10"
+                  : "bg-background/50 backdrop-blur-sm rounded-lg border border-accent/5"
               }`}
             >
               <ThemeToggle />
             </div>
             {/* Mobile menu button */}
             <button
-              className="md:hidden p-2 rounded-lg text-foreground hover:text-primary focus:outline-none transition-colors duration-300 bg-background/95 hover:bg-background border border-accent/20 hover:border-accent/30 shadow-lg hover:shadow-xl"
+              className="md:hidden p-2 rounded-lg text-foreground hover:text-primary focus:outline-none transition-all duration-500 bg-background/80 hover:bg-background/90 border border-accent/10 hover:border-accent/20 shadow-lg hover:shadow-xl backdrop-blur-xl group"
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle menu"
             >
               <div className="flex items-center justify-center w-6 h-6 relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <span
                   className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
                     isOpen ? "rotate-45 top-3" : "top-1"
@@ -152,7 +159,7 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.3 }}
             className="md:hidden fixed inset-0 z-[100]"
           >
             {/* Backdrop */}
@@ -160,9 +167,11 @@ const Navbar = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-background/80 backdrop-blur-lg"
+              className="absolute inset-0 bg-background/90 backdrop-blur-xl"
               onClick={() => setIsOpen(false)}
-            />
+            >
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-accent/5 to-primary/5 opacity-50" />
+            </motion.div>
 
             {/* Menu Content */}
             <motion.div
@@ -170,23 +179,30 @@ const Navbar = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2, delay: 0.1 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
             >
-              <div className="bg-background/95 backdrop-blur-lg shadow-lg border-t border-accent/20">
+              <div className="bg-background/80 backdrop-blur-xl shadow-lg border-t border-accent/10">
                 <div className="px-4 py-3 space-y-1">
-                  {navItems.map((item) => (
-                    <Link
+                  {navItems.map((item, index) => (
+                    <motion.div
                       key={item.path}
-                      href={item.path}
-                      className={`nav-item block px-4 py-4 rounded-lg text-base font-medium transition-all duration-300 ${
-                        pathname === item.path
-                          ? "text-primary bg-primary/10"
-                          : "text-foreground hover:text-primary hover:bg-primary/5"
-                      }`}
-                      onClick={() => setIsOpen(false)}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
                     >
-                      {item.name}
-                    </Link>
+                      <Link
+                        href={item.path}
+                        className={`nav-item block px-4 py-4 rounded-lg text-base font-medium transition-all duration-300 group relative overflow-hidden ${
+                          pathname === item.path
+                            ? "text-primary bg-primary/10"
+                            : "text-foreground hover:text-primary hover:bg-primary/5"
+                        }`}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <span className="relative z-10">{item.name}</span>
+                        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </Link>
+                    </motion.div>
                   ))}
                 </div>
               </div>

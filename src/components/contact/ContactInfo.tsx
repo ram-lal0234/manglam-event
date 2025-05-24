@@ -99,73 +99,114 @@ const ContactInfo = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-gradient-to-b from-background via-accent/5 to-background"
+      className="py-20 bg-gradient-to-b from-background via-accent/5 to-background relative overflow-hidden z-10"
+      style={{ opacity: 1 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
-          ref={cardsRef}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16"
-        >
-          {contactInfo.map((info) => (
+      {/* Background Elements */}
+      <div className="absolute inset-0">
+        <motion.div
+          className="absolute -top-24 -right-24 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            repeatType: 'reverse',
+          }}
+        />
+        <motion.div
+          className="absolute -bottom-24 -left-24 w-[500px] h-[500px] bg-accent/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.1, 0.3, 0.1],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            repeatType: 'reverse',
+          }}
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+        <div className="text-center mb-12">
+          <motion.h2
+            className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-accent via-primary to-accent"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            style={{ opacity: 1 }}
+          >
+            Contact Information
+          </motion.h2>
+          <motion.p
+            className="text-lg text-foreground/80 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            style={{ opacity: 1 }}
+          >
+            Get in touch with us through any of these channels. We're here to help you plan your perfect event.
+          </motion.p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          {contactInfo.map((info, index) => (
             <motion.div
-              key={info.id}
-              className="bg-gradient-to-br from-background/80 to-accent/10 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-accent/20 hover:border-primary/20 transition-all duration-300"
-              whileHover={{ scale: 1.02, y: -5 }}
+              key={info.title}
+              className="relative group"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              style={{ opacity: 1 }}
             >
-              <motion.div
-                className="text-primary mb-6"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5, type: "spring" }}
-              >
-                {info.icon}
-              </motion.div>
-              <motion.h3
-                className="text-xl font-semibold text-foreground mb-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                {info.title}
-              </motion.h3>
-              <motion.p
-                className="text-foreground/80"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                {info.content}
-              </motion.p>
+              <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-8 border border-accent/20 hover:border-accent/40 transition-all duration-300 group-hover:shadow-xl group-hover:shadow-accent/5 hover:scale-[1.02]">
+                <div className="text-4xl mb-4 text-primary transform group-hover:scale-110 transition-transform duration-300">
+                  {info.icon}
+                </div>
+                <h3 className="text-xl font-semibold mb-2 text-foreground group-hover:text-primary transition-colors duration-300">
+                  {info.title}
+                </h3>
+                <p className="text-foreground/80 group-hover:text-foreground transition-colors duration-300">
+                  {info.content}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>
 
-        <div className="text-center">
-          <motion.h4
-            className="text-xl font-semibold text-foreground mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            Connect With Us
-          </motion.h4>
-          <div className="flex justify-center space-x-6">
-            {socialLinks.map((link) => (
-              <motion.a
-                key={link.id}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground/80 hover:text-primary transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="sr-only">{link.name}</span>
-                {link.icon}
-              </motion.a>
-            ))}
-          </div>
-        </div>
+        <motion.div
+          className="flex justify-center space-x-6"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          style={{ opacity: 1 }}
+        >
+          {socialLinks.map((link, index) => (
+            <motion.a
+              key={link.name}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-2xl text-foreground/80 hover:text-primary transition-colors duration-300 bg-background/50 backdrop-blur-sm p-3 rounded-full border border-accent/20 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/5"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+              style={{ opacity: 1 }}
+            >
+              {link.icon}
+            </motion.a>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

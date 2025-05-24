@@ -48,6 +48,7 @@ const FeaturedServices = () => {
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
+  const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [50, 0, 0, -50]); // Added vertical movement
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -74,13 +75,34 @@ const FeaturedServices = () => {
         });
       }
 
-      // Floating animation for decorative elements
-      gsap.to('.floating-element', {
-        y: '20px',
-        duration: 2,
-        ease: 'power1.inOut',
-        yoyo: true,
-        repeat: -1
+      // Enhanced subtitle animation
+      gsap.from('.section-subtitle', {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        delay: 0.3,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top center+=100',
+          toggleActions: 'play none none reverse'
+        }
+      });
+
+      // Enhanced card animations
+      gsap.from('.service-card', {
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        stagger: {
+          amount: 1,
+          ease: "power2.out"
+        },
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top center+=100',
+          toggleActions: 'play none none reverse'
+        }
       });
     }, sectionRef);
 
@@ -90,57 +112,45 @@ const FeaturedServices = () => {
   return (
     <motion.section
       ref={sectionRef}
-      className="py-32 bg-gradient-to-b from-accent/5 via-accent/10 to-accent/5 relative overflow-hidden"
-      style={{ opacity, scale }}
+      className="py-32 relative overflow-hidden"
+      style={{ opacity, scale, y }}
     >
-      {/* Enhanced Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0">
         <motion.div
-          className="floating-element absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
+          className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        />
+        
+        {/* Enhanced animated gradient orbs */}
+        <motion.div
+          className="absolute top-1/4 -right-24 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.2, 0.4, 0.2],
+            x: [0, -20, 0],
           }}
           transition={{
             duration: 8,
             repeat: Infinity,
-            repeatType: "reverse",
+            repeatType: 'reverse',
           }}
         />
         <motion.div
-          className="floating-element absolute -bottom-24 -left-24 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
+          className="absolute bottom-1/4 -left-24 w-96 h-96 bg-accent/20 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.1, 1],
             opacity: [0.1, 0.3, 0.1],
+            x: [0, 20, 0],
           }}
           transition={{
             duration: 10,
             repeat: Infinity,
-            repeatType: "reverse",
+            repeatType: 'reverse',
           }}
         />
-        {/* Animated Particles */}
-        <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-accent/20 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -100],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: Math.random() * 3 + 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -152,26 +162,19 @@ const FeaturedServices = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <motion.div
-            className="inline-block mb-4"
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, type: "spring" }}
-          >
-            <span className="text-6xl">✨</span>
-          </motion.div>
           <motion.h2
-            className="section-title text-4xl font-bold text-foreground mb-4"
+            className="section-title text-4xl md:text-5xl font-bold mb-4"
             initial={{ scale: 0.9, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Our Services
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+              Our Services
+            </span>
           </motion.h2>
           <motion.p
-            className="text-lg text-foreground/80 max-w-2xl mx-auto"
+            className="section-subtitle text-lg text-foreground/80 max-w-2xl mx-auto"
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
@@ -221,7 +224,7 @@ const FeaturedServices = () => {
           {services.map((service) => (
             <SwiperSlide key={service.id}>
               <motion.div
-                className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300"
+                className="service-card bg-background/50 backdrop-blur-xl rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-accent/10"
                 whileHover={{ scale: 1.02, y: -5 }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -236,91 +239,50 @@ const FeaturedServices = () => {
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.3 }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/40 to-transparent"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                  />
                   <motion.div
-                    className="absolute top-4 right-4 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-2xl"
+                    className="absolute top-4 right-4 w-12 h-12 bg-background/80 backdrop-blur-xl rounded-full flex items-center justify-center text-2xl border border-accent/10"
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, type: "spring" }}
+                    whileHover={{ scale: 1.1, rotate: 360 }}
                   >
                     {service.icon}
                   </motion.div>
                 </div>
                 <div className="p-8">
                   <motion.h3
-                    className="text-2xl font-semibold text-foreground mb-4"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
+                    className="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.2 }}
+                    whileHover={{ scale: 1.02 }}
                   >
                     {service.title}
                   </motion.h3>
                   <motion.p
-                    className="text-foreground/80 leading-relaxed"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
+                    className="text-foreground/80"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.3 }}
                   >
                     {service.description}
                   </motion.p>
-                  <motion.div
-                    className="mt-6"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                  >
-                    <a
-                      href="/services"
-                      className="inline-flex items-center text-primary hover:text-primary-dark transition-colors duration-300"
-                    >
-                      Learn More
-                      <svg
-                        className="w-5 h-5 ml-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
-                    </a>
-                  </motion.div>
                 </div>
               </motion.div>
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
-
-      <style jsx global>{`
-        .featured-services-swiper {
-          padding: 2rem 0;
-        }
-        .featured-services-swiper .swiper-pagination-bullet {
-          background: var(--primary);
-          opacity: 0.5;
-        }
-        .featured-services-swiper .swiper-pagination-bullet-active {
-          background: var(--primary);
-          opacity: 1;
-        }
-        .featured-services-swiper .swiper-button-next,
-        .featured-services-swiper .swiper-button-prev {
-          color: var(--primary);
-        }
-        .featured-services-swiper .swiper-button-next:hover,
-        .featured-services-swiper .swiper-button-prev:hover {
-          color: var(--primary-dark);
-        }
-      `}</style>
     </motion.section>
   );
 };

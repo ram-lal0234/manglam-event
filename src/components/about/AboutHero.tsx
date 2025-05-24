@@ -1,176 +1,170 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { BackgroundBeams } from '@/components/ui/background-beams';
+import { SparklesCore } from '@/components/ui/sparkles';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const AboutHero = () => {
-  const sectionRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+
+  // Only allow slight parallax, no fade-out
+  const y = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const opacity = useTransform(scrollYProgress, [0, 0.1], [1, 1]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Text animation with enhanced stagger
-      gsap.from(textRef.current?.children || [], {
-        opacity: 0,
-        y: 100,
-        duration: 1.2,
-        stagger: {
-          amount: 1,
-          ease: "power2.out"
-        },
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top center+=100',
-          toggleActions: 'play none none reverse'
-        }
-      });
-
-      // Enhanced parallax effect for background
-      gsap.to(bgRef.current, {
-        yPercent: 30,
-        scale: 1.1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1
-        }
-      });
-
-      // Animated overlay
-      gsap.to(overlayRef.current, {
-        opacity: 0.7,
+      // Animate background gradient in
+      gsap.to('.hero-gradient', {
+        opacity: 1,
         duration: 2,
-        ease: 'power2.inOut',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'center center',
-          scrub: 1
-        }
+        ease: 'power2.out',
       });
-    }, sectionRef);
-
+      // Animate text elements with stagger
+      gsap.fromTo('.hero-text', 
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: textRef.current,
+            start: 'top bottom-=100',
+            end: 'bottom top',
+            toggleActions: 'play none none none',
+            once: true
+          }
+        }
+      );
+      // Animate floating elements
+      gsap.to('.floating-element', {
+        y: '20px',
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'power1.inOut',
+        stagger: { amount: 1.5, from: 'random' }
+      });
+    }, heroRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <motion.section
-      ref={sectionRef}
-      className="relative min-h-[80vh] w-full overflow-hidden flex items-center justify-center"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1 }}
+    <motion.section 
+      ref={heroRef} 
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
+      style={{ y, opacity }}
     >
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          ref={bgRef}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: 'url(/images/about/hero-bg.jpg)',
-          }}
-          initial={{ scale: 1.2 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 2, ease: 'easeOut' }}
+      {/* Background Effects */}
+      <BackgroundBeams className="absolute inset-0" />
+      <div className="absolute inset-0">
+        <SparklesCore
+          id="tsparticlesfullpage"
+          background="transparent"
+          minSize={0.6}
+          maxSize={1.4}
+          particleDensity={100}
+          className="w-full h-full"
+          particleColor="#FFFFFF"
         />
-
-        {/* Animated Gradient Overlay */}
-        <motion.div
-          ref={overlayRef}
-          className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/80"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
-        />
-
-        {/* Animated Particles */}
-        <motion.div
-          className="absolute inset-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
+      </div>
+      {/* Floating Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(5)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="floating-element absolute w-24 h-24 rounded-full bg-primary/10 backdrop-blur-md shadow-lg transition-transform duration-300 hover:scale-110 hover:shadow-2xl"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+            }}
+            initial={{ opacity: 0.3, scale: 0.8 }}
+            animate={{ y: [0, 20, 0], scale: [0.8, 1, 0.8], opacity: [0.3, 0.5, 0.3] }}
+            transition={{ duration: 3 + i, repeat: Infinity, repeatType: 'reverse' }}
+            whileHover={{ scale: 1.15, boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)' }}
+          />
+        ))}
+      </div>
+      {/* Content */}
+      <div ref={textRef} className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+        <motion.h1
+          className="hero-text text-4xl md:text-6xl font-bold text-foreground mb-6"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-white/30 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -100],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: Math.random() * 3 + 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
+          Crafting Unforgettable
+          <motion.span 
+            className="text-primary inline-block"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            {' '}Experiences
+          </motion.span>
+        </motion.h1>
+        <motion.p
+          className="hero-text text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto mb-12"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
+        >
+          We are passionate event planners dedicated to turning your dreams into reality.
+          With years of experience and a creative approach, we ensure every event is
+          unique and memorable.
+        </motion.p>
+        <motion.div
+          className="hero-text flex flex-col sm:flex-row gap-4 justify-center"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+        >
+          <Button
+            size="lg"
+            className="bg-primary hover:bg-primary/90 text-white focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:outline-none transition-transform duration-200 shadow-md hover:scale-105"
+            asChild
+            aria-label="Get Started"
+          >
+            <motion.a
+              href="#contact"
+              whileHover={{ scale: 1.08, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              tabIndex={0}
+            >
+              Get Started
+            </motion.a>
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
+            className="bg-background/50 backdrop-blur-sm hover:bg-background/80 focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:outline-none transition-transform duration-200 shadow-md hover:scale-105"
+            asChild
+            aria-label="Our Services"
+          >
+            <motion.a
+              href="#services"
+              whileHover={{ scale: 1.08, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              tabIndex={0}
+            >
+              Our Services
+            </motion.a>
+          </Button>
         </motion.div>
       </div>
-
-      {/* Content */}
-      <motion.div
-        ref={textRef}
-        className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20"
-      >
-        <div className="text-center">
-          <motion.h1 
-            className="text-6xl md:text-8xl font-bold mb-12 bg-clip-text text-transparent bg-gradient-to-r from-white via-accent-light to-accent"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            Our Story
-          </motion.h1>
-          <motion.p 
-            className="text-2xl md:text-3xl text-white/90 max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            Creating unforgettable moments and turning dreams into reality through
-            exceptional event planning and management.
-          </motion.p>
-        </div>
-      </motion.div>
-
-      {/* Enhanced Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5, duration: 0.5 }}
-      >
-        <div className="w-8 h-12 border-2 border-white/30 rounded-full flex justify-center">
-          <motion.div
-            className="w-2 h-4 bg-white/50 rounded-full mt-2"
-            animate={{
-              y: [0, 16, 0],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              repeatType: "loop",
-            }}
-          />
-        </div>
-      </motion.div>
     </motion.section>
   );
 };

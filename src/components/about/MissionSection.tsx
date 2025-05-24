@@ -1,273 +1,150 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { BackgroundBeams } from '@/components/ui/background-beams';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const MissionSection = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Only allow slight parallax, no fade-out
+  const y = useTransform(scrollYProgress, [0, 1], [50, -30]);
+  const opacity = useTransform(scrollYProgress, [0, 0.1], [1, 1]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const content = contentRef.current?.children;
-      if (!content) return;
-
-      // Enhanced stagger animation for content
-      gsap.from(content, {
-        opacity: 0,
-        y: 100,
-        duration: 1,
-        stagger: {
-          amount: 1.5,
-          ease: "power2.out"
+      gsap.fromTo('.mission-card', 
+        {
+          y: 50,
+          opacity: 0,
+          scale: 0.9
         },
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top center+=100',
-          toggleActions: 'play none none reverse'
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom-=100',
+            end: 'bottom top',
+            toggleActions: 'play none none none',
+            once: true
+          }
         }
-      });
-
-      // Parallax effect for background elements
-      gsap.to('.parallax-bg', {
-        yPercent: 30,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true
-        }
-      });
+      );
     }, sectionRef);
-
     return () => ctx.revert();
   }, []);
 
-  const values = [
+  const missions = [
     {
-      title: 'Innovation',
-      description: 'We constantly push boundaries and explore new possibilities to create unique and memorable experiences.',
-      icon: '✨'
+      title: 'Our Mission',
+      description: 'To create extraordinary events that exceed expectations and leave lasting impressions.',
+      icon: (
+        <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      ),
     },
     {
-      title: 'Excellence',
-      description: 'We strive for perfection in every detail, ensuring the highest quality in our services and execution.',
-      icon: '⭐'
+      title: 'Our Vision',
+      description: 'To be the leading event planning company known for innovation, creativity, and excellence.',
+      icon: (
+        <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+      ),
     },
     {
-      title: 'Trust',
-      description: 'We build lasting relationships based on transparency, reliability, and mutual respect.',
-      icon: '🤝'
+      title: 'Our Values',
+      description: 'Integrity, creativity, attention to detail, and client satisfaction drive everything we do.',
+      icon: (
+        <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      ),
     },
-    {
-      title: 'Passion',
-      description: 'We are driven by our love for creating magical moments and making dreams come true.',
-      icon: '❤️'
-    }
   ];
 
   return (
-    <motion.section
-      ref={sectionRef}
-      className="min-h-screen py-32 bg-gradient-to-b from-background via-accent/5 to-background relative overflow-hidden"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 1 }}
+    <motion.section 
+      ref={sectionRef} 
+      className="relative py-24 overflow-hidden bg-background"
+      style={{ y, opacity }}
     >
-      {/* Enhanced Decorative Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Background Effects */}
+      <BackgroundBeams className="absolute inset-0" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="parallax-bg absolute top-0 left-0 w-full h-full bg-gradient-to-b from-primary/5 to-transparent"
-          animate={{
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            repeatType: 'reverse',
-          }}
-        />
-        <motion.div
-          className="parallax-bg absolute -bottom-24 -left-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            repeatType: 'reverse',
-          }}
-        />
-        <motion.div
-          className="parallax-bg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.1, 0.2, 0.1],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            repeatType: 'reverse',
-          }}
-        />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div 
-          className="text-center mb-20"
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
         >
-          <motion.div
-            className="text-5xl mb-6"
-            initial={{ scale: 0.8, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-          >
-            🎯
-          </motion.div>
           <motion.h2 
-            className="text-7xl font-bold text-gradient mb-8"
-            initial={{ scale: 0.9, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
+            className="text-3xl md:text-4xl font-bold text-foreground mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Our Mission
+            Our Mission & Vision
           </motion.h2>
           <motion.p 
-            className="text-2xl text-foreground/90 max-w-3xl mx-auto leading-relaxed"
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
+            className="text-lg text-foreground/80 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Creating unforgettable experiences through excellence and innovation
+            We are driven by our commitment to excellence and our passion for creating
+            unforgettable experiences.
           </motion.p>
         </motion.div>
-
-        <div
-          ref={contentRef}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto"
-        >
-          <motion.div
-            className="bg-gradient-to-br from-background to-accent/10 backdrop-blur-sm rounded-3xl p-12 shadow-2xl card-hover border border-accent/20"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-          >
-            <motion.div
-              className="text-5xl mb-8"
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5 }}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {missions.map((mission, index) => (
+            <Card
+              key={mission.title}
+              className={cn(
+                "mission-card group relative bg-background/60 backdrop-blur-lg border border-accent/10 hover:border-accent/30 transition-all duration-300",
+                "hover:shadow-2xl hover:scale-105 focus-within:shadow-2xl focus-within:scale-105 outline-none",
+                "rounded-2xl cursor-pointer",
+              )}
+              tabIndex={0}
+              aria-label={mission.title}
             >
-              🎯
-            </motion.div>
-            <motion.h3 
-              className="text-4xl font-semibold text-gradient mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              Our Mission
-            </motion.h3>
-            <motion.p 
-              className="text-foreground/90 leading-relaxed text-xl"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              At Manglam Event, our mission is to transform ordinary moments into extraordinary memories. 
-              We believe that every celebration deserves to be unique, meaningful, and perfectly executed. 
-              Through our innovative approach, attention to detail, and unwavering commitment to excellence, 
-              we strive to create experiences that exceed expectations and leave lasting impressions.
-            </motion.p>
-          </motion.div>
-
-          <motion.div
-            className="bg-gradient-to-br from-background to-accent/10 backdrop-blur-sm rounded-3xl p-12 shadow-2xl card-hover border border-accent/20"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <motion.div
-              className="text-5xl mb-8"
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5 }}
-            >
-              💫
-            </motion.div>
-            <motion.h3 
-              className="text-4xl font-semibold text-gradient mb-8"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              Our Values
-            </motion.h3>
-            <div className="space-y-8">
-              {values.map((value, index) => (
-                <motion.div
-                  key={value.title}
-                  className="flex items-start space-x-6 bg-background/90 backdrop-blur-sm p-8 rounded-2xl border border-accent/20 hover:border-primary/20 transition-all duration-300 hover:shadow-lg"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+              <CardHeader>
+                <motion.div 
+                  className="text-primary mb-4"
+                  whileHover={{ scale: 1.15, rotate: 8 }}
+                  whileTap={{ scale: 0.95, rotate: -8 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <motion.div
-                    className="text-4xl"
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                  >
-                    {value.icon}
-                  </motion.div>
-                  <div>
-                    <motion.h4 
-                      className="text-2xl font-semibold text-foreground mb-3"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                    >
-                      {value.title}
-                    </motion.h4>
-                    <motion.p 
-                      className="text-foreground/90 text-xl"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      viewport={{ once: true, margin: "-100px" }}
-                      transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                    >
-                      {value.description}
-                    </motion.p>
-                  </div>
+                  {mission.icon}
                 </motion.div>
-              ))}
-            </div>
-          </motion.div>
+                <CardTitle className="text-xl font-semibold text-foreground">
+                  {mission.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-foreground/80">
+                  {mission.description}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </motion.section>

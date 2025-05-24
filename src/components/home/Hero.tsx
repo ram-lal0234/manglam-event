@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,9 +22,10 @@ const Hero = () => {
     offset: ["start start", "end start"]
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, -150]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.2]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.3]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 5]);
 
   useEffect(() => {
     // Show content after a short delay to ensure smooth transition from preloader
@@ -38,26 +40,21 @@ const Hero = () => {
     const ctx = gsap.context(() => {
       if (!isContentVisible) return;
 
-      // Split text animation
-      const companyName = "Manglam Event";
-      const chars = companyName.split('');
-      const textContainer = textRef.current;
-      if (textContainer) {
-        textContainer.innerHTML = '';
-        chars.forEach((char, i) => {
-          const span = document.createElement('span');
-          span.textContent = char;
-          span.className = 'inline-block';
-          textContainer.appendChild(span);
-        });
-
-        gsap.from(textContainer.children, {
+      // Enhanced text animation with split text
+      const title = textRef.current?.querySelector('.hero-title');
+      if (title) {
+        const words = title.textContent?.split(' ') || [];
+        title.innerHTML = words.map(word => `<span class="inline-block">${word}</span>`).join(' ');
+        
+        gsap.from(title.children, {
           opacity: 0,
-          rotateY: 90,
           y: 50,
-          duration: 0.8,
-          stagger: 0.05,
-          ease: 'back.out(1.7)',
+          duration: 1,
+          stagger: {
+            amount: 1.5,
+            ease: "power2.out"
+          },
+          ease: 'power3.out',
           scrollTrigger: {
             trigger: sectionRef.current,
             start: 'top center+=100',
@@ -66,11 +63,11 @@ const Hero = () => {
         });
       }
 
-      // Video animation
+      // Enhanced video animation
       if (isVideoLoaded) {
         gsap.from(videoRef.current, {
           opacity: 0,
-          scale: 1.05,
+          scale: 1.1,
           duration: 2,
           ease: 'power3.out',
           scrollTrigger: {
@@ -81,7 +78,7 @@ const Hero = () => {
         });
       }
 
-      // Gradient overlay animation
+      // Enhanced gradient overlay animation
       gsap.from('.gradient-overlay', {
         y: -100,
         opacity: 0,
@@ -89,16 +86,25 @@ const Hero = () => {
         ease: 'power2.out'
       });
 
-      // Tagline animation
-      gsap.from('.tagline', {
-        x: -100,
-        opacity: 0,
-        duration: 1,
-        delay: 0.5,
-        ease: 'power2.out'
-      });
+      // Enhanced tagline animation with split text
+      const tagline = document.querySelector('.tagline');
+      if (tagline) {
+        const words = tagline.textContent?.split(' ') || [];
+        tagline.innerHTML = words.map(word => `<span class="inline-block">${word}</span>`).join(' ');
+        
+        gsap.from(tagline.children, {
+          x: -100,
+          opacity: 0,
+          duration: 0.8,
+          stagger: {
+            amount: 1,
+            ease: "power2.out"
+          },
+          delay: 0.5
+        });
+      }
 
-      // CTA buttons animation
+      // Enhanced CTA buttons animation
       gsap.from('.cta-button', {
         scale: 0,
         opacity: 0,
@@ -108,7 +114,7 @@ const Hero = () => {
         delay: 0.8
       });
 
-      // Scroll indicator animation
+      // Enhanced scroll indicator animation
       gsap.from('.scroll-indicator', {
         y: -20,
         opacity: 0,
@@ -117,10 +123,10 @@ const Hero = () => {
         ease: 'power2.out'
       });
 
-      // Floating animation for decorative elements
+      // Enhanced floating animation for decorative elements
       gsap.to('.floating-element', {
-        y: '20px',
-        duration: 2,
+        y: '30px',
+        duration: 3,
         ease: 'power1.inOut',
         yoyo: true,
         repeat: -1
@@ -221,7 +227,7 @@ const Hero = () => {
       <div className="absolute inset-0">
         <motion.div
           className="absolute inset-0 parallax-bg"
-          style={{ scale, y }}
+          style={{ scale, y, rotate }}
         >
           <video
             ref={videoRef}
@@ -239,18 +245,46 @@ const Hero = () => {
           </video>
         </motion.div>
 
-        {/* Gradient overlay */}
+        {/* Enhanced gradient overlay */}
         <motion.div
-          className="absolute inset-0 gradient-overlay bg-gradient-to-b from-black/80 via-black/60 to-black/80"
+          className="absolute inset-0 gradient-overlay bg-gradient-to-b from-background/90 via-background/70 to-background/90"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
         />
 
-        {/* Grain overlay */}
-        <div className="absolute inset-0 opacity-20 mix-blend-overlay">
-          <div className="absolute inset-0 bg-[url('/images/grain.png')] opacity-50" />
-        </div>
+        {/* Enhanced animated background elements */}
+        <motion.div
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <motion.div 
+            className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.2, 0.4, 0.2],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              repeatType: 'reverse',
+            }}
+          />
+          <motion.div 
+            className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl"
+            animate={{
+              scale: [1, 1.1, 1],
+              opacity: [0.1, 0.3, 0.1],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              repeatType: 'reverse',
+            }}
+          />
+        </motion.div>
 
         {/* Sparkles container */}
         <div
@@ -260,98 +294,65 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4">
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="inline-block mb-8"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, type: "spring", delay: 0.2 }}
+          ref={textRef}
+          className="text-center max-w-4xl mx-auto"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <Image
-            src="/images/logo.png"
-            alt="Manglam Event Logo"
-            width={150}
-            height={150}
-            className="object-contain drop-shadow-2xl"
-            priority
-          />
+          <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6">
+            Creating Unforgettable Moments
+          </h1>
+          <p className="tagline text-lg sm:text-xl md:text-2xl text-foreground/80 mb-8">
+            Where Dreams Transform into Reality
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.button
+              className="cta-button bg-primary text-white px-8 py-3 rounded-full hover:bg-primary-dark transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Get Started
+            </motion.button>
+            <motion.button
+              className="cta-button bg-transparent border-2 border-primary text-primary px-8 py-3 rounded-full hover:bg-primary/10 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Learn More
+            </motion.button>
+          </div>
         </motion.div>
 
-        {/* Company name with split animation */}
-        <div
-          ref={textRef}
-          className="text-6xl md:text-8xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white via-accent-light to-white drop-shadow-lg hover:glow"
-        />
-
-        {/* Tagline */}
-        <motion.p 
-          className="tagline text-2xl md:text-3xl mb-12 text-white/90 font-light tracking-wide"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          Where Dreams Transform into Unforgettable Celebrations
-        </motion.p>
-
-        {/* CTA Buttons */}
+        {/* Enhanced scroll indicator */}
         <motion.div
-          className="flex flex-col sm:flex-row gap-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          className="scroll-indicator absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          animate={{
+            y: [0, 10, 0],
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         >
-          <motion.a
-            href="/services"
-            className="cta-button bg-primary hover:bg-primary-dark text-white px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-1 relative overflow-hidden group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <svg
+            className="w-6 h-6 text-foreground/60"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            <span className="relative z-10">Explore Services</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-          </motion.a>
-          <motion.a
-            href="/contact"
-            className="cta-button bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:shadow-white/20 hover:-translate-y-1 border border-white/20 relative overflow-hidden group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span className="relative z-10">Get in Touch</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-          </motion.a>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
         </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        className="scroll-indicator absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        animate={{
-          y: [0, 10, 0],
-        }}
-        transition={{
-          duration: 1.5,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      >
-        <motion.div
-          className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-        >
-          <motion.div
-            className="w-1 h-2 bg-white/50 rounded-full mt-2"
-            animate={{
-              y: [0, 12, 0],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        </motion.div>
-      </motion.div>
     </motion.section>
   );
 };

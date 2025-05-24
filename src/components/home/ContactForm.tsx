@@ -27,6 +27,7 @@ const ContactForm = () => {
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
+  const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [50, 0, 0, -50]); // Added vertical movement
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -52,6 +53,36 @@ const ContactForm = () => {
           }
         });
       }
+
+      // Enhanced subtitle animation
+      gsap.from('.section-subtitle', {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        delay: 0.3,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top center+=100',
+          toggleActions: 'play none none reverse'
+        }
+      });
+
+      // Enhanced form animations
+      gsap.from('.form-input', {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        stagger: {
+          amount: 1,
+          ease: "power2.out"
+        },
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top center+=100',
+          toggleActions: 'play none none reverse'
+        }
+      });
 
       // Floating animation for decorative elements
       gsap.to('.floating-element', {
@@ -100,7 +131,7 @@ const ContactForm = () => {
     <motion.section
       ref={sectionRef}
       className="py-32 bg-gradient-to-b from-accent via-accent/5 to-accent relative overflow-hidden"
-      style={{ opacity, scale }}
+      style={{ opacity, scale, y }}
     >
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -109,6 +140,7 @@ const ContactForm = () => {
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.2, 0.4, 0.2],
+            x: [0, -20, 0],
           }}
           transition={{
             duration: 8,
@@ -121,6 +153,7 @@ const ContactForm = () => {
           animate={{
             scale: [1, 1.1, 1],
             opacity: [0.1, 0.3, 0.1],
+            x: [0, 20, 0],
           }}
           transition={{
             duration: 10,
@@ -128,9 +161,9 @@ const ContactForm = () => {
             repeatType: "reverse",
           }}
         />
-        {/* Animated Particles */}
+        {/* Enhanced Animated Particles */}
         <div className="absolute inset-0">
-          {[...Array(15)].map((_, i) => (
+          {[...Array(20)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 bg-primary/30 rounded-full"
@@ -141,6 +174,7 @@ const ContactForm = () => {
               animate={{
                 y: [0, -100],
                 opacity: [0, 1, 0],
+                scale: [1, 1.5, 1],
               }}
               transition={{
                 duration: Math.random() * 3 + 2,
@@ -167,6 +201,7 @@ const ContactForm = () => {
             whileInView={{ scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, type: "spring" }}
+            whileHover={{ scale: 1.1, rotate: 5 }}
           >
             <span className="text-6xl">📬</span>
           </motion.div>
@@ -180,7 +215,7 @@ const ContactForm = () => {
             Get in Touch
           </motion.h2>
           <motion.p 
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            className="section-subtitle text-lg text-muted-foreground max-w-2xl mx-auto"
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
@@ -198,9 +233,11 @@ const ContactForm = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
+          whileHover={{ scale: 1.01 }}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <motion.div
+              className="form-input"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -209,7 +246,7 @@ const ContactForm = () => {
               <label htmlFor="name" className="block text-sm font-medium text-secondary mb-2">
                 Your Name
               </label>
-              <input
+              <motion.input
                 type="text"
                 id="name"
                 name="name"
@@ -218,10 +255,12 @@ const ContactForm = () => {
                 required
                 className="w-full px-4 py-3 rounded-lg border border-muted-foreground/20 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 bg-white/50 backdrop-blur-sm"
                 placeholder="John Doe"
+                whileFocus={{ scale: 1.02 }}
               />
             </motion.div>
 
             <motion.div
+              className="form-input"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -230,7 +269,7 @@ const ContactForm = () => {
               <label htmlFor="email" className="block text-sm font-medium text-secondary mb-2">
                 Email Address
               </label>
-              <input
+              <motion.input
                 type="email"
                 id="email"
                 name="email"
@@ -239,11 +278,13 @@ const ContactForm = () => {
                 required
                 className="w-full px-4 py-3 rounded-lg border border-muted-foreground/20 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 bg-white/50 backdrop-blur-sm"
                 placeholder="john@example.com"
+                whileFocus={{ scale: 1.02 }}
               />
             </motion.div>
           </div>
 
           <motion.div
+            className="form-input"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -252,7 +293,7 @@ const ContactForm = () => {
             <label htmlFor="phone" className="block text-sm font-medium text-secondary mb-2">
               Phone Number
             </label>
-            <input
+            <motion.input
               type="tel"
               id="phone"
               name="phone"
@@ -260,11 +301,13 @@ const ContactForm = () => {
               onChange={handleChange}
               required
               className="w-full px-4 py-3 rounded-lg border border-muted-foreground/20 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 bg-white/50 backdrop-blur-sm"
-              placeholder="+91 1234567890"
+              placeholder="+1 (555) 000-0000"
+              whileFocus={{ scale: 1.02 }}
             />
           </motion.div>
 
           <motion.div
+            className="form-input"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -273,7 +316,7 @@ const ContactForm = () => {
             <label htmlFor="message" className="block text-sm font-medium text-secondary mb-2">
               Your Message
             </label>
-            <textarea
+            <motion.textarea
               id="message"
               name="message"
               value={formData.message}
@@ -282,31 +325,37 @@ const ContactForm = () => {
               rows={4}
               className="w-full px-4 py-3 rounded-lg border border-muted-foreground/20 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 bg-white/50 backdrop-blur-sm resize-none"
               placeholder="Tell us about your event..."
+              whileFocus={{ scale: 1.02 }}
             />
           </motion.div>
 
           <motion.div
+            className="flex justify-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="text-center"
           >
             <motion.button
               type="submit"
               disabled={isSubmitting}
-              className="inline-block bg-primary hover:bg-primary-dark text-white px-10 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:shadow-lg hover:shadow-primary/40 hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-8 py-4 bg-primary text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               {isSubmitting ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                  </svg>
-                  Sending...
-                </span>
+                <motion.div
+                  className="flex items-center space-x-2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  <motion.div
+                    className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  />
+                  <span>Sending...</span>
+                </motion.div>
               ) : (
                 'Send Message'
               )}
@@ -316,33 +365,22 @@ const ContactForm = () => {
           <AnimatePresence>
             {submitStatus === 'success' && (
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="text-center text-green-600 bg-green-50 p-4 rounded-lg border border-green-200"
+                exit={{ opacity: 0, y: -20 }}
+                className="text-center text-green-600 font-medium"
               >
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  Thank you for your message! We'll get back to you soon.
-                </span>
+                Thank you for your message! We'll get back to you soon.
               </motion.div>
             )}
-
             {submitStatus === 'error' && (
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="text-center text-red-600 bg-red-50 p-4 rounded-lg border border-red-200"
+                exit={{ opacity: 0, y: -20 }}
+                className="text-center text-red-600 font-medium"
               >
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  Oops! Something went wrong. Please try again later.
-                </span>
+                Oops! Something went wrong. Please try again.
               </motion.div>
             )}
           </AnimatePresence>

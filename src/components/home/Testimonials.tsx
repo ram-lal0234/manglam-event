@@ -54,6 +54,7 @@ const Testimonials = () => {
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
+  const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [50, 0, 0, -50]); // Added vertical movement
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -80,13 +81,34 @@ const Testimonials = () => {
         });
       }
 
-      // Floating animation for decorative elements
-      gsap.to('.floating-element', {
-        y: '20px',
-        duration: 2,
-        ease: 'power1.inOut',
-        yoyo: true,
-        repeat: -1
+      // Enhanced subtitle animation
+      gsap.from('.section-subtitle', {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        delay: 0.3,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top center+=100',
+          toggleActions: 'play none none reverse'
+        }
+      });
+
+      // Enhanced testimonial card animations
+      gsap.from('.testimonial-card', {
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        stagger: {
+          amount: 1,
+          ease: "power2.out"
+        },
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top center+=100',
+          toggleActions: 'play none none reverse'
+        }
       });
     }, sectionRef);
 
@@ -96,57 +118,45 @@ const Testimonials = () => {
   return (
     <motion.section
       ref={sectionRef}
-      className="py-32 bg-gradient-to-b from-primary via-primary/95 to-primary relative overflow-hidden"
-      style={{ opacity, scale }}
+      className="py-32 relative overflow-hidden"
+      style={{ opacity, scale, y }}
     >
-      {/* Enhanced Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0">
         <motion.div
-          className="floating-element absolute -top-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-3xl"
+          className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/80 to-primary/90"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        />
+        
+        {/* Enhanced animated gradient orbs */}
+        <motion.div
+          className="absolute top-1/4 -right-24 w-96 h-96 bg-white/10 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.2, 0.4, 0.2],
+            x: [0, -20, 0],
           }}
           transition={{
             duration: 8,
             repeat: Infinity,
-            repeatType: "reverse",
+            repeatType: 'reverse',
           }}
         />
         <motion.div
-          className="floating-element absolute -bottom-24 -left-24 w-96 h-96 bg-white/10 rounded-full blur-3xl"
+          className="absolute bottom-1/4 -left-24 w-96 h-96 bg-white/10 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.1, 1],
             opacity: [0.1, 0.3, 0.1],
+            x: [0, 20, 0],
           }}
           transition={{
             duration: 10,
             repeat: Infinity,
-            repeatType: "reverse",
+            repeatType: 'reverse',
           }}
         />
-        {/* Animated Particles */}
-        <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-white/30 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -100],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: Math.random() * 3 + 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -158,26 +168,19 @@ const Testimonials = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <motion.div
-            className="inline-block mb-4"
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, type: "spring" }}
-          >
-            <span className="text-6xl">💝</span>
-          </motion.div>
           <motion.h2 
-            className="section-title text-4xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-accent-light to-white"
+            className="section-title text-4xl md:text-5xl font-bold mb-4"
             initial={{ scale: 0.9, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Client Stories
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-accent-light to-white">
+              Client Stories
+            </span>
           </motion.h2>
           <motion.p 
-            className="text-lg text-white/80 max-w-2xl mx-auto"
+            className="section-subtitle text-lg text-white/80 max-w-2xl mx-auto"
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
@@ -227,7 +230,7 @@ const Testimonials = () => {
           {testimonials.map((testimonial) => (
             <SwiperSlide key={testimonial.id}>
               <motion.div
-                className="bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 h-full border border-white/10"
+                className="testimonial-card bg-white/10 backdrop-blur-xl rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 h-full border border-white/10"
                 whileHover={{ scale: 1.02, y: -5 }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -242,7 +245,11 @@ const Testimonials = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                   >
-                    <div className="relative w-16 h-16 rounded-full overflow-hidden mr-4 ring-2 ring-white/20">
+                    <motion.div 
+                      className="relative w-16 h-16 rounded-full overflow-hidden mr-4 ring-2 ring-white/20"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.3 }}
+                    >
                       <motion.img
                         src={testimonial.image}
                         alt={testimonial.name}
@@ -250,21 +257,22 @@ const Testimonials = () => {
                         whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.3 }}
                       />
-                    </div>
+                    </motion.div>
                     <div>
                       <motion.h3
                         className="text-xl font-semibold text-white"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.3 }}
+                        whileHover={{ scale: 1.02 }}
                       >
                         {testimonial.name}
                       </motion.h3>
                       <motion.p
                         className="text-white/60"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.4 }}
                       >
@@ -274,35 +282,58 @@ const Testimonials = () => {
                   </motion.div>
 
                   <motion.div
-                    className="mb-4"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
+                    className="flex-1"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.5 }}
                   >
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <span key={i} className="text-yellow-400 text-xl">★</span>
-                    ))}
-                  </motion.div>
+                    <motion.p
+                      className="text-white/80 mb-6"
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.6 }}
+                    >
+                      {testimonial.content}
+                    </motion.p>
 
-                  <motion.p
-                    className="text-white/80 leading-relaxed mb-6 flex-grow"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.6 }}
-                  >
-                    "{testimonial.content}"
-                  </motion.p>
-
-                  <motion.div
-                    className="text-white/40 text-sm"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.7 }}
-                  >
-                    {testimonial.date}
+                    <motion.div
+                      className="flex items-center justify-between"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.7 }}
+                    >
+                      <motion.div
+                        className="flex items-center"
+                        whileHover={{ scale: 1.05 }}
+                      >
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <motion.svg
+                            key={i}
+                            className="w-5 h-5 text-yellow-400"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                            initial={{ scale: 0 }}
+                            whileInView={{ scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.3, delay: 0.8 + i * 0.1 }}
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </motion.svg>
+                        ))}
+                      </motion.div>
+                      <motion.span
+                        className="text-white/60 text-sm"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.9 }}
+                      >
+                        {testimonial.date}
+                      </motion.span>
+                    </motion.div>
                   </motion.div>
                 </div>
               </motion.div>
