@@ -1,17 +1,69 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
+
+interface Value {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+const values: Value[] = [
+  {
+    title: 'Innovation',
+    description: 'We constantly push boundaries and explore new possibilities to create unique and memorable experiences.',
+    icon: '✨'
+  },
+  {
+    title: 'Excellence',
+    description: 'We strive for perfection in every detail, ensuring the highest quality in our services and execution.',
+    icon: '⭐'
+  },
+  {
+    title: 'Trust',
+    description: 'We build lasting relationships based on transparency, reliability, and mutual respect.',
+    icon: '🤝'
+  },
+  {
+    title: 'Passion',
+    description: 'We are driven by our love for creating magical moments and making dreams come true.',
+    icon: '❤️'
+  }
+];
 
 const MissionSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
     const ctx = gsap.context(() => {
       const content = contentRef.current?.children;
       if (!content) return;
@@ -31,33 +83,15 @@ const MissionSection = () => {
           toggleActions: 'play none none reverse'
         }
       });
+
+      // Simulate data loading
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
-
-  const values = [
-    {
-      title: 'Innovation',
-      description: 'We constantly push boundaries and explore new possibilities to create unique and memorable experiences.',
-      icon: '✨'
-    },
-    {
-      title: 'Excellence',
-      description: 'We strive for perfection in every detail, ensuring the highest quality in our services and execution.',
-      icon: '⭐'
-    },
-    {
-      title: 'Trust',
-      description: 'We build lasting relationships based on transparency, reliability, and mutual respect.',
-      icon: '🤝'
-    },
-    {
-      title: 'Passion',
-      description: 'We are driven by our love for creating magical moments and making dreams come true.',
-      icon: '❤️'
-    }
-  ];
+  }, [isVisible]);
 
   return (
     <motion.section
@@ -68,6 +102,20 @@ const MissionSection = () => {
       viewport={{ once: true }}
       transition={{ duration: 1 }}
     >
+      {/* Loading State */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-50"
+          >
+            <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div

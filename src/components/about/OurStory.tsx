@@ -1,17 +1,68 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
+
+interface StorySection {
+  title: string;
+  content: string;
+  year: string;
+  icon: string;
+}
+
+const storySections: StorySection[] = [
+  {
+    title: "Our Legacy",
+    content: "Manglam Event is not just a name; it's a legacy that began with a simple yet powerful dream. Founded by Naveen Rajpurohit, our journey is a testament to the power of passion, dedication, and the desire to create something extraordinary.",
+    year: "2008",
+    icon: "🏆"
+  },
+  {
+    title: "The Beginning",
+    content: "In 2008, Naveen Rajpurohit, a young entrepreneur with a vision, took the first step towards creating what would become one of the most trusted names in event management. With a background in business and a passion for creating memorable experiences, Naveen saw an opportunity to transform the way events were planned and executed.",
+    year: "2009",
+    icon: "✨"
+  },
+  {
+    title: "The Meeting",
+    content: "The turning point came when Naveen met Mansi, a creative soul with an eye for detail and a heart full of ideas. Their meeting was not just a coincidence; it was the beginning of a partnership that would change the landscape of event management in India.",
+    year: "2010",
+    icon: "🤝"
+  }
+];
 
 const OurStory = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
     const ctx = gsap.context(() => {
       const timeline = timelineRef.current?.children;
       if (!timeline) return;
@@ -31,31 +82,15 @@ const OurStory = () => {
           toggleActions: 'play none none reverse'
         }
       });
+
+      // Simulate data loading
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
-
-  const storySections = [
-    {
-      title: "Our Legacy",
-      content: "Manglam Event is not just a name; it's a legacy that began with a simple yet powerful dream. Founded by Naveen Rajpurohit, our journey is a testament to the power of passion, dedication, and the desire to create something extraordinary.",
-      year: "2008",
-      icon: "🏆"
-    },
-    {
-      title: "The Beginning",
-      content: "In 2008, Naveen Rajpurohit, a young entrepreneur with a vision, took the first step towards creating what would become one of the most trusted names in event management. With a background in business and a passion for creating memorable experiences, Naveen saw an opportunity to transform the way events were planned and executed.",
-      year: "2009",
-      icon: "✨"
-    },
-    {
-      title: "The Meeting",
-      content: "The turning point came when Naveen met Mansi, a creative soul with an eye for detail and a heart full of ideas. Their meeting was not just a coincidence; it was the beginning of a partnership that would change the landscape of event management in India.",
-      year: "2010",
-      icon: "🤝"
-    }
-  ];
+  }, [isVisible]);
 
   return (
     <motion.section
@@ -66,6 +101,20 @@ const OurStory = () => {
       viewport={{ once: true }}
       transition={{ duration: 1 }}
     >
+      {/* Loading State */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-50"
+          >
+            <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div

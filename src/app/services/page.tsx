@@ -9,8 +9,8 @@ export default function ServicesPage() {
       <ServicesHero />
       <div className="relative z-10">
         <ServiceList />
-        <ServiceCTA />
+        {/* <ServiceCTA /> */}
       </div>
     </main>
   );
-} 
+}
