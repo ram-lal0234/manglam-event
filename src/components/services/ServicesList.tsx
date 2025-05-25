@@ -143,8 +143,20 @@ const services = [
 const ServicesList = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
-  const swiperRef = useRef<any>(null);
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeService, setActiveService] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
@@ -308,7 +320,7 @@ const ServicesList = () => {
           {services.map((service, index) => (
             <motion.div
               key={service.title}
-              className="group relative bg-gradient-to-br from-background/80 to-accent/10 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl border border-accent/20 hover:border-primary/20 transition-all duration-500"
+              className="group  relative aspect-[4/3] h-96 w-full rounded-3xl overflow-hidden cursor-pointer"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
@@ -317,57 +329,66 @@ const ServicesList = () => {
                 delay: index * 0.1,
                 ease: "easeOut",
               }}
-              whileHover={{ scale: 1.02, y: -5 }}
+              onClick={() =>
+                isMobile &&
+                setActiveService(
+                  activeService === service.title ? null : service.title
+                )
+              }
+              onMouseEnter={() => !isMobile && setActiveService(service.title)}
+              onMouseLeave={() => !isMobile && setActiveService(null)}
             >
-              {/* Card Background Image */}
-              <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-500">
-                <motion.img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.3 }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-background/90 to-background/50" />
-              </div>
+              {/* Service Image */}
+              <motion.img
+                src={service.image}
+                alt={service.title}
+                className="absolute inset-0 w-full h-full object-cover"
+                initial={{ scale: 1 }}
+                animate={{ scale: activeService === service.title ? 1.1 : 1 }}
+                transition={{ duration: 0.5 }}
+              />
 
-              {/* Card Content */}
-              <div className="relative p-8">
-                {/* Icon */}
-                <motion.div
-                  className="w-16 h-16 mb-6 bg-gradient-to-br from-accent/20 to-primary/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-4xl transform group-hover:rotate-12 transition-transform duration-500"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
-                >
-                  {service.icon}
-                </motion.div>
+              {/* Gradient Overlay */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30"
+                initial={{ opacity: 0.6 }}
+                animate={{
+                  opacity: activeService === service.title ? 0.8 : 0.6,
+                }}
+                transition={{ duration: 0.3 }}
+              />
 
-                {/* Title */}
+              {/* Content */}
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
                 <motion.h3
-                  className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent to-primary mb-4"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
+                  className="text-2xl font-bold text-primary text-center mb-4 drop-shadow-sm"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
                   {service.title}
                 </motion.h3>
 
-                {/* Description */}
-                <motion.p
-                  className="text-foreground/90 text-lg leading-relaxed"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
+                <motion.div
+                  className="overflow-hidden"
+                  initial={{ height: 0 }}
+                  animate={{
+                    height: activeService === service.title ? "auto" : 0,
+                  }}
+                  transition={{ duration: 0.3 }}
                 >
-                  {service.description}
-                </motion.p>
-
-                {/* Hover Effect Line */}
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-accent to-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                  <motion.p
+                    className="text-white text-lg leading-relaxed drop-shadow-md"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: activeService === service.title ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {service.description}
+                  </motion.p>
+                </motion.div>
               </div>
             </motion.div>
           ))}

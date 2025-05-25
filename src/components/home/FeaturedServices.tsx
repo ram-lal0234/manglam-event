@@ -4,7 +4,13 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation, EffectCoverflow, FreeMode } from "swiper/modules";
+import {
+  Autoplay,
+  Pagination,
+  Navigation,
+  EffectCoverflow,
+  FreeMode,
+} from "swiper/modules";
 import { motion, useScroll, useTransform } from "framer-motion";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -18,24 +24,30 @@ const services = [
   {
     id: 1,
     title: "Destination Weddings",
-    description: "At Manglam Event, destination weddings aren't just events — they're stories written in sunsets, woven through waves, and sealed with memories that linger long after the vows. Let your dream unfold, wherever your heart takes you.",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop",
-    icon: "✈️"
+    description:
+      "At Manglam Event, destination weddings aren't just events — they're stories written in sunsets, woven through waves, and sealed with memories that linger long after the vows. Let your dream unfold, wherever your heart takes you.",
+    image:
+      "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop",
+    icon: "✈️",
   },
   {
     id: 2,
     title: "Wedding Planning",
-    description: "Every love story is unique, and so is the way we bring it to life. At Manglam Event, we turn dreams into celebrations, weaving magic into every detail. From the first petal to the final toast, we plan with heart, creating weddings that feel as timeless as your love.",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop",
-    icon: "💍"
+    description:
+      "Every love story is unique, and so is the way we bring it to life. At Manglam Event, we turn dreams into celebrations, weaving magic into every detail. From the first petal to the final toast, we plan with heart, creating weddings that feel as timeless as your love.",
+    image:
+      "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop",
+    icon: "💍",
   },
   {
     id: 3,
     title: "Venue Selection",
-    description: "The perfect moment begins with the perfect place. At Manglam Event, we don't just find venues — we discover backdrops for your story. Whether it's under open skies or within royal walls, we match your dreams with spaces that speak your love language.",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop",
-    icon: "🏰"
-  }
+    description:
+      "The perfect moment begins with the perfect place. At Manglam Event, we don't just find venues — we discover backdrops for your story. Whether it's under open skies or within royal walls, we match your dreams with spaces that speak your love language.",
+    image:
+      "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop",
+    icon: "🏰",
+  },
 ];
 
 const FeaturedServices = () => {
@@ -43,44 +55,50 @@ const FeaturedServices = () => {
   const titleRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8]);
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.8, 1],
+    [0.8, 1, 1, 0.8]
+  );
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Enhanced title animation with split text
-      const title = titleRef.current?.querySelector('.section-title');
+      const title = titleRef.current?.querySelector(".section-title");
       if (title) {
-        const words = title.textContent?.split(' ') || [];
-        title.innerHTML = words.map(word => `<span class="inline-block">${word}</span>`).join(' ');
-        
+        const words = title.textContent?.split(" ") || [];
+        title.innerHTML = words
+          .map((word) => `<span class="inline-block">${word}</span>`)
+          .join(" ");
+
         gsap.from(title.children, {
           opacity: 0,
           y: 50,
           duration: 0.8,
           stagger: {
             amount: 1.2,
-            ease: "power2.out"
+            ease: "power2.out",
           },
-          ease: 'power3.out',
+          ease: "power3.out",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top center+=100',
-            toggleActions: 'play none none reverse'
-          }
+            start: "top center+=100",
+            toggleActions: "play none none reverse",
+          },
         });
       }
 
       // Floating animation for decorative elements
-      gsap.to('.floating-element', {
-        y: '20px',
+      gsap.to(".floating-element", {
+        y: "20px",
         duration: 2,
-        ease: 'power1.inOut',
+        ease: "power1.inOut",
         yoyo: true,
-        repeat: -1
+        repeat: -1,
       });
     }, sectionRef);
 
@@ -152,15 +170,6 @@ const FeaturedServices = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <motion.div
-            className="inline-block mb-4"
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, type: "spring" }}
-          >
-            <span className="text-6xl">✨</span>
-          </motion.div>
           <motion.h2
             className="section-title text-4xl font-bold text-foreground mb-4"
             initial={{ scale: 0.9, opacity: 0 }}
@@ -177,12 +186,18 @@ const FeaturedServices = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Discover how we can make your special day truly extraordinary
+            Discover how we can turn your special day into an unforgettable celebration.
           </motion.p>
         </motion.div>
 
         <Swiper
-          modules={[Autoplay, Pagination, Navigation, EffectCoverflow, FreeMode]}
+          modules={[
+            Autoplay,
+            Pagination,
+            Navigation,
+            EffectCoverflow,
+            FreeMode,
+          ]}
           effect="coverflow"
           grabCursor={true}
           centeredSlides={true}

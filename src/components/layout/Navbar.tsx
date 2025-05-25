@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import LoginModal from "../auth/LoginModal";
 import UserMenu from "../auth/UserMenu";
+import { FaBars } from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -129,7 +130,7 @@ const Navbar = () => {
                   ) : (
                     <motion.button
                       onClick={() => setShowLoginModal(true)}
-                      className="px-6 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-primary to-accent rounded-full hover:from-primary/90 hover:to-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                      className="px-6 py-2.5 h-8 text-sm font-medium text-white bg-gradient-to-r from-primary to-accent rounded-full hover:from-primary/90 hover:to-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -146,32 +147,8 @@ const Navbar = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <div className="relative w-6 h-6">
-                    <motion.span
-                      className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
-                        isOpen ? "rotate-45 top-3" : "top-1"
-                      }`}
-                      animate={{
-                        rotate: isOpen ? 45 : 0,
-                        y: isOpen ? 8 : 0,
-                      }}
-                    />
-                    <motion.span
-                      className={`absolute h-0.5 w-6 bg-current top-3 transition-all duration-300`}
-                      animate={{
-                        opacity: isOpen ? 0 : 1,
-                        scale: isOpen ? 0 : 1,
-                      }}
-                    />
-                    <motion.span
-                      className={`absolute h-0.5 w-6 bg-current transform transition-all duration-300 ${
-                        isOpen ? "-rotate-45 top-3" : "top-5"
-                      }`}
-                      animate={{
-                        rotate: isOpen ? -45 : 0,
-                        y: isOpen ? -8 : 0,
-                      }}
-                    />
+                  <div className="relative flex items-center justify-center w-6 h-6">
+                    <FaBars className="object-contain" />
                   </div>
                 </motion.button>
               </div>
@@ -228,7 +205,11 @@ const Navbar = () => {
                           <motion.span
                             className="relative inline-block"
                             whileHover={{ x: 4 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 20,
+                            }}
                           >
                             {item.name}
                           </motion.span>
@@ -240,7 +221,10 @@ const Navbar = () => {
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: navItems.length * 0.1 }}
+                      transition={{
+                        duration: 0.3,
+                        delay: navItems.length * 0.1,
+                      }}
                       className="pt-2"
                     >
                       {user ? (
