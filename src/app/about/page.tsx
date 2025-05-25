@@ -5,7 +5,7 @@ import MissionSection from "@/components/about/MissionSection";
 export default function AboutPage() {
   return (
     <>
-      <AboutHero />
+      {/* <AboutHero /> */}
       <OurStory />
       <MissionSection />
     </>
