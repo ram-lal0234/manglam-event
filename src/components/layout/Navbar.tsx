@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import LoginModal from "../auth/LoginModal";
 import UserMenu from "../auth/UserMenu";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaHashtag } from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -119,6 +119,19 @@ const Navbar = () => {
                     )}
                   </Link>
                 ))}
+
+                {/* Hashtag Generator Link */}
+                <Link
+                  href="/hashtag-generator"
+                  className={`nav-item relative text-sm font-medium transition-all duration-300 group flex items-center space-x-2 ${
+                    pathname === "/hashtag-generator"
+                      ? "text-primary"
+                      : "text-foreground hover:text-primary"
+                  }`}
+                >
+                  <FaHashtag className="w-4 h-4" />
+                  <span>Hashtags</span>
+                </Link>
               </div>
 
               {/* Right side items */}
@@ -128,14 +141,12 @@ const Navbar = () => {
                   {user ? (
                     <UserMenu />
                   ) : (
-                    <motion.button
+                    <button
                       onClick={() => setShowLoginModal(true)}
-                      className="px-6 py-2.5 h-8 text-sm font-medium text-white bg-gradient-to-r from-primary to-accent rounded-full hover:from-primary/90 hover:to-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                     >
                       Sign In
-                    </motion.button>
+                    </button>
                   )}
                 </div>
 
@@ -217,7 +228,7 @@ const Navbar = () => {
                       </motion.div>
                     ))}
 
-                    {/* Mobile Auth Section */}
+                    {/* Hashtag Generator Link (Mobile) */}
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -225,22 +236,43 @@ const Navbar = () => {
                         duration: 0.3,
                         delay: navItems.length * 0.1,
                       }}
+                    >
+                      <Link
+                        href="/hashtag-generator"
+                        className={`nav-item block px-4 py-4 rounded-xl text-base font-medium transition-all duration-300 flex items-center space-x-2 ${
+                          pathname === "/hashtag-generator"
+                            ? "text-primary bg-gradient-to-r from-primary/10 to-accent/5"
+                            : "text-foreground hover:text-primary hover:bg-gradient-to-r hover:from-primary/5 hover:to-accent/5"
+                        }`}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <FaHashtag className="w-5 h-5" />
+                        <span>Hashtag Generator</span>
+                      </Link>
+                    </motion.div>
+
+                    {/* Mobile Auth Section */}
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        duration: 0.3,
+                        delay: (navItems.length + 1) * 0.1,
+                      }}
                       className="pt-2"
                     >
                       {user ? (
                         <UserMenu isMobile />
                       ) : (
-                        <motion.button
+                        <button
                           onClick={() => {
                             setShowLoginModal(true);
                             setIsOpen(false);
                           }}
-                          className="w-full px-4 py-4 text-base font-medium text-white bg-gradient-to-r from-primary to-accent rounded-xl hover:from-primary/90 hover:to-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
+                          className="w-full px-4 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                         >
                           Sign In
-                        </motion.button>
+                        </button>
                       )}
                     </motion.div>
                   </div>

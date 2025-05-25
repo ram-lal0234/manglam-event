@@ -5,9 +5,11 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Preloader from "@/components/layout/Preloader";
+import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import { Geist, Inter } from "next/font/google";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { Toaster } from 'react-hot-toast';
 
 const inter = Geist({ subsets: ["latin"] });
 
@@ -35,6 +37,8 @@ export default function RootLayout({
             <Navbar />
             <main className="min-h-screen">{children}</main>
             <Footer />
+            <WhatsAppButton />
+            <Toaster />
           </AuthProvider>
         </ThemeProvider>
       </body>
