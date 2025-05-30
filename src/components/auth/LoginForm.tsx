@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { Loader2, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,22 +13,27 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, user } = useAuth();
+
+  // Check if user is already signed in
+  useEffect(() => {
+    if (user) {
+      setIsSuccess(true);
+      setTimeout(() => {
+        onSuccess();
+      }, 1000);
+    }
+  }, [user, onSuccess]);
 
   const handleGoogleSignIn = async () => {
     try {
       setIsLoading(true);
       setError(null);
       await signInWithGoogle();
-      setIsSuccess(true);
-      // Wait for 1 second to show success state before closing
-      setTimeout(() => {
-        onSuccess();
-      }, 1000);
-    } catch (error) {
+      // The success state will be handled by the useEffect when user state changes
+    } catch (error: any) {
       console.error("Error signing in with Google:", error);
-      setError("Failed to sign in with Google. Please try again.");
-    } finally {
+      setError(error.message || "Failed to sign in with Google. Please try again.");
       setIsLoading(false);
     }
   };
@@ -56,7 +61,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
               exit={{ opacity: 0, y: 10 }}
               onClick={handleGoogleSignIn}
               disabled={isLoading}
-              className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-sm font-medium  bg-primary text-secondary border border-accent/20 rounded-lg hover:bg-accent/5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-sm font-medium bg-primary text-secondary border border-accent/20 rounded-lg hover:bg-accent/5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
             >
               {isLoading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />

@@ -2,16 +2,15 @@ import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import Preloader from "@/components/layout/Preloader";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import { Geist, Inter } from "next/font/google";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from 'react-hot-toast';
+import RootLayoutWrapper from "@/components/layout/RootLayoutWrapper";
 
-const inter = Geist({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Manglam Event - Wedding Planning & Event Management",
@@ -34,9 +33,9 @@ export default function RootLayout({
         <ThemeProvider>
           <AuthProvider>
             <Preloader />
-            <Navbar />
-            <main className="min-h-screen">{children}</main>
-            <Footer />
+            <RootLayoutWrapper>
+              {children}
+            </RootLayoutWrapper>
             <WhatsAppButton />
             <Toaster />
           </AuthProvider>

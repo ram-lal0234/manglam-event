@@ -141,12 +141,20 @@ const Navbar = () => {
                   {user ? (
                     <UserMenu />
                   ) : (
-                    <button
-                      onClick={() => setShowLoginModal(true)}
-                      className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    >
-                      Sign In
-                    </button>
+                    <>
+                      <button
+                        onClick={() => setShowLoginModal(true)}
+                        className="px-4 py-2 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                      >
+                        Login
+                      </button>
+                      <button
+                        onClick={() => setShowLoginModal(true)}
+                        className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                      >
+                        Sign Up
+                      </button>
+                    </>
                   )}
                 </div>
 
@@ -259,20 +267,31 @@ const Navbar = () => {
                         duration: 0.3,
                         delay: (navItems.length + 1) * 0.1,
                       }}
-                      className="pt-2"
+                      className="pt-2 space-y-2"
                     >
                       {user ? (
                         <UserMenu isMobile />
                       ) : (
-                        <button
-                          onClick={() => {
-                            setShowLoginModal(true);
-                            setIsOpen(false);
-                          }}
-                          className="w-full px-4 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
-                        >
-                          Sign In
-                        </button>
+                        <>
+                          <button
+                            onClick={() => {
+                              setShowLoginModal(true);
+                              setIsOpen(false);
+                            }}
+                            className="w-full px-4 py-3 text-base font-medium text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          >
+                            Login
+                          </button>
+                          <button
+                            onClick={() => {
+                              setShowLoginModal(true);
+                              setIsOpen(false);
+                            }}
+                            className="w-full px-4 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          >
+                            Sign Up
+                          </button>
+                        </>
                       )}
                     </motion.div>
                   </div>
