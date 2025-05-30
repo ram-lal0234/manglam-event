@@ -10,7 +10,7 @@ export async function POST(request: Request) {
         const { brideName, groomName, weddingDate, location, theme } = await request.json();
 
         // Create the prompt for Gemini
-        const prompt = `Generate 10 creative and modern wedding hashtags based on the following details:
+        const prompt = `Generate 50 creative and modern wedding hashtags based on the following details:
     Bride's Name: ${brideName}
     Groom's Name: ${groomName}
     Wedding Date: ${weddingDate || 'Not specified'}
@@ -23,6 +23,13 @@ export async function POST(request: Request) {
     3. Modern and trendy
     4. Include both names creatively
     5. Mix of short and medium length
+    6. Include variations with:
+       - Names combined in different ways
+       - Wedding date or year
+       - Location references
+       - Theme elements
+       - Love and celebration words
+       - Cultural elements if applicable
     
     Return ONLY a JSON array of strings, with no additional text or explanation. Example format:
     ["#JohnAndJane2024", "#JandJWedding"]`;
