@@ -268,13 +268,22 @@ const ContactForm = () => {
     <section className="py-20 bg-gradient-to-b from-background via-accent/5 to-background">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.form
-            onSubmit={handleSubmit}
-          className="bg-gradient-to-br from-background to-accent/10 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-accent/20"
+          onSubmit={handleSubmit}
+          className="bg-gradient-to-br from-background/95 to-background/90 backdrop-blur-xl rounded-2xl p-8 shadow-xl border border-accent/10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Plan Your Special Day
+            </h2>
+            <p className="text-foreground/70 text-sm md:text-base max-w-2xl mx-auto">
+              Fill out the form below and we'll help you create an unforgettable celebration
+            </p>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Personal Information */}
             <div className="space-y-6">
@@ -295,7 +304,8 @@ const ContactForm = () => {
                   required
                   className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
                     errors.name ? "border-red-500" : "border-accent/20"
-                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300`}
+                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
+                  placeholder="Enter your full name"
                 />
                 {renderError("name")}
               </motion.div>
@@ -314,7 +324,8 @@ const ContactForm = () => {
                   name="partnerName"
                   value={formData.partnerName}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg bg-background/50 border border-accent/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                  className="w-full px-4 py-3 rounded-lg bg-background/50 border border-accent/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40"
+                  placeholder="Enter partner's name"
                 />
               </motion.div>
 
@@ -335,7 +346,8 @@ const ContactForm = () => {
                   required
                   className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
                     errors.email ? "border-red-500" : "border-accent/20"
-                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300`}
+                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
+                  placeholder="Enter your email address"
                 />
                 {renderError("email")}
               </motion.div>
@@ -357,11 +369,12 @@ const ContactForm = () => {
                   required
                   className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
                     errors.phone ? "border-red-500" : "border-accent/20"
-                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300`}
+                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
+                  placeholder="Enter your phone number"
                 />
                 {renderError("phone")}
               </motion.div>
-              </div>
+            </div>
 
             {/* Event Details */}
             <div className="space-y-6">
@@ -376,7 +389,7 @@ const ContactForm = () => {
                 </label>
                 <div className="grid grid-cols-2 gap-3">
                   {eventTypes.map((type) => (
-                <label
+                    <label
                       key={type.id}
                       className={`flex items-center space-x-2 p-3 rounded-lg bg-background/50 border ${
                         errors.eventType ? "border-red-500" : "border-accent/20"
@@ -414,7 +427,8 @@ const ContactForm = () => {
                   min="1"
                   className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
                     errors.expectedGuests ? "border-red-500" : "border-accent/20"
-                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300`}
+                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
+                  placeholder="Enter expected number of guests"
                 />
                 {renderError("expectedGuests")}
               </motion.div>
@@ -479,7 +493,7 @@ const ContactForm = () => {
                       <span className="text-sm text-foreground">{month}</span>
                     </label>
                   ))}
-              </div>
+                </div>
                 {renderError("tentativeMonth")}
               </motion.div>
             </div>
@@ -505,9 +519,18 @@ const ContactForm = () => {
                   onChange={handleChange}
                   min={dateConstraints?.min}
                   max={dateConstraints?.max}
-                  className="w-full px-4 py-3 rounded-lg bg-background/50 border border-accent/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                  className="w-full px-4 py-3 rounded-lg bg-background/50 border border-accent/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 appearance-none"
                 />
-                <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-foreground/50" />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const input = document.querySelector('input[name="weddingDate"]') as HTMLInputElement;
+                    input?.showPicker();
+                  }}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 hover:bg-accent/10 rounded-lg transition-colors"
+                >
+                  <Calendar className="w-5 h-5 text-foreground/50" />
+                </button>
               </div>
               {formData.tentativeMonth && formData.tentativeYear && (
                 <p className="mt-2 text-sm text-foreground/70">
@@ -532,7 +555,8 @@ const ContactForm = () => {
                 onChange={handleChange}
                 className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
                   errors.preferredLocation ? "border-red-500" : "border-accent/20"
-                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300`}
+                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
+                placeholder="Enter preferred location or venue"
               />
               {renderError("preferredLocation")}
             </motion.div>
@@ -554,7 +578,8 @@ const ContactForm = () => {
                 min="1"
                 className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
                   errors.numberOfNights ? "border-red-500" : "border-accent/20"
-                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300`}
+                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
+                placeholder="Enter number of nights"
               />
               {renderError("numberOfNights")}
             </motion.div>
@@ -575,7 +600,8 @@ const ContactForm = () => {
                 rows={3}
                 className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
                   errors.potentialItinerary ? "border-red-500" : "border-accent/20"
-                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300`}
+                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
+                placeholder="Describe your potential itinerary or functions"
               />
               {renderError("potentialItinerary")}
             </motion.div>
@@ -596,7 +622,8 @@ const ContactForm = () => {
                 onChange={handleChange}
                 className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
                   errors.estimatedBudget ? "border-red-500" : "border-accent/20"
-                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300`}
+                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
+                placeholder="Enter your estimated budget"
               />
               {renderError("estimatedBudget")}
             </motion.div>
@@ -617,11 +644,12 @@ const ContactForm = () => {
                 rows={4}
                 className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
                   errors.aboutYourself ? "border-red-500" : "border-accent/20"
-                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300`}
+                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
+                placeholder="Share some details about yourself and your vision"
               />
               {renderError("aboutYourself")}
             </motion.div>
-            </div>
+          </div>
 
           {/* Submit Button */}
           <motion.div
@@ -634,7 +662,7 @@ const ContactForm = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary/20"
             >
               {isSubmitting ? (
                 <span className="flex items-center justify-center">

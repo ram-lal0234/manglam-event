@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Facebook, Instagram, Twitter } from 'lucide-react';
+import { MapPin, Phone, Mail, Facebook, Instagram } from 'lucide-react';
+import { FaPinterest } from 'react-icons/fa';
 
 const ContactInfo = () => {
   const contactInfo = [
@@ -20,7 +21,7 @@ const ContactInfo = () => {
     {
       id: 3,
       title: 'Email Us',
-      content: 'info@manglam-event.com',
+      content: 'info@manglamevent.com',
       icon: <Mail className="w-8 h-8" />
     }
   ];
@@ -29,20 +30,20 @@ const ContactInfo = () => {
     {
       id: 1,
       name: 'Facebook',
-      url: 'https://facebook.com',
+      url: 'https://www.facebook.com/ManglamEventJodhpur/',
       icon: <Facebook className="w-6 h-6" />
     },
     {
       id: 2,
       name: 'Instagram',
-      url: 'https://instagram.com',
+      url: 'https://www.instagram.com/manglamevents/',
       icon: <Instagram className="w-6 h-6" />
     },
     {
       id: 3,
-      name: 'Twitter',
-      url: 'https://twitter.com',
-      icon: <Twitter className="w-6 h-6" />
+      name: 'Pinterest',
+      url: 'https://in.pinterest.com/manglamevent_jodhpur/',
+      icon: <FaPinterest className="w-6 h-6" />
     }
   ];
 
