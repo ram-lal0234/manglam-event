@@ -177,26 +177,29 @@ export default function HashtagGenerator() {
           animate={{ opacity: 1, y: 0 }}
           className="mt-8"
         >
-          <h3 className="text-xl font-semibold mb-4">Your Wedding Hashtags</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-semibold">Your Wedding Hashtags</h3>
+            <p className="text-sm text-foreground/60">{hashtags.length} hashtags generated</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
             {hashtags.map((hashtag, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: index * 0.05 }}
                 className="group relative p-4 bg-gradient-to-br from-background/95 to-background/90 backdrop-blur-xl border border-accent/10 rounded-lg hover:border-accent/30 transition-all duration-300 hover:shadow-lg hover:shadow-accent/5"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <FaHashtag className="w-4 h-4 text-primary group-hover:text-accent transition-colors" />
-                    <p className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
+                  <div className="flex items-center space-x-2 min-w-0">
+                    <FaHashtag className="flex-shrink-0 w-4 h-4 text-primary group-hover:text-accent transition-colors" />
+                    <p className="text-lg font-medium text-foreground group-hover:text-primary transition-colors truncate">
                       {hashtag}
                     </p>
                   </div>
                   <button
                     onClick={() => copyToClipboard(hashtag, index)}
-                    className="p-2 rounded-lg hover:bg-accent/10 transition-colors focus:outline-none focus:ring-2 focus:ring-accent/20"
+                    className="flex-shrink-0 p-2 rounded-lg hover:bg-accent/10 transition-colors focus:outline-none focus:ring-2 focus:ring-accent/20"
                     aria-label="Copy hashtag"
                   >
                     <AnimatePresence mode="wait">
