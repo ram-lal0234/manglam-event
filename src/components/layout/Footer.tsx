@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Facebook, Instagram, Twitter } from 'lucide-react';
+import { MapPin, Phone, Mail, Facebook, Instagram } from 'lucide-react';
+import { FaPinterest } from 'react-icons/fa';
 import { ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -62,8 +63,8 @@ const Footer = () => {
           icon: <Phone className="w-4 h-4 inline-block mr-2" />
         },
         { 
-          name: 'info@manglam-event.com',
-          href: 'mailto:info@manglam-event.com',
+          name: 'info@manglamevent.com',
+          href: 'mailto:info@manglamevent.com',
           icon: <Mail className="w-4 h-4 inline-block mr-2" />
         }
       ]
@@ -73,18 +74,18 @@ const Footer = () => {
   const socialLinks = [
     {
       name: 'Facebook',
-      url: 'https://facebook.com',
+      url: 'https://www.facebook.com/ManglamEventJodhpur/',
       icon: <Facebook className="w-5 h-5" />
     },
     {
       name: 'Instagram',
-      url: 'https://instagram.com',
+      url: 'https://www.instagram.com/manglamevents/',
       icon: <Instagram className="w-5 h-5" />
     },
     {
-      name: 'Twitter',
-      url: 'https://twitter.com',
-      icon: <Twitter className="w-5 h-5" />
+      name: 'Pinterest',
+      url: 'https://in.pinterest.com/manglamevent_jodhpur/',
+      icon: <FaPinterest className="w-5 h-5" />
     }
   ];
 
@@ -106,7 +107,7 @@ const Footer = () => {
         >
           <Link
             href="/"
-            className="relative w-32 h-12 transition-all duration-300 hover:scale-105 hover:brightness-110"
+            className="relative w-48 h-16 transition-all duration-300 hover:scale-105 hover:brightness-110"
           >
             <Image
               src="/images/logo.png"
