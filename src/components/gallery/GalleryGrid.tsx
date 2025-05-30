@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, EffectFade } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
@@ -84,6 +85,7 @@ const galleryItems: GalleryItem[] = [
 ];
 
 const GalleryGrid = () => {
+  const router = useRouter();
   const [selectedEvent, setSelectedEvent] = useState<GalleryItem | null>(null);
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const { selectedCategory } = useGallery();
@@ -92,32 +94,80 @@ const GalleryGrid = () => {
     ? galleryItems
     : galleryItems.filter(item => item.category === selectedCategory);
 
+  const handleEventClick = (event: GalleryItem) => {
+    router.push(`/gallery/${event.id}`);
+  };
+
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="relative py-20 overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <motion.div
+          className="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.1, 0.2, 0.1],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
+        />
+        <motion.div
+          className="absolute -bottom-24 -left-24 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.1, 0.2, 0.1],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
+        />
+      </div>
+
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary">
+            Our Event Gallery
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Explore our collection of beautifully captured moments from various events and celebrations.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {filteredItems.map((item) => (
+          {filteredItems.map((item, index) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-              className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+              onClick={() => handleEventClick(item)}
             >
               <div className="relative aspect-[4/3] overflow-hidden">
                 <img
                   src={item.photos[0].url}
                   alt={item.photos[0].alt}
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                     <h3 className="text-xl font-bold mb-2">{item.title}</h3>
                     <p className="text-sm opacity-90">{item.description}</p>
@@ -126,14 +176,16 @@ const GalleryGrid = () => {
               </div>
               <div className="p-6">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-primary">
+                  <span className="text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">
                     {item.category.charAt(0).toUpperCase() + item.category.slice(1)}
                   </span>
                   <button
-                    onClick={() => setSelectedEvent(item)}
-                    className="text-sm font-medium text-accent hover:text-accent/80 transition-colors"
+                    className="text-sm font-medium text-accent hover:text-accent/80 transition-colors flex items-center gap-2"
                   >
                     View Gallery
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                   </button>
                 </div>
               </div>
@@ -144,7 +196,12 @@ const GalleryGrid = () => {
 
       {/* Image Preview Modal */}
       {selectedEvent && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+        >
           <button
             onClick={() => setSelectedEvent(null)}
             className="absolute top-4 right-4 text-white hover:text-accent transition-colors"
@@ -162,6 +219,7 @@ const GalleryGrid = () => {
               pagination={{ clickable: true }}
               effect="fade"
               onSwiper={setSwiper}
+              className="rounded-xl overflow-hidden"
             >
               {selectedEvent.photos.map((photo) => (
                 <SwiperSlide key={photo.id}>
@@ -176,7 +234,7 @@ const GalleryGrid = () => {
               ))}
             </Swiper>
           </div>
-        </div>
+        </motion.div>
       )}
     </section>
   );

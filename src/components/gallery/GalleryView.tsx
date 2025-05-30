@@ -1,13 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Thumbs } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/thumbs';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+import PhotoPreview from "./PhotoPreview";
 
 interface GalleryPhoto {
   id: string;
@@ -16,133 +13,146 @@ interface GalleryPhoto {
   description?: string;
 }
 
-interface GalleryViewProps {
-  eventTitle: string;
+interface GalleryItem {
+  id: string;
+  title: string;
+  category: string;
+  image: string;
+  description: string;
   photos: GalleryPhoto[];
 }
 
-const GalleryView = ({ eventTitle, photos }: GalleryViewProps) => {
+interface GalleryViewProps {
+  event: GalleryItem;
+}
+
+export default function GalleryView({ event }: GalleryViewProps) {
+  const router = useRouter();
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
-  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (!selectedPhoto) return;
+    if (e.key === 'ArrowLeft') handlePrev();
+    else if (e.key === 'ArrowRight') handleNext();
+    else if (e.key === 'Escape') setSelectedPhoto(null);
+  };
+
+  useEffect(() => {
+    if (selectedPhoto) window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedPhoto]);
+
+  const handleNext = () => {
+    if (activeIndex < event.photos.length - 1) {
+      const nextIndex = activeIndex + 1;
+      setActiveIndex(nextIndex);
+      setSelectedPhoto(event.photos[nextIndex]);
+    }
+  };
+
+  const handlePrev = () => {
+    if (activeIndex > 0) {
+      const prevIndex = activeIndex - 1;
+      setActiveIndex(prevIndex);
+      setSelectedPhoto(event.photos[prevIndex]);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <motion.div
+          animate={{ scale: [1, 1.2, 1], rotate: [0, 360] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+          className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full"
+        />
+      </div>
+    );
+  }
 
   return (
-    <div className="relative min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-white/80 backdrop-blur-md shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">{eventTitle}</h1>
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur border-b">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center gap-3">
+            <button onClick={() => router.back()} className="icon-button text-gray-700">
+              <ArrowLeft className="icon" />
+            </button>
+            <div>
+              <h1 className="text-xl font-bold text-gray-800">{event.title}</h1>
+              <p className="text-sm text-gray-600 mt-1">{event.description}</p>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Photo Grid */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {photos.map((photo) => (
+      <div className="container mx-auto px-4 py-6 mt-[72px]">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {event.photos.map((photo, index) => (
             <motion.div
               key={photo.id}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              whileHover={{ scale: 1.02 }}
-              className="relative aspect-square overflow-hidden rounded-lg shadow-md cursor-pointer group"
-              onClick={() => setSelectedPhoto(photo)}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.04 }}
+              className="group relative overflow-hidden rounded-lg shadow-md cursor-pointer bg-gray-100 aspect-square"
+              onClick={() => {
+                setSelectedPhoto(photo);
+                setActiveIndex(index);
+              }}
             >
               <img
                 src={photo.url}
                 alt={photo.title}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <h3 className="text-white font-medium">{photo.title}</h3>
-                  {photo.description && (
-                    <p className="text-white/80 text-sm mt-1">{photo.description}</p>
-                  )}
-                </div>
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
+                <h3 className="text-white text-sm font-semibold truncate">{photo.title}</h3>
+                {photo.description && <p className="text-white text-xs truncate">{photo.description}</p>}
               </div>
             </motion.div>
           ))}
         </div>
       </div>
 
-      {/* Lightbox */}
+      {/* Modal */}
       <AnimatePresence>
         {selectedPhoto && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-2 sm:p-4"
             onClick={() => setSelectedPhoto(null)}
           >
-            <motion.div
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              className="relative w-full max-w-7xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Swiper
-                modules={[Navigation, Pagination, Thumbs]}
-                navigation
-                pagination={{ clickable: true }}
-                thumbs={{ swiper: thumbsSwiper }}
-                className="w-full"
-              >
-                {photos.map((photo) => (
-                  <SwiperSlide key={photo.id}>
-                    <div className="aspect-w-16 aspect-h-9">
-                      <img
-                        src={photo.url}
-                        alt={photo.title}
-                        className="object-contain w-full h-full"
-                      />
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
-                      <h3 className="text-2xl font-bold text-white mb-2">{photo.title}</h3>
-                      {photo.description && (
-                        <p className="text-white/80">{photo.description}</p>
-                      )}
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-
-              {/* Thumbnails */}
-              <Swiper
-                onSwiper={setThumbsSwiper}
-                spaceBetween={10}
-                slidesPerView={4}
-                watchSlidesProgress
-                className="mt-4 h-24"
-              >
-                {photos.map((photo) => (
-                  <SwiperSlide key={photo.id}>
-                    <div className="aspect-square overflow-hidden rounded-lg cursor-pointer">
-                      <img
-                        src={photo.url}
-                        alt={photo.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-
-              <button
-                onClick={() => setSelectedPhoto(null)}
-                className="absolute top-4 right-4 text-white hover:text-accent transition-colors"
-              >
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </motion.div>
+            <div className="w-full max-w-7xl h-full" onClick={(e) => e.stopPropagation()}>
+              <PhotoPreview
+                photo={selectedPhoto}
+                onClose={() => setSelectedPhoto(null)}
+                onNext={handleNext}
+                onPrev={handlePrev}
+                currentIndex={activeIndex}
+                totalPhotos={event.photos.length}
+              />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
     </div>
   );
-};
+}
 
-export default GalleryView; 
+// Utility Styles (Tailwind CSS)
+// Add in global styles or Tailwind config:
+// .icon-button { @apply p-2 rounded-full hover:bg-gray-200 transition-colors }
+// .icon { @apply w-5 h-5 }
+// .icon-large { @apply w-8 h-8 }
+// .nav-button { @apply absolute top-1/2 -translate-y-1/2 p-3 text-white hover:bg-black/30 rounded-full z-10 }
