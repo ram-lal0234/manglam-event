@@ -5,6 +5,7 @@ import {
   User,
   GoogleAuthProvider,
   signInWithPopup,
+  getRedirectResult,
   signInWithPhoneNumber,
   RecaptchaVerifier,
   signOut as firebaseSignOut
@@ -33,16 +34,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
     });
 
+    // Handle redirect result
+    getRedirectResult(auth).then((result) => {
+      if (result) {
+        // User successfully signed in
+        setUser(result.user);
+      }
+    }).catch((error) => {
+      console.error('Error getting redirect result:', error);
+    });
+
     return () => unsubscribe();
   }, []);
 
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
+      // Add custom parameters for better mobile experience
+      provider.setCustomParameters({
+        prompt: 'select_account',
+        // Force account selection even when one account is available
+        auth_type: 'reauthenticate'
+      });
+      
       await signInWithPopup(auth, provider);
-    } catch (error) {
-      console.error('Error signing in with Google:', error);
-      throw error;
+    } catch (error: any) {
+      // Handle specific error cases
+      if (error.code === 'auth/popup-closed-by-user') {
+        throw new Error('Sign-in popup was closed. Please try again.');
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        throw new Error('Sign-in was cancelled. Please try again.');
+      } else {
+        console.error('Error signing in with Google:', error);
+        throw error;
+      }
     }
   };
 

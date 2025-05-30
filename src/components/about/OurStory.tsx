@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion, AnimatePresence } from "framer-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,22 +17,25 @@ interface StorySection {
 const storySections: StorySection[] = [
   {
     title: "Our Legacy",
-    content: "Manglam Event is not just a name; it's a legacy that began with a simple yet powerful dream. Founded by Naveen Rajpurohit, our journey is a testament to the power of passion, dedication, and the desire to create something extraordinary.",
+    content:
+      "Manglam Event is not just a name; it's a legacy that began with a simple yet powerful dream. Founded by Naveen Rajpurohit, our journey is a testament to the power of passion, dedication, and the desire to create something extraordinary.",
     year: "2008",
-    icon: "🏆"
+    icon: "🏆",
   },
   {
     title: "The Beginning",
-    content: "In 2008, Naveen Rajpurohit, a young entrepreneur with a vision, took the first step towards creating what would become one of the most trusted names in event management. With a background in business and a passion for creating memorable experiences, Naveen saw an opportunity to transform the way events were planned and executed.",
+    content:
+      "In 2008, Naveen Rajpurohit, a young entrepreneur with a vision, took the first step towards creating what would become one of the most trusted names in event management. With a background in business and a passion for creating memorable experiences, Naveen saw an opportunity to transform the way events were planned and executed.",
     year: "2009",
-    icon: "✨"
+    icon: "✨",
   },
   {
     title: "The Meeting",
-    content: "The turning point came when Naveen met Mansi, a creative soul with an eye for detail and a heart full of ideas. Their meeting was not just a coincidence; it was the beginning of a partnership that would change the landscape of event management in India.",
+    content:
+      "The turning point came when Naveen met Mansi, a creative soul with an eye for detail and a heart full of ideas. Their meeting was not just a coincidence; it was the beginning of a partnership that would change the landscape of event management in India.",
     year: "2010",
-    icon: "🤝"
-  }
+    icon: "🤝",
+  },
 ];
 
 const OurStory = () => {
@@ -73,14 +76,14 @@ const OurStory = () => {
         duration: 1,
         stagger: {
           amount: 1.5,
-          ease: "power2.out"
+          ease: "power2.out",
         },
-        ease: 'power3.out',
+        ease: "power3.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top center+=100',
-          toggleActions: 'play none none reverse'
-        }
+          start: "top center+=100",
+          toggleActions: "play none none reverse",
+        },
       });
 
       // Simulate data loading
@@ -125,7 +128,7 @@ const OurStory = () => {
           transition={{
             duration: 8,
             repeat: Infinity,
-            repeatType: 'reverse',
+            repeatType: "reverse",
           }}
         />
         <motion.div
@@ -137,13 +140,13 @@ const OurStory = () => {
           transition={{
             duration: 8,
             repeat: Infinity,
-            repeatType: 'reverse',
+            repeatType: "reverse",
           }}
         />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div 
+        <motion.div
           className="text-center mb-20"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -159,7 +162,7 @@ const OurStory = () => {
           >
             📜
           </motion.div>
-          <motion.h2 
+          <motion.h2
             className="text-6xl font-bold text-gradient mb-8"
             initial={{ scale: 0.9, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
@@ -168,7 +171,7 @@ const OurStory = () => {
           >
             Our Story
           </motion.h2>
-          <motion.p 
+          <motion.p
             className="text-2xl text-foreground/90 max-w-3xl mx-auto leading-relaxed"
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -179,10 +182,7 @@ const OurStory = () => {
           </motion.p>
         </motion.div>
 
-        <div
-          ref={timelineRef}
-          className="max-w-4xl mx-auto space-y-24"
-        >
+        <div ref={timelineRef} className="max-w-4xl mx-auto space-y-24">
           {storySections.map((section, index) => (
             <motion.div
               key={section.title}
@@ -192,17 +192,6 @@ const OurStory = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
             >
-              {/* Year Badge */}
-              <motion.div
-                className="absolute -left-24 top-0 text-2xl font-bold text-gradient"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                {section.year}
-              </motion.div>
-
               {/* Content */}
               <div className="relative">
                 <motion.div
@@ -214,7 +203,7 @@ const OurStory = () => {
                 >
                   {section.icon}
                 </motion.div>
-                <motion.h3 
+                <motion.h3
                   className="text-3xl font-bold text-gradient mb-6"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -223,7 +212,7 @@ const OurStory = () => {
                 >
                   {section.title}
                 </motion.h3>
-                <motion.p 
+                <motion.p
                   className="text-foreground/90 text-lg leading-relaxed"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -246,4 +235,4 @@ const OurStory = () => {
   );
 };
 
-export default OurStory; 
+export default OurStory;
