@@ -6,8 +6,10 @@ const mockGalleryData = {
   id: "1",
   title: "Royal Wedding Celebration",
   category: "wedding",
-  image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&h=800&fit=crop",
-  description: "A grand celebration of love and commitment, featuring elegant decorations and unforgettable moments.",
+  image:
+    "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&h=800&fit=crop",
+  description:
+    "A grand celebration of love and commitment, featuring elegant decorations and unforgettable moments.",
   photos: [
     // Wedding Ceremony Photos
     {
@@ -436,7 +438,7 @@ const mockGalleryData = {
   ],
 };
 
-export default function GalleryPage({ params }: { params: { id: string } }) {
+export default function GalleryPage() {
   // In a real application, you would fetch the gallery data based on the ID
   const gallery = mockGalleryData;
 
@@ -445,4 +447,4 @@ export default function GalleryPage({ params }: { params: { id: string } }) {
   }
 
   return <GalleryView event={gallery} />;
-} 
+}
