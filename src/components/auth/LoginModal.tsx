@@ -25,7 +25,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" />
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity" />
         </Transition.Child>
 
         {/* Dialog Container */}
@@ -39,11 +39,11 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="w-auto max-w-md transform overflow-hidden rounded-2xl bg-white dark:bg-zinc-900 p-8 shadow-2xl relative">
+            <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-background/95 backdrop-blur-xl p-8 shadow-2xl relative border border-accent/30">
               {/* Close Button */}
               <motion.button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-2 rounded-full text-zinc-500 hover:text-black dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all duration-300"
+                className="absolute top-4 right-4 p-2 rounded-full text-foreground/80 hover:text-foreground hover:bg-accent/20 transition-all duration-300"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -55,19 +55,16 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="text-center m-3"
+                className="text-center mb-8"
               >
                 <Dialog.Title
                   as="h3"
-                  className="text-2xl font-bold text-zinc-900 dark:text-white"
+                  className="text-2xl font-bold text-foreground"
                 >
-                  Welcome to{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                    Manglam Event
-                  </span>
+                  Welcome to Manglam Event
                 </Dialog.Title>
-                <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
-                  Sign in with your Google account to continue
+                <p className="mt-2 text-sm text-foreground/80">
+                  Your journey to creating unforgettable moments starts here
                 </p>
               </motion.div>
 
@@ -78,6 +75,25 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 transition={{ duration: 0.3, delay: 0.1 }}
               >
                 <LoginForm onSuccess={onClose} />
+              </motion.div>
+
+              {/* Footer */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+                className="mt-6 text-center"
+              >
+                <p className="text-sm text-foreground/80">
+                  By signing in, you agree to our{" "}
+                  <a href="/terms" className="text-primary hover:text-primary/80 hover:underline">
+                    Terms of Service
+                  </a>{" "}
+                  and{" "}
+                  <a href="/privacy" className="text-primary hover:text-primary/80 hover:underline">
+                    Privacy Policy
+                  </a>
+                </p>
               </motion.div>
             </Dialog.Panel>
           </Transition.Child>

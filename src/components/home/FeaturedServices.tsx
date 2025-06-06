@@ -1,24 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Autoplay,
-  Pagination,
-  Navigation,
-  EffectCoverflow,
-  FreeMode,
-} from "swiper/modules";
-import { motion, useScroll, useTransform } from "framer-motion";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "swiper/css/effect-coverflow";
-import "swiper/css/free-mode";
-
-gsap.registerPlugin(ScrollTrigger);
+import { motion, useAnimation } from "framer-motion";
+import { Calendar, Users, Camera } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 
 const services = [
   {
@@ -26,317 +11,212 @@ const services = [
     title: "Destination Weddings",
     description:
       "At Manglam Event, destination weddings aren't just events — they're stories written in sunsets, woven through waves, and sealed with memories that linger long after the vows. Let your dream unfold, wherever your heart takes you.",
-    image:
-      "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop",
-    icon: "✈️",
+    image: "/images/services/destination-wedding.jpg",
+    icon: <Calendar className="w-8 h-8" />,
+    color: "from-rose-500/20 to-pink-500/20",
+    textColor: "text-rose-500",
+    features: ["Exotic Locations", "Cultural Integration", "Travel Planning", "Local Expertise"],
   },
   {
     id: 2,
     title: "Wedding Planning",
     description:
       "Every love story is unique, and so is the way we bring it to life. At Manglam Event, we turn dreams into celebrations, weaving magic into every detail. From the first petal to the final toast, we plan with heart, creating weddings that feel as timeless as your love.",
-    image:
-      "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop",
-    icon: "💍",
+    image: "/images/services/wedding-planning.jpg",
+    icon: <Users className="w-8 h-8" />,
+    color: "from-blue-500/20 to-indigo-500/20",
+    textColor: "text-blue-500",
+    features: ["Custom Themes", "Vendor Coordination", "Timeline Management", "Budget Planning"],
   },
   {
     id: 3,
     title: "Venue Selection",
     description:
       "The perfect moment begins with the perfect place. At Manglam Event, we don't just find venues — we discover backdrops for your story. Whether it's under open skies or within royal walls, we match your dreams with spaces that speak your love language.",
-    image:
-      "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop",
-    icon: "🏰",
+    image: "/images/services/venue.jpg",
+    icon: <Camera className="w-8 h-8" />,
+    color: "from-purple-500/20 to-violet-500/20",
+    textColor: "text-purple-500",
+    features: ["Luxury Venues", "Historic Palaces", "Beach Resorts", "Garden Settings"],
   },
 ];
 
 const FeaturedServices = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const controls = useAnimation();
 
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.8, 1],
-    [0.8, 1, 1, 0.8]
-  );
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Enhanced title animation with split text
-      const title = titleRef.current?.querySelector(".section-title");
-      if (title) {
-        const words = title.textContent?.split(" ") || [];
-        title.innerHTML = words
-          .map((word) => `<span class="inline-block">${word}</span>`)
-          .join(" ");
-
-        gsap.from(title.children, {
-          opacity: 0,
-          y: 50,
-          duration: 0.8,
-          stagger: {
-            amount: 1.2,
-            ease: "power2.out",
-          },
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top center+=100",
-            toggleActions: "play none none reverse",
-          },
-        });
-      }
-
-      // Floating animation for decorative elements
-      gsap.to(".floating-element", {
-        y: "20px",
-        duration: 2,
-        ease: "power1.inOut",
-        yoyo: true,
-        repeat: -1,
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  const handleHover = async (id: number) => {
+    setHoveredId(id);
+    await controls.start({
+      scale: [1, 1.02, 1],
+      transition: { duration: 0.5, ease: "easeInOut" },
+    });
+  };
 
   return (
-    <motion.section
-      ref={sectionRef}
-      className="py-32 bg-gradient-to-b from-accent/5 via-accent/10 to-accent/5 relative overflow-hidden"
-      style={{ opacity, scale }}
-    >
-      {/* Enhanced Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="floating-element absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-        />
-        <motion.div
-          className="floating-element absolute -bottom-24 -left-24 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.1, 1],
-            opacity: [0.1, 0.3, 0.1],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-        />
-        {/* Animated Particles */}
-        <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-accent/20 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -100],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: Math.random() * 3 + 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-        </div>
-      </div>
+    <section className="py-24 bg-gradient-to-br from-background via-background/95 to-background/90 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <motion.div
+        className="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.2, 0.3, 0.2],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div
+        className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
+        animate={{
+          scale: [1.2, 1, 1.2],
+          opacity: [0.3, 0.2, 0.3],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
-          ref={titleRef}
           className="text-center mb-16"
-          initial={{ y: 20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
           <motion.h2
-            className="section-title text-4xl font-bold text-foreground mb-4"
-            initial={{ scale: 0.9, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
+            className="text-4xl md:text-5xl font-bold mb-6 text-primary"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
             Our Services
           </motion.h2>
           <motion.p
-            className="text-lg text-foreground/80 max-w-2xl mx-auto"
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
+            className="text-lg text-foreground/90 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Discover how we can turn your special day into an unforgettable celebration.
+            Discover how we can turn your special day into an unforgettable celebration
           </motion.p>
         </motion.div>
 
-        <Swiper
-          modules={[
-            Autoplay,
-            Pagination,
-            Navigation,
-            EffectCoverflow,
-            FreeMode,
-          ]}
-          effect="coverflow"
-          grabCursor={true}
-          centeredSlides={true}
-          slidesPerView={1}
-          spaceBetween={30}
-          coverflowEffect={{
-            rotate: 50,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            slideShadows: true,
-          }}
-          breakpoints={{
-            640: {
-              slidesPerView: 2,
-            },
-            1024: {
-              slidesPerView: 3,
-            },
-          }}
-          pagination={{
-            clickable: true,
-            dynamicBullets: true,
-          }}
-          navigation
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          freeMode={{
-            enabled: true,
-            momentum: true,
-          }}
-          className="featured-services-swiper"
-        >
-          {services.map((service) => (
-            <SwiperSlide key={service.id}>
-              <motion.div
-                className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300"
-                whileHover={{ scale: 1.02, y: -5 }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-              >
-                <div className="relative h-64 overflow-hidden">
-                  <motion.img
-                    src={service.image}
-                    alt={service.title}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
-                  <motion.div
-                    className="absolute top-4 right-4 w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-2xl"
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, type: "spring" }}
-                  >
-                    {service.icon}
-                  </motion.div>
-                </div>
-                <div className="p-8">
-                  <motion.h3
-                    className="text-2xl font-semibold text-foreground mb-4"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                  >
-                    {service.title}
-                  </motion.h3>
-                  <motion.p
-                    className="text-foreground/80 leading-relaxed"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                  >
-                    {service.description}
-                  </motion.p>
-                  <motion.div
-                    className="mt-6"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                  >
-                    <a
-                      href="/services"
-                      className="inline-flex items-center text-primary hover:text-primary-dark transition-colors duration-300"
-                    >
-                      Learn More
-                      <svg
-                        className="w-5 h-5 ml-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
-                    </a>
-                  </motion.div>
-                </div>
-              </motion.div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map((service, index) => (
+            <motion.div
+              key={service.id}
+              className="group relative bg-background/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/40 transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+              onHoverStart={() => handleHover(service.id)}
+              animate={controls}
+            >
+              <div className="relative h-64 overflow-hidden">
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-80`} />
+                <motion.div
+                  className={`absolute top-4 right-4 w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center ${service.textColor} backdrop-blur-sm`}
+                  initial={{ scale: 0, rotate: -180 }}
+                  whileInView={{ scale: 1, rotate: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, type: "spring" }}
+                  whileHover={{ rotate: 360, scale: 1.1 }}
+                >
+                  {service.icon}
+                </motion.div>
+              </div>
 
-      <style jsx global>{`
-        .featured-services-swiper {
-          padding: 2rem 0;
-        }
-        .featured-services-swiper .swiper-pagination-bullet {
-          background: var(--primary);
-          opacity: 0.5;
-        }
-        .featured-services-swiper .swiper-pagination-bullet-active {
-          background: var(--primary);
-          opacity: 1;
-        }
-        .featured-services-swiper .swiper-button-next,
-        .featured-services-swiper .swiper-button-prev {
-          color: var(--primary);
-        }
-        .featured-services-swiper .swiper-button-next:hover,
-        .featured-services-swiper .swiper-button-prev:hover {
-          color: var(--primary-dark);
-        }
-      `}</style>
-    </motion.section>
+              <div className="p-8">
+                <motion.h3
+                  className="text-2xl font-semibold text-foreground mb-4"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  {service.title}
+                </motion.h3>
+                <motion.p
+                  className="text-foreground/80 leading-relaxed mb-6"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  {service.description}
+                </motion.p>
+
+                <div className="space-y-3 mb-6">
+                  {service.features.map((feature, idx) => (
+                    <motion.div
+                      key={idx}
+                      className="flex items-center text-sm text-foreground/80"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.4 + idx * 0.1 }}
+                      whileHover={{ x: 5 }}
+                    >
+                      <motion.span
+                        className={`w-1.5 h-1.5 rounded-full ${service.textColor} mr-2`}
+                        animate={{
+                          scale: hoveredId === service.id ? [1, 1.5, 1] : 1,
+                        }}
+                        transition={{ duration: 0.5 }}
+                      />
+                      {feature}
+                    </motion.div>
+                  ))}
+                </div>
+
+                <motion.div
+                  className="relative h-12 overflow-hidden"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                >
+                  <motion.div
+                    className={`absolute inset-0 bg-gradient-to-r ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                    animate={{
+                      x: hoveredId === service.id ? [0, 100, 0] : 0,
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center"
+                    animate={{
+                      y: hoveredId === service.id ? [0, -5, 0] : 0,
+                    }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                  >
+                    <span className={`text-sm font-medium ${service.textColor}`}>
+                      Explore {service.title}
+                    </span>
+                  </motion.div>
+                </motion.div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };
 

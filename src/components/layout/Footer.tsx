@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Facebook, Instagram } from 'lucide-react';
-import { FaPinterest } from 'react-icons/fa';
-import { ReactNode } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { motion } from "framer-motion";
+import { MapPin, Phone, Mail, Facebook, Instagram } from "lucide-react";
+import { FaPinterest } from "react-icons/fa";
+import { ReactNode } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 interface FooterLink {
   name: string;
@@ -23,70 +23,61 @@ const Footer = () => {
 
   const footerLinks: FooterSection[] = [
     {
-      title: 'Company Info',
+      title: "Company Info",
       links: [
-        { name: 'About Us', href: '/about' },
-        { name: 'Our Services', href: '/services' },
-        { name: 'Contact Us', href: '/contact' },
-        { name: 'Blog', href: '/blog' }
-      ]
+        { name: "About Us", href: "/about" },
+        { name: "Our Services", href: "/services" },
+        { name: "Contact Us", href: "/contact" },
+        { name: "Blog", href: "/blog" },
+      ],
     },
     {
-      title: 'Quick Links',
+      title: "Our Services",
       links: [
-        { name: 'Weddings', href: '/services/weddings' },
-        { name: 'Corporate Events', href: '/services/corporate' },
-        { name: 'Birthday Parties', href: '/services/birthday' },
-        { name: 'Other Events', href: '/services/other' }
-      ]
+        { name: "Event Planning", href: "/services/planning" },
+        { name: "Venue Selection", href: "/services/venue" },
+        { name: "Catering", href: "/services/catering" },
+        { name: "Decoration", href: "/services/decoration" },
+      ],
     },
     {
-      title: 'Our Services',
+      title: "Contact Us",
       links: [
-        { name: 'Event Planning', href: '/services/planning' },
-        { name: 'Venue Selection', href: '/services/venue' },
-        { name: 'Catering', href: '/services/catering' },
-        { name: 'Decoration', href: '/services/decoration' }
-      ]
-    },
-    {
-      title: 'Contact Us',
-      links: [
-        { 
-          name: 'First Floor, Khasra No. 101, DPS Circle, No 4/D, above HDFC Bank, Branch, Pal, Jodhpur, Rajasthan 342008',
-          href: 'https://maps.google.com',
-          icon: <MapPin className="w-4 h-4 inline-block mr-2" />
+        {
+          name: "First Floor, Khasra No. 101, DPS Circle, No 4/D, above HDFC Bank, Branch, Pal, Jodhpur, Rajasthan 342008",
+          href: "https://maps.google.com",
+          icon: <MapPin className="w-4 h-4 inline-block mr-2" />,
         },
-        { 
-          name: '+91 82399 99000',
-          href: 'tel:+918239999000',
-          icon: <Phone className="w-4 h-4 inline-block mr-2" />
+        {
+          name: "+91 82399 99000",
+          href: "tel:+918239999000",
+          icon: <Phone className="w-4 h-4 inline-block mr-2" />,
         },
-        { 
-          name: 'info@manglamevent.com',
-          href: 'mailto:info@manglamevent.com',
-          icon: <Mail className="w-4 h-4 inline-block mr-2" />
-        }
-      ]
-    }
+        {
+          name: "info@manglamevent.com",
+          href: "mailto:info@manglamevent.com",
+          icon: <Mail className="w-4 h-4 inline-block mr-2" />,
+        },
+      ],
+    },
   ];
 
   const socialLinks = [
     {
-      name: 'Facebook',
-      url: 'https://www.facebook.com/ManglamEventJodhpur/',
-      icon: <Facebook className="w-5 h-5" />
+      name: "Facebook",
+      url: "https://www.facebook.com/ManglamEventJodhpur/",
+      icon: <Facebook className="w-5 h-5" />,
     },
     {
-      name: 'Instagram',
-      url: 'https://www.instagram.com/manglamevents/',
-      icon: <Instagram className="w-5 h-5" />
+      name: "Instagram",
+      url: "https://www.instagram.com/manglamevents/",
+      icon: <Instagram className="w-5 h-5" />,
     },
     {
-      name: 'Pinterest',
-      url: 'https://in.pinterest.com/manglamevent_jodhpur/',
-      icon: <FaPinterest className="w-5 h-5" />
-    }
+      name: "Pinterest",
+      url: "https://in.pinterest.com/manglamevent_jodhpur/",
+      icon: <FaPinterest className="w-5 h-5" />,
+    },
   ];
 
   return (
@@ -127,8 +118,9 @@ const Footer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-background/50 backdrop-blur-sm rounded-xl p-6 border border-accent/10 hover:border-accent/20 transition-all duration-300"
             >
-              <h3 className="text-lg font-semibold text-foreground mb-4">
+              <h3 className="text-lg font-semibold text-foreground mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 {section.title}
               </h3>
               <ul className="space-y-3">
@@ -142,12 +134,14 @@ const Footer = () => {
                   >
                     <a
                       href={link.href}
-                      className="text-foreground/70 hover:text-primary transition-colors flex items-center"
-                      target={link.href.startsWith('http') ? '_blank' : undefined}
-                      rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      className="text-foreground/70 hover:text-primary transition-colors flex items-center group"
+                      target={link.href.startsWith("http") ? "_blank" : undefined}
+                      rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                     >
                       {link.icon}
-                      <span className="text-sm">{link.name}</span>
+                      <span className="text-sm group-hover:translate-x-1 transition-transform duration-300">
+                        {link.name}
+                      </span>
                     </a>
                   </motion.li>
                 ))}
@@ -180,9 +174,13 @@ const Footer = () => {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-foreground/70 hover:text-primary transition-colors"
+                  className="text-foreground/70 hover:text-primary transition-colors bg-background/50 backdrop-blur-sm p-2 rounded-lg hover:bg-accent/5"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
                   <span className="sr-only">{link.name}</span>
                   {link.icon}
@@ -196,4 +194,4 @@ const Footer = () => {
   );
 };
 
-export default Footer; 
+export default Footer;
