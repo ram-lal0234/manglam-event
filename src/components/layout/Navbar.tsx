@@ -6,14 +6,15 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
-import LoginModal from "../auth/LoginModal";
 import UserMenu from "../auth/UserMenu";
 import { FaBars, FaHashtag } from "react-icons/fa";
+import AuthModal from "../auth/AuthModal";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -143,13 +144,19 @@ const Navbar = () => {
                   ) : (
                     <>
                       <button
-                        onClick={() => setShowLoginModal(true)}
+                        onClick={() => {
+                          setAuthMode("login");
+                          setShowAuthModal(true);
+                        }}
                         className="px-4 py-2 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                       >
                         Login
                       </button>
                       <button
-                        onClick={() => setShowLoginModal(true)}
+                        onClick={() => {
+                          setAuthMode("signup");
+                          setShowAuthModal(true);
+                        }}
                         className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                       >
                         Sign Up
@@ -275,7 +282,7 @@ const Navbar = () => {
                         <>
                           <button
                             onClick={() => {
-                              setShowLoginModal(true);
+                              setAuthMode("login");
                               setIsOpen(false);
                             }}
                             className="w-full px-4 py-3 text-base font-medium text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
@@ -284,7 +291,7 @@ const Navbar = () => {
                           </button>
                           <button
                             onClick={() => {
-                              setShowLoginModal(true);
+                              setAuthMode("signup");
                               setIsOpen(false);
                             }}
                             className="w-full px-4 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
@@ -302,10 +309,11 @@ const Navbar = () => {
         </AnimatePresence>
       </motion.nav>
 
-      {/* Login Modal */}
-      <LoginModal
-        isOpen={showLoginModal}
-        onClose={() => setShowLoginModal(false)}
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        initialMode={authMode}
       />
     </>
   );

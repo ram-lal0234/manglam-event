@@ -4,13 +4,18 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import Preloader from "@/components/layout/Preloader";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
-import { Geist, Inter } from "next/font/google";
+import { Geist, Inter, Roboto } from "next/font/google";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from 'react-hot-toast';
 import RootLayoutWrapper from "@/components/layout/RootLayoutWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: "Manglam Event - Wedding Planning & Event Management",
@@ -28,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${GeistSans.variable} ${GeistMono.variable} ${inter.className} bg-background text-foreground transition-colors duration-200`}
+        className={`${GeistSans.variable} ${GeistMono.variable} ${inter.className} ${roboto.className} bg-background text-foreground transition-colors duration-200`}
       >
         <ThemeProvider>
           <AuthProvider>

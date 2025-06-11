@@ -1,83 +1,23 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface StorySection {
-  title: string;
-  content: string;
-  year: string;
-  icon: string;
-}
-
-const storySections: StorySection[] = [
-  {
-    title: "Our Legacy",
-    content:
-      "Manglam Event is not just a name; it's a legacy that began with a simple yet powerful dream. Founded by Naveen Rajpurohit, our journey is a testament to the power of passion, dedication, and the desire to create something extraordinary.",
-    year: "2008",
-    icon: "🏆",
-  },
-  {
-    title: "The Beginning",
-    content:
-      "In 2008, Naveen Rajpurohit, a young entrepreneur with a vision, took the first step towards creating what would become one of the most trusted names in event management. With a background in business and a passion for creating memorable experiences, Naveen saw an opportunity to transform the way events were planned and executed.",
-    year: "2009",
-    icon: "✨",
-  },
-  {
-    title: "The Meeting",
-    content:
-      "The turning point came when Naveen met Mansi, a creative soul with an eye for detail and a heart full of ideas. Their meeting was not just a coincidence; it was the beginning of a partnership that would change the landscape of event management in India.",
-    year: "2010",
-    icon: "🤝",
-  },
-];
-
 const OurStory = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const timelineRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!isVisible) return;
-
     const ctx = gsap.context(() => {
-      const timeline = timelineRef.current?.children;
-      if (!timeline) return;
-
-      gsap.from(timeline, {
+      // Animate paragraphs
+      gsap.from(".story-paragraph", {
         opacity: 0,
         y: 50,
-        duration: 1,
-        stagger: {
-          amount: 1.5,
-          ease: "power2.out",
-        },
+        duration: 1.2,
+        stagger: 0.3,
         ease: "power3.out",
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -85,15 +25,10 @@ const OurStory = () => {
           toggleActions: "play none none reverse",
         },
       });
-
-      // Simulate data loading
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [isVisible]);
+  }, []);
 
   return (
     <motion.section
@@ -104,20 +39,6 @@ const OurStory = () => {
       viewport={{ once: true }}
       transition={{ duration: 1 }}
     >
-      {/* Loading State */}
-      <AnimatePresence>
-        {isLoading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm z-50"
-          >
-            <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -145,7 +66,7 @@ const OurStory = () => {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           className="text-center mb-20"
           initial={{ opacity: 0, y: 50 }}
@@ -153,17 +74,8 @@ const OurStory = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <motion.div
-            className="text-4xl mb-6"
-            initial={{ scale: 0.8, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            📜
-          </motion.div>
           <motion.h2
-            className="text-6xl font-bold text-gradient mb-8"
+            className="text-7xl font-bold text-gradient mb-8 tracking-tight font-roboto"
             initial={{ scale: 0.9, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
@@ -171,65 +83,25 @@ const OurStory = () => {
           >
             Our Story
           </motion.h2>
-          <motion.p
-            className="text-2xl text-foreground/90 max-w-3xl mx-auto leading-relaxed"
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            A journey of passion, innovation, and excellence
-          </motion.p>
         </motion.div>
 
-        <div ref={timelineRef} className="max-w-4xl mx-auto space-y-24">
-          {storySections.map((section, index) => (
-            <motion.div
-              key={section.title}
-              className="relative"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-            >
-              {/* Content */}
-              <div className="relative">
-                <motion.div
-                  className="text-4xl mb-6"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  {section.icon}
-                </motion.div>
-                <motion.h3
-                  className="text-3xl font-bold text-gradient mb-6"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                >
-                  {section.title}
-                </motion.h3>
-                <motion.p
-                  className="text-foreground/90 text-lg leading-relaxed"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                >
-                  {section.content}
-                </motion.p>
-              </div>
-
-              {/* Connecting Line */}
-              {index < storySections.length - 1 && (
-                <div className="absolute left-0 top-full w-0.5 h-24 bg-gradient-to-b from-primary/50 to-transparent" />
-              )}
-            </motion.div>
-          ))}
-        </div>
+        <motion.div
+          className="prose prose-lg md:prose-xl mx-auto text-foreground/90 leading-relaxed"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <p className="story-paragraph text-lg md:text-xl leading-relaxed tracking-wide font-roboto font-light">
+            Rooted in a family legacy of decor and production, Mr Naveen Rajpurohit proudly represents the third generation of a passionate lineage in the creative decor industry. With a background steeped in tradition, Naveen has always stood out for his drive to innovate, his visionary approach, and his passion for doing things differently. While working in the wedding industry, he developed a deep curiosity about the behind-the-scenes aspects of planning and execution—observing patterns, identifying challenges, and seeking ways to elevate the entire experience. This curiosity sparked a desire to push boundaries and reimagine what weddings could be.
+          </p>
+          <p className="story-paragraph text-lg md:text-xl leading-relaxed mt-8 tracking-wide font-roboto font-light">
+            During one such event, he crossed paths with Mansi Maheshwari and Aakash Maheshwari—two dynamic individuals managing a wedding segment with remarkable precision and creativity. Their creativity and precision left a lasting impression on Naveen. Intrigued by their work, he initiated a conversation, and soon, the three decided to spend more time together to exchange ideas and understand each other's visions. This led to a memorable trip to Mumbai in May 2022. During this journey, on the 23rd of May 2022, a simple conversation between three sparked a powerful idea—Naveen who had already envisioned the brand, shared his vision of starting an event company, and both Mansi and Aakash immediately resonated with the concept.
+          </p>
+          <p className="story-paragraph text-lg md:text-xl leading-relaxed mt-8 tracking-wide font-roboto font-light">
+            Fueled by a shared dream, passion, unshakable faith in one another, and a belief in building something extraordinary together, they decided to embark on this journey together. Fate played its part when, during this journey Naveen received a call from Mr. Manak Khanna, inviting him to discuss a wedding project in Kumbhalgarh- marking the first step in bringing their vision to life and the beginning of a journey fueled by creativity, trust, and a collective dream to redefine celebrations.
+          </p>
+        </motion.div>
       </div>
     </motion.section>
   );
