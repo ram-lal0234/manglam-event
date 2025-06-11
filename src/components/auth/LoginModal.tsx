@@ -74,7 +74,9 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
               >
-                <LoginForm onSuccess={onClose} />
+                <LoginForm onSuccess={onClose} onModeChange={function (mode: "signup" | "forgot-password"): void {
+                  throw new Error("Function not implemented.");
+                } } />
               </motion.div>
 
               {/* Footer */}
