@@ -16,7 +16,11 @@ interface AuthModalProps {
   initialMode?: AuthMode;
 }
 
-export default function AuthModal({ isOpen, onClose, initialMode = "login" }: AuthModalProps) {
+export default function AuthModal({
+  isOpen,
+  onClose,
+  initialMode = "login",
+}: AuthModalProps) {
   const [mode, setMode] = useState<AuthMode>(initialMode);
 
   // Update mode when initialMode changes
@@ -31,11 +35,20 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
   const renderForm = () => {
     switch (mode) {
       case "login":
-        return <LoginForm onSuccess={onClose} onModeChange={handleModeChange} />;
+        return (
+          <LoginForm onSuccess={onClose} onModeChange={handleModeChange} />
+        );
       case "signup":
-        return <SignUpForm onSuccess={onClose} onModeChange={handleModeChange} />;
+        return (
+          <SignUpForm onSuccess={onClose} onModeChange={handleModeChange} />
+        );
       case "forgot-password":
-        return <ForgotPasswordForm onSuccess={onClose} onModeChange={handleModeChange} />;
+        return (
+          <ForgotPasswordForm
+            onSuccess={onClose}
+            onModeChange={handleModeChange}
+          />
+        );
       default:
         return null;
     }
@@ -94,7 +107,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-background/95 backdrop-blur-xl shadow-2xl relative border border-accent/30 flex flex-col h-[calc(100vh-2rem)] sm:h-[calc(100vh-3rem)]">
+            <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-background/95 backdrop-blur-xl shadow-2xl relative border border-accent/30 flex flex-col ">
               {/* Close Button */}
               <motion.button
                 onClick={onClose}
@@ -130,13 +143,13 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.1 }}
-                  className="flex-1 overflow-y-auto px-6"
+                  className="flex-1 overflow-y-auto px-6 pb-6"
                 >
                   {renderForm()}
                 </motion.div>
 
                 {/* Footer */}
-                <motion.div
+                {/* <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: 0.2 }}
@@ -152,7 +165,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
                       Privacy Policy
                     </a>
                   </p>
-                </motion.div>
+                </motion.div> */}
               </div>
             </Dialog.Panel>
           </Transition.Child>
@@ -160,4 +173,4 @@ export default function AuthModal({ isOpen, onClose, initialMode = "login" }: Au
       </Dialog>
     </Transition>
   );
-} 
+}

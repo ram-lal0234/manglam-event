@@ -167,7 +167,7 @@ export default function SignUpForm({ onSuccess, onModeChange }: SignUpFormProps)
       <button
         onClick={handleGoogleSignIn}
         disabled={isLoading}
-        className="w-full flex items-center justify-center space-x-3 px-4 py-3 text-sm font-medium bg-white dark:bg-zinc-800 text-foreground border border-accent/20 rounded-lg hover:bg-accent/5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full flex items-center justify-center space-x-3 px-4 py-3 text-sm font-medium text-primary  border border-accent/20 rounded-lg hover:bg-primary hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isLoading ? (
           <Loader2 className="w-5 h-5 animate-spin" />
