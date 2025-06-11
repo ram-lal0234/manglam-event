@@ -2,23 +2,25 @@
 
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { Loader2, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Loader2, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
 
-interface LoginFormProps {
+interface SignUpFormProps {
   onSuccess: () => void;
-  onModeChange: (mode: "signup" | "forgot-password") => void;
+  onModeChange: (mode: "login") => void;
 }
 
-export default function LoginForm({ onSuccess, onModeChange }: LoginFormProps) {
+export default function SignUpForm({ onSuccess, onModeChange }: SignUpFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
-  const { signInWithGoogle, signInWithEmail } = useAuth();
+  const { signInWithGoogle, signUpWithEmail } = useAuth();
 
   const handleGoogleSignIn = async () => {
     try {
@@ -38,10 +40,19 @@ export default function LoginForm({ onSuccess, onModeChange }: LoginFormProps) {
     try {
       setIsLoading(true);
       setError(null);
-      await signInWithEmail(formData.email, formData.password);
+
+      if (formData.password !== formData.confirmPassword) {
+        throw new Error("Passwords do not match");
+      }
+
+      if (formData.password.length < 6) {
+        throw new Error("Password should be at least 6 characters long");
+      }
+
+      await signUpWithEmail(formData.email, formData.password, formData.name);
       onSuccess();
     } catch (error: any) {
-      setError(error.message || "Failed to sign in");
+      setError(error.message || "Failed to sign up");
     } finally {
       setIsLoading(false);
     }
@@ -50,6 +61,25 @@ export default function LoginForm({ onSuccess, onModeChange }: LoginFormProps) {
   return (
     <div className="space-y-4">
       <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <label htmlFor="name" className="text-sm font-medium text-foreground/80">
+            Full Name
+          </label>
+          <div className="relative">
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/40" />
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+              required
+              className="w-full pl-10 pr-4 py-3 rounded-lg bg-background/50 border border-accent/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+              placeholder="Enter your full name"
+            />
+          </div>
+        </div>
+
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium text-foreground/80">
             Email Address
@@ -83,7 +113,7 @@ export default function LoginForm({ onSuccess, onModeChange }: LoginFormProps) {
               onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
               required
               className="w-full pl-10 pr-12 py-3 rounded-lg bg-background/50 border border-accent/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300"
-              placeholder="Enter your password"
+              placeholder="Create a password"
             />
             <button
               type="button"
@@ -95,24 +125,23 @@ export default function LoginForm({ onSuccess, onModeChange }: LoginFormProps) {
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
+        <div className="space-y-2">
+          <label htmlFor="confirmPassword" className="text-sm font-medium text-foreground/80">
+            Confirm Password
+          </label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/40" />
             <input
-              type="checkbox"
-              id="remember"
-              className="w-4 h-4 rounded border-accent/20 text-primary focus:ring-primary/20"
+              type={showPassword ? "text" : "password"}
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))}
+              required
+              className="w-full pl-10 pr-12 py-3 rounded-lg bg-background/50 border border-accent/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+              placeholder="Confirm your password"
             />
-            <label htmlFor="remember" className="ml-2 text-sm text-foreground/60">
-              Remember me
-            </label>
           </div>
-          <button
-            type="button"
-            onClick={() => onModeChange("forgot-password")}
-            className="text-sm text-primary hover:underline"
-          >
-            Forgot password?
-          </button>
         </div>
 
         <button
@@ -120,7 +149,7 @@ export default function LoginForm({ onSuccess, onModeChange }: LoginFormProps) {
           disabled={isLoading}
           className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-sm font-medium bg-primary text-white rounded-lg hover:bg-primary/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Sign In"}
+          {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Sign Up"}
         </button>
       </form>
 
@@ -166,12 +195,12 @@ export default function LoginForm({ onSuccess, onModeChange }: LoginFormProps) {
       </button>
 
       <p className="text-center text-sm text-foreground/60">
-        Don't have an account?{" "}
+        Already have an account?{" "}
         <button
-          onClick={() => onModeChange("signup")}
+          onClick={() => onModeChange("login")}
           className="text-primary hover:underline"
         >
-          Sign up
+          Sign in
         </button>
       </p>
 
@@ -186,4 +215,4 @@ export default function LoginForm({ onSuccess, onModeChange }: LoginFormProps) {
       )}
     </div>
   );
-}
+} 
