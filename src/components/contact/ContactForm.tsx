@@ -276,7 +276,7 @@ const ContactForm = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
               Plan Your Special Day
             </h2>
             <p className="text-foreground/70 text-sm md:text-base max-w-2xl mx-auto">

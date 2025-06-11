@@ -178,28 +178,49 @@ export default function HashtagGenerator() {
           className="mt-8"
         >
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold">Your Wedding Hashtags</h3>
-            <p className="text-sm text-foreground/60">{hashtags.length} hashtags generated</p>
+            <h3 className="text-xl font-semibold text-primary">Your Wedding Hashtags</h3>
+            <div className="flex items-center space-x-4">
+              <p className="text-sm text-foreground/60">{hashtags.length} hashtags generated</p>
+              <button
+                onClick={() => {
+                  const allHashtags = hashtags.join(" ");
+                  navigator.clipboard.writeText(allHashtags);
+                  toast.success('All hashtags copied to clipboard!', {
+                    duration: 2000,
+                    position: 'bottom-center',
+                    style: {
+                      background: 'var(--background)',
+                      color: 'var(--foreground)',
+                      border: '1px solid var(--accent)',
+                    },
+                  });
+                }}
+                className="flex items-center space-x-2 px-3 py-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+              >
+                <FaCopy className="w-4 h-4" />
+                <span>Copy All</span>
+              </button>
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
             {hashtags.map((hashtag, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="group relative p-4 bg-gradient-to-br from-background/95 to-background/90 backdrop-blur-xl border border-accent/10 rounded-lg hover:border-accent/30 transition-all duration-300 hover:shadow-lg hover:shadow-accent/5"
+                className="group relative p-4 bg-gradient-to-br from-background/95 to-background/90 backdrop-blur-xl border border-accent/10 rounded-lg hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2 min-w-0">
-                    <FaHashtag className="flex-shrink-0 w-4 h-4 text-primary group-hover:text-accent transition-colors" />
-                    <p className="text-lg font-medium text-foreground group-hover:text-primary transition-colors truncate">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start space-x-2 min-w-0 flex-1">
+                    <FaHashtag className="flex-shrink-0 w-4 h-4 text-primary group-hover:text-primary/80 transition-colors mt-1" />
+                    <p className="text-lg font-medium text-foreground group-hover:text-primary transition-colors break-all whitespace-normal w-full">
                       {hashtag}
                     </p>
                   </div>
                   <button
                     onClick={() => copyToClipboard(hashtag, index)}
-                    className="flex-shrink-0 p-2 rounded-lg hover:bg-accent/10 transition-colors focus:outline-none focus:ring-2 focus:ring-accent/20"
+                    className="flex-shrink-0 p-2 rounded-lg hover:bg-primary/10 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                     aria-label="Copy hashtag"
                   >
                     <AnimatePresence mode="wait">
@@ -217,7 +238,7 @@ export default function HashtagGenerator() {
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           exit={{ scale: 0 }}
-                          className="text-foreground/60 group-hover:text-foreground"
+                          className="text-foreground/60 group-hover:text-primary"
                         >
                           <FaCopy className="w-5 h-5" />
                         </motion.div>
