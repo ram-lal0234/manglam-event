@@ -17,7 +17,9 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gradient-to-b from-background via-primary/5 to-background">
       <div className="w-full max-w-md">
-        <SignUpForm onSuccess={() => router.push("/")} />
+        <SignUpForm onSuccess={() => router.push("/")} onModeChange={function (mode: "login" | "forgot-password"): void {
+          throw new Error("Function not implemented.");
+        } } />
       </div>
     </div>
   );
