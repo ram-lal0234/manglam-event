@@ -26,7 +26,9 @@ export default function ProtectedRoute({
   }
 
   if (!user) {
-    return <LoginForm onSuccess={() => {}} />;
+    return <LoginForm onSuccess={() => {}} onModeChange={function (mode: "signup" | "forgot-password"): void {
+      throw new Error("Function not implemented.");
+    } } />;
   }
 
   return <>{children}</>;
