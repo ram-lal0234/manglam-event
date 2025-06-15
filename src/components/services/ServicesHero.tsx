@@ -5,8 +5,22 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { SplitText } from "gsap/SplitText";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectFade, Autoplay, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/pagination";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
+
+// Service videos from the services list
+const serviceVideos = [
+  "/images/services/Sangeet Making.MP4",
+  "/images/services/Pooja Vedant - 3.mp4",
+  "/images/services/Haldi Entry - Amritam.MP4",
+  "/images/services/Jaisalmer Rangmahal.mp4",
+  "/images/services/Carnival - Dior Decor.MP4",
+];
 
 const ServicesHero = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -124,27 +138,37 @@ const ServicesHero = () => {
       className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-background via-accent/5 to-background"
       style={{ opacity }}
     >
-      {/* Enhanced Background with Multiple Layers */}
-      <div className="absolute inset-0">
-        <motion.div
-          ref={bgRef}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat parallax-bg"
-          style={{
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop)",
-            scale,
-            y,
-          }}
-        />
-        <motion.div
-          ref={overlayRef}
-          className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/50 to-background/90"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        />
+      {/* Enhanced Background with Video Carousel */}
+      <div className="absolute inset-0 z-0">
+        <Swiper
+          effect="fade"
+          modules={[EffectFade, Autoplay, Pagination]}
+          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          loop={true}
+          pagination={{ clickable: true }}
+          className="h-full w-full"
+        >
+          {serviceVideos.map((src, idx) => (
+            <SwiperSlide key={idx} className="h-full w-full">
+              <motion.video
+                key={src}
+                src={src}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="object-cover w-full h-full min-h-screen"
+                initial={{ opacity: 0, scale: 1.1 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.2, ease: "easeInOut" }}
+                style={{ filter: "brightness(0.7) blur(1px)" }}
+              />
+              {/* Overlay for gradient and animation - removed as per request */}
+            </SwiperSlide>
+          ))}
+        </Swiper>
         {/* Enhanced Animated Particles */}
-        <div ref={sparklesRef} className="absolute inset-0">
+        <div ref={sparklesRef} className="absolute inset-0 pointer-events-none z-20">
           {[...Array(40)].map((_, i) => (
             <motion.div
               key={i}
@@ -167,41 +191,39 @@ const ServicesHero = () => {
           ))}
         </div>
       </div>
-
+      {/* Hero Content */}
       <div
         ref={textRef}
-        className="relative h-full flex flex-col items-center justify-center text-center px-4 py-32"
+        className="relative h-full flex flex-col items-center justify-center text-center px-4 py-16 z-30"
       >
         <motion.div
-          className="inline-block mb-8"
+          className="inline-block mb-4"
           initial={{ scale: 0 }}
           whileInView={{ scale: 1 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5, type: "spring" }}
         >
-          <span className="text-7xl">✨</span>
+          <span className="text-5xl drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]">✨</span>
         </motion.div>
         <motion.h1
-          className="section-title text-6xl md:text-8xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-accent via-primary to-accent"
-          initial={{ opacity: 0, y: 50 }}
+          className="section-title text-[2.5rem] md:text-[4rem] font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-accent via-primary to-accent drop-shadow-[0_4px_32px_rgba(0,0,0,0.85)] tracking-tight leading-tight font-serif"
+          initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1 }}
         >
-          Our Services
+          Celebrate Life's Grandest Moments
         </motion.h1>
-        <motion.p
-          className="text-2xl md:text-3xl max-w-4xl leading-relaxed text-foreground/90"
-          initial={{ opacity: 0, y: 30 }}
+        {/* <motion.p
+          className="text-lg md:text-2xl max-w-2xl mx-auto leading-relaxed text-white/90 font-medium drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)] bg-black/30 rounded-xl px-6 py-3 backdrop-blur-md"
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 1, delay: 0.2 }}
         >
-          Comprehensive event planning and management services tailored to make
-          your special occasions truly memorable.
-        </motion.p>
+          Experience unforgettable events with Manglam Event. From breathtaking weddings to spectacular corporate galas, our team crafts every detail with passion, creativity, and precision. Let us turn your dreams into cherished memories.
+        </motion.p> */}
       </div>
-
       {/* Custom Cursor */}
       <motion.div
         ref={cursorRef}
@@ -210,10 +232,9 @@ const ServicesHero = () => {
         animate={{ scale: 1 }}
         transition={{ duration: 0.3 }}
       />
-
       {/* Decorative Elements */}
       <motion.div
-        className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-accent/20 to-transparent"
+        className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-accent/20 to-transparent z-40"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.5 }}
