@@ -283,6 +283,7 @@ const Navbar = () => {
                           <button
                             onClick={() => {
                               setAuthMode("login");
+                              setShowAuthModal(true);
                               setIsOpen(false);
                             }}
                             className="w-full px-4 py-3 text-base font-medium text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
@@ -292,6 +293,7 @@ const Navbar = () => {
                           <button
                             onClick={() => {
                               setAuthMode("signup");
+                              setShowAuthModal(true);
                               setIsOpen(false);
                             }}
                             className="w-full px-4 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"

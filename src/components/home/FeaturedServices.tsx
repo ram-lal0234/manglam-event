@@ -11,7 +11,7 @@ const services = [
     title: "Destination Weddings",
     description:
       "At Manglam Event, destination weddings aren't just events — they're stories written in sunsets, woven through waves, and sealed with memories that linger long after the vows. Let your dream unfold, wherever your heart takes you.",
-    image: "/images/services/destination-wedding.jpg",
+    image: "/images/services/VMP02941.jpg",
     icon: <Calendar className="w-8 h-8" />,
     color: "from-rose-500/20 to-pink-500/20",
     textColor: "text-rose-500",
@@ -22,7 +22,7 @@ const services = [
     title: "Wedding Planning",
     description:
       "Every love story is unique, and so is the way we bring it to life. At Manglam Event, we turn dreams into celebrations, weaving magic into every detail. From the first petal to the final toast, we plan with heart, creating weddings that feel as timeless as your love.",
-    image: "/images/services/wedding-planning.jpg",
+    image: "/images/services/VMP02808.jpg",
     icon: <Users className="w-8 h-8" />,
     color: "from-blue-500/20 to-indigo-500/20",
     textColor: "text-blue-500",
@@ -33,7 +33,7 @@ const services = [
     title: "Venue Selection",
     description:
       "The perfect moment begins with the perfect place. At Manglam Event, we don't just find venues — we discover backdrops for your story. Whether it's under open skies or within royal walls, we match your dreams with spaces that speak your love language.",
-    image: "/images/services/venue.jpg",
+    image: "/images/services/RK_07840.jpg",
     icon: <Camera className="w-8 h-8" />,
     color: "from-purple-500/20 to-violet-500/20",
     textColor: "text-purple-500",
