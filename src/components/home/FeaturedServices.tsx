@@ -11,11 +11,16 @@ const services = [
     title: "Destination Weddings",
     description:
       "At Manglam Event, destination weddings aren't just events — they're stories written in sunsets, woven through waves, and sealed with memories that linger long after the vows. Let your dream unfold, wherever your heart takes you.",
-    image: "/images/services/VMP02941.jpg",
+    image: "/images/gallery/Folder-1/17.png",
     icon: <Calendar className="w-8 h-8" />,
     color: "from-rose-500/20 to-pink-500/20",
     textColor: "text-rose-500",
-    features: ["Exotic Locations", "Cultural Integration", "Travel Planning", "Local Expertise"],
+    features: [
+      "Exotic Locations",
+      "Cultural Integration",
+      "Travel Planning",
+      "Local Expertise",
+    ],
   },
   {
     id: 2,
@@ -26,18 +31,28 @@ const services = [
     icon: <Users className="w-8 h-8" />,
     color: "from-blue-500/20 to-indigo-500/20",
     textColor: "text-blue-500",
-    features: ["Custom Themes", "Vendor Coordination", "Timeline Management", "Budget Planning"],
+    features: [
+      "Custom Themes",
+      "Vendor Coordination",
+      "Timeline Management",
+      "Budget Planning",
+    ],
   },
   {
     id: 3,
     title: "Venue Selection",
     description:
       "The perfect moment begins with the perfect place. At Manglam Event, we don't just find venues — we discover backdrops for your story. Whether it's under open skies or within royal walls, we match your dreams with spaces that speak your love language.",
-    image: "/images/services/RK_07840.jpg",
+    image: "/images/services/venue-selection.jpg",
     icon: <Camera className="w-8 h-8" />,
     color: "from-purple-500/20 to-violet-500/20",
     textColor: "text-purple-500",
-    features: ["Luxury Venues", "Historic Palaces", "Beach Resorts", "Garden Settings"],
+    features: [
+      "Luxury Venues",
+      "Historic Palaces",
+      "Beach Resorts",
+      "Garden Settings",
+    ],
   },
 ];
 
@@ -105,7 +120,8 @@ const FeaturedServices = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Discover how we can turn your special day into an unforgettable celebration
+            Discover how we can turn your special day into an unforgettable
+            celebration
           </motion.p>
         </motion.div>
 
@@ -129,7 +145,9 @@ const FeaturedServices = () => {
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-80`} />
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-80`}
+                />
                 <motion.div
                   className={`absolute top-4 right-4 w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center ${service.textColor} backdrop-blur-sm`}
                   initial={{ scale: 0, rotate: -180 }}
@@ -206,7 +224,9 @@ const FeaturedServices = () => {
                     }}
                     transition={{ duration: 1, repeat: Infinity }}
                   >
-                    <span className={`text-sm font-medium ${service.textColor}`}>
+                    <span
+                      className={`text-sm font-medium ${service.textColor}`}
+                    >
                       Explore {service.title}
                     </span>
                   </motion.div>
