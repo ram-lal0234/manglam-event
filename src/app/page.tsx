@@ -13,7 +13,7 @@ export default function Home() {
       <FeaturedServices />
       <Testimonials />
       <OurFootprint />
-      <EnquiryForm />
+      {/* <EnquiryForm /> */}
     </>
   );
 }

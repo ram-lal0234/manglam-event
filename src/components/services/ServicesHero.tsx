@@ -196,7 +196,7 @@ const ServicesHero = () => {
         ref={textRef}
         className="relative h-full flex flex-col items-center justify-center text-center px-4 py-16 z-30"
       >
-        <motion.div
+        {/* <motion.div
           className="inline-block mb-4"
           initial={{ scale: 0 }}
           whileInView={{ scale: 1 }}
@@ -204,7 +204,7 @@ const ServicesHero = () => {
           transition={{ duration: 0.5, type: "spring" }}
         >
           <span className="text-5xl drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]">✨</span>
-        </motion.div>
+        </motion.div> */}
         <motion.h1
           className="section-title text-[2.5rem] md:text-[4rem] font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-accent via-primary to-accent drop-shadow-[0_4px_32px_rgba(0,0,0,0.85)] tracking-tight leading-tight font-serif"
           initial={{ opacity: 0, y: 60 }}

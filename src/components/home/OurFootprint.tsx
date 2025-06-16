@@ -40,45 +40,25 @@ const stats = [
 
 const clientLogos = [
   {
-    name: "Taj Hotels",
-    logo: "/images/logo.png",
+    name: "Anjani",
+    logo: "/images/footprints/anjani.png",
   },
   {
-    name: "Oberoi Hotels",
-    logo: "/images/logo.png",
+    name: "asg",
+    logo: "/images/footprints/asg.png",
   },
   {
-    name: "ITC Hotels",
-    logo: "/images/logo.png",
+    name: "capsitech",
+    logo: "/images/footprints/capsitech.png",
   },
   {
-    name: "Leela Palace",
-    logo: "/images/logo.png",
+    name: "iTorrent",
+    logo: "/images/footprints/iTorrent.png",
   },
   {
-    name: "Marriott",
-    logo: "/images/logo.png",
-  },
-  {
-    name: "Hyatt",
-    logo: "/images/logo.png",
-  },
-  {
-    name: "Radisson",
-    logo: "/images/logo.png",
-  },
-  {
-    name: "Hilton",
-    logo: "/images/logo.png",
-  },
-  {
-    name: "Four Seasons",
-    logo: "/images/logo.png",
-  },
-  {
-    name: "Sheraton",
-    logo: "/images/logo.png",
-  },
+    name: "latiyal_handicrafts",
+    logo: "/images/footprints/latiyal_handicrafts.png",
+  }
 ];
 
 const OurFootprint = () => {
@@ -234,7 +214,7 @@ const OurFootprint = () => {
                 {visibleLogos.map((client, index) => (
                   <motion.div
                     key={client.name}
-                    className="relative h-16 w-full bg-white/5 backdrop-blur-sm rounded-xl p-4 grayscale hover:grayscale-0 transition-all duration-300 border border-primary/10 hover:border-primary/20"
+                    className="relative h-16 w-full bg-white/5  rounded-xl p-4 grayscale hover:grayscale-0  duration-300 border border-primary/10 hover:border-primary/20"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}

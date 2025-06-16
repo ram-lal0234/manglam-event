@@ -14,33 +14,73 @@ gsap.registerPlugin(ScrollTrigger);
 const testimonials = [
   {
     id: 1,
-    name: "Priya & Rahul",
-    role: "Newlyweds",
+    name: "Jawarilal Kankariya",
+    role: "Grandfather of the Bride",
     content:
-      "Manglam Event turned our dream wedding into reality. Every detail was perfect, and the team's dedication was beyond our expectations. The memories they helped create will last a lifetime.",
+      "I truly appreciate the hard work, efforts, and creativity Manglam Event and team put in my granddaughter Nehal's wedding. My family and guests really loved the decoration and all the arrangements by Manglam Event. The team worked with excitement and happiness, and followed the changes as per requirement which fueled energy in wedding. Thankyou Manglam Event and team.",
     rating: 5,
-    date: "March 2024",
-    image: "/avatars/rahul-priya.jpg",
+    date: "January 2023",
+    location: "Garh Govind",
   },
   {
     id: 2,
-    name: "Amit & Sneha",
-    role: "Corporate Event",
+    name: "Sneha & Dependra",
+    role: "Newlyweds",
     content:
-      "Our company's annual event was a huge success thanks to Manglam Event. Their professionalism and attention to detail made everything seamless and memorable.",
+      "I want to take a moment and appreciate the wedding planning by Manglam Event and team, they followed all our instructions really well, they took our ideas seriously and made our vision into life, they really arranged everything well, and their services were up to mark. We will highly recommend Manglam Event for your wedding planning.",
     rating: 5,
-    date: "February 2024",
-    image: "/avatars/amit-sneha.jpg",
+    date: "December 2023",
+    location: "Sardarclub",
   },
   {
     id: 3,
-    name: "Rajesh & Meera",
-    role: "Wedding Anniversary",
+    name: "Shanky Bagrecha",
+    role: "Bride's Family",
     content:
-      "Celebrating our 25th anniversary with Manglam Event was magical. They captured the essence of our journey together in every aspect of the celebration.",
+      "The team really planned the wedding very well and we are grateful for that, aakash you didn't even sit for a moment and managed everything so perfectly as we didn't hear no from him even for whatever instant arrangements we asked. We didn't just hired wedding planner but also made a good bond with aakash & mansi which is again appreciable as it's important to get understood and connected with the one's who are planning the important day of your life. Thankyou Naveenji, mansi, and aakash.",
     rating: 5,
-    date: "January 2024",
-    image: "/avatars/rajesh-meera.jpg",
+    date: "February 2022",
+    location: "Rangmahal Jaisalmer",
+  },
+  {
+    id: 4,
+    name: "Manohar Jethani",
+    role: "Groom's Father",
+    content:
+      "I can't describe in words the quality of work Manglam Event and team did at my son's wedding. We are really thankful to them as they really valued our vision and converted it into a beautiful wedding. We are really grateful to them.",
+    rating: 5,
+    date: "October 2022",
+    location: "Amargarh Resort by Neelkanth Alura",
+  },
+  {
+    id: 5,
+    name: "Justice Vinit Kumar",
+    role: "Client",
+    content:
+      "I really loved the decoration. Naveen ji and his team made the wedding memorable for us and our guests. All the arrangements and management was so smooth. Thankyou Manglam Event and team.",
+    rating: 5,
+    date: "November 2024",
+    location: "",
+  },
+  {
+    id: 6,
+    name: "Moti Singh Rajpurohit",
+    role: "Bride's Father",
+    content:
+      "I have no words to describe the efforts and hardwork Manglam Event and Team put in my daughter's wedding. I visioned the wedding and they converted my vision into life as this is one of the best wedding of the year for me. I am really grateful to Naveen ji. I wish them success ahead.",
+    rating: 5,
+    date: "November 2024",
+    location: "LalBagh, Ranakpur",
+  },
+  {
+    id: 7,
+    name: "Rumit & Sakshi",
+    role: "Newlyweds",
+    content:
+      "Manglam Event has done wonders. They not only organized but the hardwork and efforts they put in were really appreciable. My guests were from different corners of the world and they really enjoyed the wedding whole heartedly. The wedding for me and my guests was mindblowing. I wish them success ahead and good wishes. Thankyou so much.",
+    rating: 5,
+    date: "November 2024",
+    location: "Kings Muthaliya Resort, Takhatgarh",
   },
 ];
 
@@ -122,6 +162,7 @@ export default function Testimonials() {
                     <h4 className="font-medium text-xl mb-1">{t.name}</h4>
                     <p className="text-base text-white/80">
                       {t.role} • {t.date}
+                      {t.location && ` • ${t.location}`}
                     </p>
                   </div>
                 </div>
