@@ -1,50 +1,54 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Facebook, Instagram } from 'lucide-react';
-import { FaPinterest } from 'react-icons/fa';
+import { motion } from "framer-motion";
+import { MapPin, Phone, Mail, Facebook, Instagram } from "lucide-react";
+import { FaPinterest } from "react-icons/fa";
 
 const ContactInfo = () => {
   const contactInfo = [
     {
       id: 1,
-      title: 'Visit Us',
-      content: 'First Floor, Khasra No. 101, DPS Circle, No 4/D, above HDFC Bank, Branch, Pal, Jodhpur, Rajasthan 342008',
-      icon: <MapPin className="w-8 h-8" />
+      title: "Visit Us",
+      content:
+        "First Floor, Khasra No. 101, DPS Circle, No 4/D, above HDFC Bank, Branch, Pal, Jodhpur, Rajasthan 342008",
+      href: "https://maps.app.goo.gl/xxRJfJyx2g2qYnEN8",
+      icon: <MapPin className="w-8 h-8" />,
     },
     {
       id: 2,
-      title: 'Call Us',
-      content: '+91 82399 99000',
-      icon: <Phone className="w-8 h-8" />
+      title: "Call Us",
+      content: "+91 82399 99000",
+      href: "tel:+918239999000",
+      icon: <Phone className="w-8 h-8" />,
     },
     {
       id: 3,
-      title: 'Email Us',
-      content: 'info@manglamevent.com',
-      icon: <Mail className="w-8 h-8" />
-    }
+      title: "Email Us",
+      content: "info@manglamevent.com",
+      href: "mailto:info@manglamevent.com",
+      icon: <Mail className="w-8 h-8" />,
+    },
   ];
 
   const socialLinks = [
     {
       id: 1,
-      name: 'Facebook',
-      url: 'https://www.facebook.com/ManglamEventJodhpur/',
-      icon: <Facebook className="w-6 h-6" />
+      name: "Facebook",
+      url: "https://www.facebook.com/ManglamEventJodhpur/",
+      icon: <Facebook className="w-6 h-6" />,
     },
     {
       id: 2,
-      name: 'Instagram',
-      url: 'https://www.instagram.com/manglamevents/',
-      icon: <Instagram className="w-6 h-6" />
+      name: "Instagram",
+      url: "https://www.instagram.com/manglamevents/",
+      icon: <Instagram className="w-6 h-6" />,
     },
     {
       id: 3,
-      name: 'Pinterest',
-      url: 'https://in.pinterest.com/manglamevent_jodhpur/',
-      icon: <FaPinterest className="w-6 h-6" />
-    }
+      name: "Pinterest",
+      url: "https://in.pinterest.com/manglamevent_jodhpur/",
+      icon: <FaPinterest className="w-6 h-6" />,
+    },
   ];
 
   return (
@@ -80,11 +84,14 @@ const ContactInfo = () => {
                 {info.title}
               </motion.h3>
               <motion.p
-                className="text-foreground/80"
+                className="text-foreground/80 cursor-pointer"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.3 }}
+                onClick={() => {
+                  window.open(info.href, "_self");
+                }}
               >
                 {info.content}
               </motion.p>

@@ -41,7 +41,9 @@ const Footer = () => {
         .slice(0, 10)
         .map((service) => ({
           name: service.title,
-          href: `/services?service=${encodeURIComponent(service.title.toLowerCase())}`,
+          href: `/services?service=${encodeURIComponent(
+            service.title.toLowerCase()
+          )}`,
         }))
         .concat([{ name: "View All Services", href: "/services" }]),
     },
@@ -50,7 +52,7 @@ const Footer = () => {
       links: [
         {
           name: "First Floor, Khasra No. 101, DPS Circle, above HDFC Bank, Pal, Jodhpur, Rajasthan 342008",
-          href: "https://maps.google.com",
+          href: "https://maps.app.goo.gl/xxRJfJyx2g2qYnEN8",
           icon: <MapPin className="w-4 h-4 inline-block mr-2" />,
         },
         {
@@ -78,7 +80,8 @@ const Footer = () => {
       name: "Instagram",
       url: "https://www.instagram.com/manglamevents/",
       icon: <Instagram className="w-5 h-5" />,
-      color: "hover:bg-gradient-to-tr from-[#F9CE34] via-[#EE2A7B] to-[#6228D7]",
+      color:
+        "hover:bg-gradient-to-tr from-[#F9CE34] via-[#EE2A7B] to-[#6228D7]",
     },
     {
       name: "Pinterest",
@@ -97,7 +100,7 @@ const Footer = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Logo */}
-        <motion.div 
+        <motion.div
           className="flex justify-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -129,7 +132,7 @@ const Footer = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-background/50 backdrop-blur-sm rounded-xl p-6 border border-accent/10 hover:border-accent/20 transition-all duration-300 hover:shadow-lg"
             >
-              <h3 className="text-lg font-semibold text-foreground mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <h3 className="text-lg font-semibold  mb-6 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
                 {section.title}
               </h3>
               <ul
@@ -140,7 +143,7 @@ const Footer = () => {
                 }`}
               >
                 {section.links.map((link) => (
-                  <motion.li 
+                  <motion.li
                     key={link.name}
                     whileHover={{ x: 5 }}
                     transition={{ duration: 0.2 }}
@@ -149,7 +152,9 @@ const Footer = () => {
                       href={link.href}
                       className="flex items-start text-muted-foreground hover:text-primary transition-colors group"
                     >
-                      {link.icon && <span className="text-primary">{link.icon}</span>}
+                      {link.icon && (
+                        <span className="text-primary">{link.icon}</span>
+                      )}
                       <span className="text-sm group-hover:translate-x-1 transition-transform duration-300">
                         {link.name}
                       </span>
@@ -168,7 +173,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h3 className="text-lg font-semibold text-foreground mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h3 className="text-lg font-semibold text-foreground mb-4 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
               Subscribe to Newsletter
             </h3>
             <p className="text-muted-foreground text-sm mb-6">
@@ -227,7 +232,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom */}
-        <motion.div 
+        <motion.div
           className="pt-6 border-t border-accent/20 text-center text-sm text-foreground/70"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

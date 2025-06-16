@@ -71,7 +71,7 @@ const EnquiryForm = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h3 className="text-2xl font-semibold text-foreground mb-6 text-center">Send us a Message</h3>
+            {/* <h3 className="text-2xl font-semibold text-foreground mb-6 text-center">Send us a Message</h3> */}
             <motion.a
               href="https://forms.gle/Y5NASwWV8o8vBVwx6"
               target="_blank"
