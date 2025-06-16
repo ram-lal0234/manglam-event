@@ -12,7 +12,7 @@ const services = [
     title: "Destination Weddings",
     description:
       "At Manglam Event, destination weddings aren't just events — they're stories written in sunsets, woven through waves, and sealed with memories that linger long after the vows. Let your dream unfold, wherever your heart takes you.",
-    image: "/images/services/VMP02941.jpg",
+    image: "/images/gallery/Folder-1/17.png",
     icon: "🌅",
   },
   {
@@ -26,98 +26,98 @@ const services = [
     title: "Venue Selection",
     description:
       "The perfect moment begins with the perfect place. At Manglam Event, we don't just find venues — we discover backdrops for your story. Whether it's under open skies or within royal walls, we match your dreams with spaces that speak your love language.",
-    image: "/images/services/RK_07840.jpg",
+    image: "/images/services/venue-selection.jpg",
     icon: "🏰",
   },
   {
     title: "Wedding Decor",
     description:
       "Rooted in tradition, adorned with elegance — our décor tells your story through colors, culture, and craft. At Manglam Event, we blend timeless rituals with artistic flair, creating a setting where heritage meets heart, and every detail feels like home.",
-    image: "/images/services/PTVF8365.jpg",
+    image: "/images/gallery/Folder-2/26.png",
     icon: "✨",
   },
   {
     title: "Wedding Entertainment",
     description:
       "Let the music rise and the moments sparkle — we curate joy that dances through your celebration. At Manglam Event, wedding entertainment is an experience, where beats meet traditions, and every performance adds magic to your memories.",
-    image: "/images/services/PTVF8191.jpg",
+    image: "/images/gallery/Folder-2/2.png",
     icon: "🎵",
   },
   {
     title: "Bride Groom Entry",
     description:
       "Every love story deserves a grand beginning. At Manglam Event, we craft unforgettable bride and groom entries — moments where dreams walk in, hearts skip beats, and all eyes are on love making its way into forever.",
-    image: "/images/services/DTI04044.jpg",
+    image: "/images/gallery/Folder-2/20.png",
     icon: "👰",
   },
   {
     title: "Hospitality",
     description:
       "With warmth in every gesture and care in every detail, we treat your guests like family. At Manglam Event, hospitality goes beyond service — it's about creating personalized experiences, from the first welcome ritual to seamless guest management, ensuring that every moment feels like home.",
-    image: "/images/services/0C3A5361.jpg",
+    image: "/images/services/hospitality.jpg",
     icon: "🏠",
   },
   {
     title: "Wedding Photography & Videography",
     description:
       "Every glance, every laugh, every tear — we capture the moments that speak louder than words. At Manglam Event, our candid photography and cinematic videography weave your love story into timeless visuals, preserving every authentic moment and every cinematic frame, so your memories live on forever.",
-    image: "/images/services/Sangeet Making.MP4",
+    image: "/images/gallery/Folder-2/18.png",
     icon: "📸",
   },
   {
     title: "Wedding Choreography",
     description:
       "From the first step to the final twirl, we bring your dance dreams to life. At Manglam Event, our choreography blends grace and rhythm, crafting a performance that tells your story with every move — a magical dance that will be remembered long after the music fades.",
-    image: "/images/services/Pooja Vedant - 3.mp4",
+    image: "/images/gallery/Folder-2/24.png",
     icon: "💃",
   },
   {
     title: "Vendor Management",
     description:
       "Behind every flawless celebration is a team of trusted artisans. At Manglam Event, we handle every detail with precision, from selecting the finest vendors to ensuring seamless coordination. Our expert vendor management guarantees that each element of your event aligns perfectly, creating a harmonious experience that reflects your vision.",
-    image: "/images/services/Haldi Entry - Amritam.MP4",
+    image: "/images/services/vendor management.jpg",
     icon: "🤝",
   },
   {
     title: "Logistics",
     description:
       "In the dance of planning, every detail matters. At Manglam Event, we master the art of logistics, ensuring that every element of your celebration flows seamlessly. From the first moment to the last, our meticulous coordination guarantees that your event unfolds flawlessly, leaving you free to enjoy the magic of the moment.",
-    image: "/images/services/Jaisalmer Rangmahal.mp4",
+    image: "/images/services/logistics.jpg",
     icon: "📋",
   },
   {
     title: "Invitations & Gifting",
     description:
       "The first glimpse of your celebration, an invitation that speaks of elegance and warmth. At Manglam Event, we craft personalized invites and thoughtful gifts that set the tone for your special day. Every detail, from the paper to the gesture, is a reflection of your love, leaving a lasting impression before the celebration even begins.",
-    image: "/images/services/Carnival - Dior Decor.MP4",
+    image: "/images/services/invitation.jpg",
     icon: "🎁",
   },
   {
     title: "Ring Ceremony",
     description:
       "A moment where promises are made, and hearts are bound. At Manglam Event, we create a ring ceremony that reflects the depth of your love — a seamless blend of tradition and elegance, turning this simple exchange into an unforgettable celebration of commitment.",
-    image: "/images/services/DTI04044.jpg",
+    image: "/images/gallery/Folder-1/20.png",
     icon: "💎",
   },
   {
     title: "Birthdays",
     description:
       "Birthdays are more than just a date — they are a celebration of life, laughter, and love. At Manglam Event, we craft unforgettable birthday experiences, filled with joy, surprises, and memories that linger. From intimate gatherings to grand festivities, we make every year more special than the last.",
-    image: "/images/services/0C3A5361.jpg",
+    image: "/images/services/birthday.jpg",
     icon: "🎂",
   },
   {
     title: "Corporate Events",
     description:
       "Corporate events are not just about business; they are about building connections, celebrating achievements, and inspiring teams. At Manglam Event, we craft seamless experiences that blend professionalism with creativity, ensuring every gathering leaves a lasting impression and every detail reflects your company's vision.",
-    image: "/images/services/VMP02941.jpg",
+    image: "/images/services/corporate.jpg",
     icon: "💼",
   },
   {
     title: "Printing & Stationery",
     description:
       "The finest details often lie in the smallest touches. At Manglam Event, we elevate your celebration with custom printing and stationery that reflect your unique style. From elegant invites to personalized keepsakes, every piece is crafted with care, setting the tone and adding a personal touch to your unforgettable day.",
-    image: "/images/services/VMP02808.jpg",
+    image: "/images/gallery/Folder-2/23.png",
     icon: "📝",
   },
 ];
@@ -258,7 +258,7 @@ const ServicesList = () => {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           ref={titleRef}
           className="text-center mb-20"
@@ -269,28 +269,28 @@ const ServicesList = () => {
         >
           <motion.div
             className="inline-block mb-8"
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
+            // initial={{ scale: 0 }}
+            // whileInView={{ scale: 1 }}
+            // viewport={{ once: true, amount: 0.3 }}
+            // transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
           >
             <span className="text-7xl">✨</span>
           </motion.div>
           <motion.h2
             className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary/50 via-primary to-primary mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            // initial={{ opacity: 0, y: 20 }}
+            // whileInView={{ opacity: 1, y: 0 }}
+            // viewport={{ once: true, amount: 0.3 }}
+            // transition={{ duration: 0.8, delay: 0.2 }}
           >
             Our Services
           </motion.h2>
           <motion.p
             className="text-xl md:text-2xl text-foreground/90 max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            // initial={{ opacity: 0, y: 20 }}
+            // whileInView={{ opacity: 1, y: 0 }}
+            // viewport={{ once: true, amount: 0.3 }}
+            // transition={{ duration: 0.8, delay: 0.3 }}
           >
             Discover our comprehensive range of event planning and management
             services
