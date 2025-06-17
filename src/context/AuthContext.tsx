@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useEffect, useState } from 'react';
-import { 
+import { createContext, useContext, useEffect, useState } from "react";
+import {
   User,
   GoogleAuthProvider,
   signInWithPopup,
@@ -12,16 +12,20 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
-  updateProfile
-} from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+  updateProfile,
+} from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
   signInWithEmail: (email: string, password: string) => Promise<void>;
-  signUpWithEmail: (email: string, password: string, name: string) => Promise<void>;
+  signUpWithEmail: (
+    email: string,
+    password: string,
+    name: string
+  ) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   signInWithPhone: (phoneNumber: string) => Promise<void>;
   verifyOTP: (otp: string) => Promise<void>;
@@ -42,14 +46,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
 
     // Handle redirect result
-    getRedirectResult(auth).then((result) => {
-      if (result) {
-        // User successfully signed in
-        setUser(result.user);
-      }
-    }).catch((error) => {
-      console.error('Error getting redirect result:', error);
-    });
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result) {
+          // User successfully signed in
+          setUser(result.user);
+        }
+      })
+      .catch((error) => {
+        console.error("Error getting redirect result:", error);
+      });
 
     return () => unsubscribe();
   }, []);
@@ -59,20 +65,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const provider = new GoogleAuthProvider();
       // Add custom parameters for better mobile experience
       provider.setCustomParameters({
-        prompt: 'select_account',
+        prompt: "select_account",
         // Force account selection even when one account is available
-        auth_type: 'reauthenticate'
+        auth_type: "reauthenticate",
       });
-      
+
       await signInWithPopup(auth, provider);
     } catch (error: any) {
       // Handle specific error cases
-      if (error.code === 'auth/popup-closed-by-user') {
-        throw new Error('Sign-in popup was closed. Please try again.');
-      } else if (error.code === 'auth/cancelled-popup-request') {
-        throw new Error('Sign-in was cancelled. Please try again.');
+      if (error.code === "auth/popup-closed-by-user") {
+        throw new Error("Sign-in popup was closed. Please try again.");
+      } else if (error.code === "auth/cancelled-popup-request") {
+        throw new Error("Sign-in was cancelled. Please try again.");
       } else {
-        console.error('Error signing in with Google:', error);
+        console.error("Error signing in with Google:", error);
         throw error;
       }
     }
@@ -80,17 +86,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signInWithPhone = async (phoneNumber: string) => {
     try {
-      const recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        size: 'normal',
-        callback: () => {
-          // reCAPTCHA solved
-        },
-      });
+      const recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "normal",
+          callback: () => {
+            // reCAPTCHA solved
+          },
+        }
+      );
 
-      const confirmation = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+      const confirmation = await signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        recaptchaVerifier
+      );
       setConfirmationResult(confirmation);
     } catch (error) {
-      console.error('Error signing in with phone:', error);
+      console.error("Error signing in with phone:", error);
       throw error;
     }
   };
@@ -101,7 +115,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         await confirmationResult.confirm(otp);
       }
     } catch (error) {
-      console.error('Error verifying OTP:', error);
+      console.error("Error verifying OTP:", error);
       throw error;
     }
   };
@@ -110,7 +124,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await firebaseSignOut(auth);
     } catch (error) {
-      console.error('Error signing out:', error);
+      console.error("Error signing out:", error);
       throw error;
     }
   };
@@ -119,35 +133,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
-      if (error.code === 'auth/user-not-found') {
-        throw new Error('No account found with this email. Please sign up first.');
-      } else if (error.code === 'auth/wrong-password') {
-        throw new Error('Incorrect password. Please try again.');
-      } else if (error.code === 'auth/invalid-email') {
-        throw new Error('Invalid email address.');
+      if (error.code === "auth/user-not-found") {
+        throw new Error(
+          "No account found with this email. Please sign up first."
+        );
+      } else if (error.code === "auth/wrong-password") {
+        throw new Error("Incorrect password. Please try again.");
+      } else if (error.code === "auth/invalid-email") {
+        throw new Error("Invalid email address.");
       } else {
-        console.error('Error signing in with email:', error);
+        console.error("Error signing in with email:", error);
         throw error;
       }
     }
   };
 
-  const signUpWithEmail = async (email: string, password: string, name: string) => {
+  const signUpWithEmail = async (
+    email: string,
+    password: string,
+    name: string
+  ) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       // Update the user's profile with their name
       await updateProfile(userCredential.user, {
-        displayName: name
+        displayName: name,
       });
     } catch (error: any) {
-      if (error.code === 'auth/email-already-in-use') {
-        throw new Error('An account already exists with this email.');
-      } else if (error.code === 'auth/weak-password') {
-        throw new Error('Password should be at least 6 characters long.');
-      } else if (error.code === 'auth/invalid-email') {
-        throw new Error('Invalid email address.');
+      if (error.code === "auth/email-already-in-use") {
+        throw new Error("An account already exists with this email.");
+      } else if (error.code === "auth/weak-password") {
+        throw new Error("Password should be at least 6 characters long.");
+      } else if (error.code === "auth/invalid-email") {
+        throw new Error("Invalid email address.");
       } else {
-        console.error('Error signing up with email:', error);
+        console.error("Error signing up with email:", error);
         throw error;
       }
     }
@@ -157,12 +181,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await sendPasswordResetEmail(auth, email);
     } catch (error: any) {
-      if (error.code === 'auth/user-not-found') {
-        throw new Error('No account found with this email.');
-      } else if (error.code === 'auth/invalid-email') {
-        throw new Error('Invalid email address.');
+      if (error.code === "auth/user-not-found") {
+        throw new Error("No account found with this email.");
+      } else if (error.code === "auth/invalid-email") {
+        throw new Error("Invalid email address.");
       } else {
-        console.error('Error sending password reset email:', error);
+        console.error("Error sending password reset email:", error);
         throw error;
       }
     }
@@ -174,23 +198,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signInWithGoogle,
     signInWithEmail,
     signUpWithEmail,
+    signInWithEmailAndPassword,
     resetPassword,
     signInWithPhone,
     verifyOTP,
     signOut,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
-} 
+}
