@@ -239,8 +239,8 @@ const Hero = () => {
             ref={videoRef}
             autoPlay
             loop
-            muted
             playsInline
+            controls
             className="absolute inset-0 w-full h-full object-cover"
             onLoadedData={handleVideoLoad}
           >

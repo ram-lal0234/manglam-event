@@ -65,7 +65,7 @@ export default function UserMenu({ isMobile = false }: UserMenuProps) {
           </div>
         </div>
         <div className="space-y-1">
-          {menuItems.map((item) => (
+          {/* {menuItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -74,7 +74,7 @@ export default function UserMenu({ isMobile = false }: UserMenuProps) {
               {item.icon}
               <span>{item.label}</span>
             </Link>
-          ))}
+          ))} */}
           <button
             onClick={handleSignOut}
             className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-red-500 hover:text-red-600 hover:bg-red-500/5 rounded-lg transition-colors duration-300"
@@ -120,7 +120,7 @@ export default function UserMenu({ isMobile = false }: UserMenuProps) {
               </p>
             </div>
             <div className="py-1">
-              {menuItems.map((item) => (
+              {/* {menuItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -130,7 +130,7 @@ export default function UserMenu({ isMobile = false }: UserMenuProps) {
                   {item.icon}
                   <span>{item.label}</span>
                 </Link>
-              ))}
+              ))} */}
               <button
                 onClick={handleSignOut}
                 className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-red-500 hover:text-red-600 hover:bg-red-500/5 transition-colors duration-300"
