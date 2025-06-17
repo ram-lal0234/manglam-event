@@ -33,21 +33,21 @@ const services = [
     title: "Wedding Decor",
     description:
       "Rooted in tradition, adorned with elegance — our décor tells your story through colors, culture, and craft. At Manglam Event, we blend timeless rituals with artistic flair, creating a setting where heritage meets heart, and every detail feels like home.",
-    image: "/images/gallery/Folder-2/26.png",
+    image: "/images/gallery/Folder-2/WEDDING DECOR.png",
     icon: "✨",
   },
   {
     title: "Wedding Entertainment",
     description:
       "Let the music rise and the moments sparkle — we curate joy that dances through your celebration. At Manglam Event, wedding entertainment is an experience, where beats meet traditions, and every performance adds magic to your memories.",
-    image: "/images/gallery/Folder-2/2.png",
+    image: "/images/gallery/Folder-2/WEDDING ENTERTAINTMENT.png",
     icon: "🎵",
   },
   {
     title: "Bride Groom Entry",
     description:
       "Every love story deserves a grand beginning. At Manglam Event, we craft unforgettable bride and groom entries — moments where dreams walk in, hearts skip beats, and all eyes are on love making its way into forever.",
-    image: "/images/gallery/Folder-2/20.png",
+    image: "/images/gallery/Folder-2/BRIDE GROOM ENTRY.png",
     icon: "👰",
   },
   {
@@ -61,14 +61,14 @@ const services = [
     title: "Wedding Photography & Videography",
     description:
       "Every glance, every laugh, every tear — we capture the moments that speak louder than words. At Manglam Event, our candid photography and cinematic videography weave your love story into timeless visuals, preserving every authentic moment and every cinematic frame, so your memories live on forever.",
-    image: "/images/gallery/Folder-2/18.png",
+    image: "/images/gallery/Folder-2/WEDDING PHOTOGRAPHY AND VIDEOGRAPHY.png",
     icon: "📸",
   },
   {
     title: "Wedding Choreography",
     description:
       "From the first step to the final twirl, we bring your dance dreams to life. At Manglam Event, our choreography blends grace and rhythm, crafting a performance that tells your story with every move — a magical dance that will be remembered long after the music fades.",
-    image: "/images/gallery/Folder-2/24.png",
+    image: "/images/gallery/Folder-2/WEDDING CHOREOGRAPHY.png",
     icon: "💃",
   },
   {
@@ -96,7 +96,7 @@ const services = [
     title: "Ring Ceremony",
     description:
       "A moment where promises are made, and hearts are bound. At Manglam Event, we create a ring ceremony that reflects the depth of your love — a seamless blend of tradition and elegance, turning this simple exchange into an unforgettable celebration of commitment.",
-    image: "/images/gallery/Folder-1/20.png",
+    image: "/images/gallery/Folder-1/RING CEREMONY.png",
     icon: "💎",
   },
   {

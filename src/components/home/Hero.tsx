@@ -245,7 +245,7 @@ const Hero = () => {
             onLoadedData={handleVideoLoad}
           >
             <source
-              src="https://videos.pexels.com/video-files/13038198/13038198-hd_1920_1080_25fps.mp4"
+              src="images/WEBSITE VDO.mp4"
               type="video/mp4"
             />
           </video>
@@ -287,7 +287,7 @@ const Hero = () => {
         </motion.p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4">
+        {/* <div className="flex flex-col sm:flex-row gap-4">
           <motion.button
             className="cta-button px-8 py-3 bg-gradient-to-r from-primary to-accent rounded-full text-white font-medium hover:from-primary/90 hover:to-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl"
             whileHover={{ scale: 1.05 }}
@@ -302,7 +302,7 @@ const Hero = () => {
           >
             Learn More
           </motion.button>
-        </div>
+        </div> */}
 
         {/* Scroll Indicator */}
         <motion.div

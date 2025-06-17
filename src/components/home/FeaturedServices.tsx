@@ -11,7 +11,7 @@ const services = [
     title: "Destination Weddings",
     description:
       "At Manglam Event, destination weddings aren't just events — they're stories written in sunsets, woven through waves, and sealed with memories that linger long after the vows. Let your dream unfold, wherever your heart takes you.",
-    image: "/images/gallery/Folder-1/17.png",
+    image: "/images/gallery/Folder-1/DESTINATION WEDDING.png",
     icon: <Calendar className="w-8 h-8" />,
     color: "from-rose-500/20 to-pink-500/20",
     textColor: "text-rose-500",

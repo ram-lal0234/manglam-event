@@ -7,6 +7,9 @@ import { ReactNode, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { services } from "../services/ServicesList";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import toast from "react-hot-toast";
 
 interface FooterLink {
   name: string;
@@ -22,6 +25,7 @@ interface FooterSection {
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const [email, setEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
 
   const footerLinks: FooterSection[] = [
     {
@@ -180,28 +184,57 @@ const Footer = () => {
               Get updates about events, trends & inspirations.
             </p>
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                alert(`Subscribed: ${email}`);
-                setEmail("");
+                setIsSubscribing(true);
+                try {
+                  await addDoc(collection(db, "newsletter_subscribers"), {
+                    email,
+                    createdAt: serverTimestamp(),
+                  });
+                  toast.success("Successfully subscribed to newsletter!");
+                  setEmail("");
+                } catch (error) {
+                  console.error("Error subscribing to newsletter:", error);
+                  toast.error("Failed to subscribe. Please try again.");
+                } finally {
+                  setIsSubscribing(false);
+                }
               }}
               className="flex flex-col space-y-4"
             >
-              <input
-                type="email"
-                placeholder="Your email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="px-4 py-3 rounded-lg bg-accent/10 text-sm border border-accent/30 focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300"
-              />
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-3.5 rounded-xl bg-background/80 text-sm border border-accent/20 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300 placeholder:text-muted-foreground/60"
+                  disabled={isSubscribing}
+                />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <Mail className="w-4 h-4 text-muted-foreground/60" />
+                </div>
+              </div>
               <motion.button
                 type="submit"
-                className="bg-primary hover:bg-accent text-white py-3 rounded-lg text-sm transition-all duration-300 font-medium"
+                className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white py-3.5 rounded-xl text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 disabled:shadow-none"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                disabled={isSubscribing}
               >
-                Subscribe
+                {isSubscribing ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Subscribing...
+                  </span>
+                ) : (
+                  "Subscribe Now"
+                )}
               </motion.button>
             </form>
           </motion.div>

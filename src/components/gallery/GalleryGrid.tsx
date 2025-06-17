@@ -18,7 +18,7 @@ interface GalleryItem {
   url: string;
   alt: string;
   folder: string;
-  type: 'image' | 'video';
+  type: "image";
 }
 
 const GalleryGrid = () => {
@@ -37,7 +37,7 @@ const GalleryGrid = () => {
       url: `/images/gallery/Folder-1/${i + 1}.png`,
       alt: `Gallery Image ${i + 1} from Folder 1`,
       folder: "Gallery-1",
-      type: 'image' as const
+      type: "image" as const,
     }));
 
     const folder2Photos = Array.from({ length: 20 }, (_, i) => ({
@@ -45,104 +45,70 @@ const GalleryGrid = () => {
       url: `/images/gallery/Folder-2/${i + 1}.png`,
       alt: `Gallery Image ${i + 1} from Folder 2`,
       folder: "Gallery-2",
-      type: 'image' as const
+      type: "image" as const,
     }));
 
     // Load service photos
     const servicePhotos: GalleryItem[] = [
       {
-        id: 'service-1',
-        url: '/images/services/VMP02941.jpg',
-        alt: 'Service Event Photo 1',
-        folder: 'Services',
-        type: 'image'
+        id: "service-1",
+        url: "/images/services/VMP02941.jpg",
+        alt: "Service Event Photo 1",
+        folder: "Services",
+        type: "image",
       },
       {
-        id: 'service-2',
-        url: '/images/services/VMP02808.jpg',
-        alt: 'Service Event Photo 2',
-        folder: 'Services',
-        type: 'image'
+        id: "service-2",
+        url: "/images/services/VMP02808.jpg",
+        alt: "Service Event Photo 2",
+        folder: "Services",
+        type: "image",
       },
       {
-        id: 'service-3',
-        url: '/images/services/RK_07840.jpg',
-        alt: 'Service Event Photo 3',
-        folder: 'Services',
-        type: 'image'
+        id: "service-3",
+        url: "/images/services/RK_07840.jpg",
+        alt: "Service Event Photo 3",
+        folder: "Services",
+        type: "image",
       },
       {
-        id: 'service-4',
-        url: '/images/services/PTVF8365.jpg',
-        alt: 'Service Event Photo 4',
-        folder: 'Services',
-        type: 'image'
+        id: "service-4",
+        url: "/images/services/PTVF8365.jpg",
+        alt: "Service Event Photo 4",
+        folder: "Services",
+        type: "image",
       },
       {
-        id: 'service-5',
-        url: '/images/services/PTVF8191.jpg',
-        alt: 'Service Event Photo 5',
-        folder: 'Services',
-        type: 'image'
+        id: "service-5",
+        url: "/images/services/PTVF8191.jpg",
+        alt: "Service Event Photo 5",
+        folder: "Services",
+        type: "image",
       },
       {
-        id: 'service-6',
-        url: '/images/services/DTI04044.jpg',
-        alt: 'Service Event Photo 6',
-        folder: 'Services',
-        type: 'image'
+        id: "service-6",
+        url: "/images/services/DTI04044.jpg",
+        alt: "Service Event Photo 6",
+        folder: "Services",
+        type: "image",
       },
       {
-        id: 'service-7',
-        url: '/images/services/0C3A5361.jpg',
-        alt: 'Service Event Photo 7',
-        folder: 'Services',
-        type: 'image'
+        id: "service-7",
+        url: "/images/services/0C3A5361.jpg",
+        alt: "Service Event Photo 7",
+        folder: "Services",
+        type: "image",
       },
-      {
-        id: 'service-video-1',
-        url: '/images/services/Sangeet Making.MP4',
-        alt: 'Sangeet Making Video',
-        folder: 'Services',
-        type: 'video'
-      },
-      {
-        id: 'service-video-2',
-        url: '/images/services/Pooja Vedant - 3.mp4',
-        alt: 'Pooja Vedant Video',
-        folder: 'Services',
-        type: 'video'
-      },
-      {
-        id: 'service-video-3',
-        url: '/images/services/Haldi Entry - Amritam.MP4',
-        alt: 'Haldi Entry Video',
-        folder: 'Services',
-        type: 'video'
-      },
-      {
-        id: 'service-video-4',
-        url: '/images/services/Jaisalmer Rangmahal.mp4',
-        alt: 'Jaisalmer Rangmahal Video',
-        folder: 'Services',
-        type: 'video'
-      },
-      {
-        id: 'service-video-5',
-        url: '/images/services/Carnival - Dior Decor.MP4',
-        alt: 'Carnival Dior Decor Video',
-        folder: 'Services',
-        type: 'video'
-      }
     ];
 
     setItems([...folder1Photos, ...folder2Photos, ...servicePhotos]);
     setIsLoading(false);
   }, []);
 
-  const filteredItems = selectedCategory === "all"
-    ? items
-    : items.filter(item => item.folder === selectedCategory);
+  const filteredItems =
+    selectedCategory === "all"
+      ? items
+      : items.filter((item) => item.folder === selectedCategory);
 
   const handleItemClick = useCallback((item: GalleryItem, index: number) => {
     setSelectedItem(item);
@@ -165,17 +131,20 @@ const GalleryGrid = () => {
     }
   }, [currentIndex, filteredItems]);
 
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (selectedItem) {
-      if (e.key === 'ArrowLeft') handlePrevious();
-      if (e.key === 'ArrowRight') handleNext();
-      if (e.key === 'Escape') setSelectedItem(null);
-    }
-  }, [selectedItem, handlePrevious, handleNext]);
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (selectedItem) {
+        if (e.key === "ArrowLeft") handlePrevious();
+        if (e.key === "ArrowRight") handleNext();
+        if (e.key === "Escape") setSelectedItem(null);
+      }
+    },
+    [selectedItem, handlePrevious, handleNext]
+  );
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
   if (isLoading) {
@@ -200,170 +169,131 @@ const GalleryGrid = () => {
             opacity: [0.3, 0.5, 0.3],
           }}
           transition={{
-            duration: 8,
+            duration: 4,
             repeat: Infinity,
-            repeatType: 'reverse',
-          }}
-        />
-        <motion.div
-          className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            repeatType: 'reverse',
+            ease: "easeInOut",
           }}
         />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/70 to-primary">
-            Our Event Gallery
-          </h2>
-          <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
-            Explore our collection of beautifully captured moments from various events and celebrations.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6"
-        >
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredItems.map((item, index) => (
             <motion.div
               key={item.id}
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer"
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="group relative aspect-square overflow-hidden rounded-xl bg-accent/5 hover:bg-accent/10 transition-all duration-300"
               onClick={() => handleItemClick(item, index)}
             >
-              {item.type === 'image' ? (
-                <Image
-                  src={item.url}
-                  alt={item.alt}
-                  fill
-                  loading="lazy"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              ) : (
-                <div className="relative w-full h-full bg-black/20">
-                  <video
-                    src={item.url}
-                    className="w-full h-full object-cover"
-                    muted
-                    loop
-                    playsInline
-                    preload="none"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                      <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                  </div>
+              <Image
+                src={item.url}
+                alt={item.alt}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                  <p className="text-sm font-medium truncate">{item.alt}</p>
+                  <p className="text-xs text-white/70">{item.folder}</p>
                 </div>
-              )}
-              {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <p className="text-sm opacity-90">{item.folder}</p>
-                  <p className="text-xs opacity-75 mt-1">{item.type === 'video' ? 'Video' : 'Image'}</p>
-                </div>
-              </div> */}
+              </div>
             </motion.div>
           ))}
-        </motion.div>
-      </div>
+        </div>
 
-      {/* Preview Modal */}
-      <AnimatePresence>
-        {selectedItem && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
-            onClick={() => setSelectedItem(null)}
-          >
-            <div className="relative w-full max-w-7xl h-full" onClick={(e) => e.stopPropagation()}>
-              {/* Close Button */}
-              <button
-                onClick={() => setSelectedItem(null)}
-                className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:text-primary transition-colors"
-              >
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-
-              {/* Navigation Buttons */}
-              {currentIndex > 0 && (
+        {/* Lightbox */}
+        <AnimatePresence>
+          {selectedItem && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+              onClick={() => setSelectedItem(null)}
+            >
+              <div className="relative w-full h-full max-w-7xl max-h-[90vh] p-4">
                 <button
-                  onClick={handlePrevious}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:text-primary transition-colors"
+                  className="absolute top-4 right-4 text-white hover:text-primary transition-colors"
+                  onClick={() => setSelectedItem(null)}
                 >
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
                   </svg>
                 </button>
-              )}
-              {currentIndex < filteredItems.length - 1 && (
-                <button
-                  onClick={handleNext}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:text-primary transition-colors"
-                >
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              )}
 
-              {/* Counter */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 px-4 py-2 rounded-full bg-black/50 backdrop-blur-sm text-white text-sm">
-                {currentIndex + 1} / {filteredItems.length}
-              </div>
-
-              {/* Media Content */}
-              <div className="w-full h-full flex items-center justify-center">
-                {selectedItem.type === 'image' ? (
+                <div className="relative w-full h-full">
                   <Image
                     src={selectedItem.url}
                     alt={selectedItem.alt}
                     fill
                     className="object-contain"
-                    sizes="100vw"
                     priority
                   />
-                ) : (
-                  <video
-                    src={selectedItem.url}
-                    className="max-w-full max-h-full"
-                    controls
-                    autoPlay
-                  />
-                )}
+                </div>
+
+                <button
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-primary transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePrevious();
+                  }}
+                >
+                  <svg
+                    className="w-8 h-8"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                </button>
+
+                <button
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-primary transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleNext();
+                  }}
+                >
+                  <svg
+                    className="w-8 h-8"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </button>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </section>
   );
 };
