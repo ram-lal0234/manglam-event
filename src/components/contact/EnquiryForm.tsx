@@ -42,7 +42,7 @@ const EnquiryForm = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <motion.h2
+          {/* <motion.h2
             className="text-4xl md:text-5xl font-bold mb-6 text-primary"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -50,7 +50,7 @@ const EnquiryForm = () => {
             transition={{ duration: 0.5 }}
           >
             Get in Touch
-          </motion.h2>
+          </motion.h2> */}
           <motion.p
             className="text-lg text-foreground/90 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
@@ -58,7 +58,8 @@ const EnquiryForm = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Fill out our enquiry form and let us help you create your dream event. Our team will get back to you within 24 hours.
+            Help us bring your wedding vision to life—fill out our Wedding Event
+            Checklist form below so we can plan every detail with precision.
           </motion.p>
         </motion.div>
 
@@ -81,7 +82,7 @@ const EnquiryForm = () => {
               whileTap={{ scale: 0.98 }}
             >
               <span className="relative z-10 flex items-center gap-2">
-                Fill Enquiry Form
+                Google Form Event Checklist
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
@@ -115,4 +116,4 @@ const EnquiryForm = () => {
   );
 };
 
-export default EnquiryForm; 
+export default EnquiryForm;

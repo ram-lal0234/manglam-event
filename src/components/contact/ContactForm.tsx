@@ -77,6 +77,33 @@ const ContactForm = () => {
     monsoon: ['July', 'August', 'September', 'October']
   };
 
+  const eventTypes = [
+    { id: "wedding", label: "Wedding" },
+    { id: "engagement", label: "Engagement" },
+    { id: "birthday", label: "Birthday" },
+    { id: "corporate", label: "Corporate" },
+    { id: "other", label: "Other" },
+  ];
+
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const years = Array.from({ length: 5 }, (_, i) =>
+    (new Date().getFullYear() + i).toString()
+  );
+
   // Get min and max dates based on tentative month and year
   const getDateConstraints = () => {
     if (!formData.tentativeYear || !formData.tentativeMonth) {
@@ -99,18 +126,18 @@ const ContactForm = () => {
     // Set date range based on season
     let startMonth, endMonth;
     switch (season) {
-      case 'winter':
-        startMonth = 10; // November
-        endMonth = 1;    // February
-        break;
-      case 'summer':
-        startMonth = 2;  // March
-        endMonth = 5;    // June
-        break;
-      case 'monsoon':
-        startMonth = 6;  // July
-        endMonth = 9;    // October
-        break;
+      // case 'winter':
+      //   startMonth = 10; // November
+      //   endMonth = 1;    // February
+      //   break;
+      // case 'summer':
+      //   startMonth = 2;  // March
+      //   endMonth = 5;    // June
+      //   break;
+      // case 'monsoon':
+      //   startMonth = 6;  // July
+      //   endMonth = 9;    // October
+      //   break;
       default:
         return null;
     }
@@ -220,33 +247,6 @@ const ContactForm = () => {
       setIsSubmitting(false);
     }
   };
-
-  const eventTypes = [
-    { id: "wedding", label: "Wedding" },
-    { id: "engagement", label: "Engagement" },
-    { id: "birthday", label: "Birthday" },
-    { id: "corporate", label: "Corporate" },
-    { id: "other", label: "Other" },
-  ];
-
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  const years = Array.from({ length: 5 }, (_, i) =>
-    (new Date().getFullYear() + i).toString()
-  );
 
   const renderError = (fieldName: string) => {
     if (errors[fieldName]) {
@@ -529,7 +529,7 @@ const ContactForm = () => {
                   }}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 hover:bg-accent/10 rounded-lg transition-colors"
                 >
-                  <Calendar className="w-5 h-5 text-foreground/50" />
+                  {/* <Calendar className="w-5 h-5 text-foreground/50" /> */}
                 </button>
               </div>
               {formData.tentativeMonth && formData.tentativeYear && (
