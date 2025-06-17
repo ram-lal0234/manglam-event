@@ -97,10 +97,10 @@ const OurFootprint = () => {
     <motion.section
       ref={sectionRef}
       style={{ opacity, scale }}
-      className="relative py-24 overflow-hidden bg-gradient-to-br from-primary/5 via-background to-primary/5"
+      className="relative py-24 overflow-hidden bg-gradient-to-br from-background via-background to-background"
     >
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-[url('/images/grain.png')] opacity-10 mix-blend-overlay" />
+      <div className="absolute inset-0 bg-[url('/images/grain.png')] opacity-5 mix-blend-soft-light" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
@@ -112,7 +112,7 @@ const OurFootprint = () => {
           transition={{ duration: 0.8 }}
         >
           <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-6 text-primary"
+            className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -121,7 +121,7 @@ const OurFootprint = () => {
             Our Footprint
           </motion.h2>
           <motion.p
-            className="text-lg text-foreground/90 max-w-2xl mx-auto"
+            className="text-lg text-foreground/80 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -137,7 +137,7 @@ const OurFootprint = () => {
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
-              className="bg-background/80 backdrop-blur-sm rounded-2xl p-8 border border-primary/20 hover:border-primary/40 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-primary/10 hover:border-primary/30 transition-all duration-300 shadow-lg hover:shadow-xl"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -145,7 +145,7 @@ const OurFootprint = () => {
               whileHover={{ scale: 1.02, y: -5 }}
             >
               <motion.div
-                className="w-16 h-16 bg-primary/20 rounded-xl flex items-center justify-center text-primary mb-6"
+                className="w-16 h-16 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center text-primary mb-6"
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
                 viewport={{ once: true }}
@@ -154,7 +154,7 @@ const OurFootprint = () => {
                 {stat.icon}
               </motion.div>
               <motion.h3
-                className="text-3xl font-bold text-primary mb-2"
+                className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -214,7 +214,7 @@ const OurFootprint = () => {
                 {visibleLogos.map((client, index) => (
                   <motion.div
                     key={client.name}
-                    className="relative h-16 w-full bg-white/5  rounded-xl p-4 grayscale hover:grayscale-0  duration-300 border border-primary/10 hover:border-primary/20"
+                    className="relative h-16 w-full bg-white rounded-xl p-4 hover:shadow-lg duration-300 border border-primary/5 hover:border-primary/20"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -227,7 +227,7 @@ const OurFootprint = () => {
                       className="object-contain p-2"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = "/images/placeholder-logo.png"; // Make sure to add a placeholder image
+                        target.src = "/images/placeholder-logo.png";
                       }}
                     />
                   </motion.div>
@@ -242,39 +242,13 @@ const OurFootprint = () => {
                   key={index}
                   onClick={() => setCurrentIndex(index)}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    currentIndex === index ? "bg-primary w-4" : "bg-primary/30"
+                    currentIndex === index ? "bg-primary w-4" : "bg-primary/20"
                   }`}
                 />
               ))}
             </div>
           </div>
         </motion.div>
-
-        {/* Decorative Elements */}
-        <motion.div
-          className="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.3, 0.2],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.3, 0.2, 0.3],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
       </div>
     </motion.section>
   );

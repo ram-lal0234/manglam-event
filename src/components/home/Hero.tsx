@@ -10,12 +10,14 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import Image from "next/image";
+import { FaVolumeMute, FaVolumeUp } from "react-icons/fa";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isContentVisible, setIsContentVisible] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -168,6 +170,14 @@ const Hero = () => {
     return () => ctx.revert();
   }, [isContentVisible]);
 
+  const toggleMute = () => {
+    if (videoRef.current) {
+      const newMutedState = !isMuted;
+      videoRef.current.muted = newMutedState;
+      setIsMuted(newMutedState);
+    }
+  };
+
   const handleVideoLoad = () => {
     setIsVideoLoaded(true);
   };
@@ -240,7 +250,7 @@ const Hero = () => {
             autoPlay
             loop
             playsInline
-            controls
+            muted
             className="absolute inset-0 w-full h-full object-cover"
             onLoadedData={handleVideoLoad}
           >
@@ -249,6 +259,24 @@ const Hero = () => {
               type="video/mp4"
             />
           </video>
+
+          {/* Mute/Unmute Button */}
+          <motion.button
+            onClick={toggleMute}
+            className="fixed bottom-8 right-8 z-[100] p-3 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 hover:bg-black/40 transition-all duration-300 cursor-pointer"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            style={{ pointerEvents: 'auto' }}
+          >
+            {isMuted ? (
+              <FaVolumeMute className="w-6 h-6 text-white" />
+            ) : (
+              <FaVolumeUp className="w-6 h-6 text-white" />
+            )}
+          </motion.button>
         </motion.div>
 
         {/* Gradient overlay */}

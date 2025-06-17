@@ -71,7 +71,7 @@ const Navbar = () => {
         transition={{ duration: 0.5 }}
       >
         <div
-          className={`mx-4 mt-4 transition-all duration-500 ${
+          className={`mx-4 mt-4 transition-all duration-500 border border-primary/20 ${
             isScrolled
               ? "bg-background/80 backdrop-blur-xl shadow-lg border border-accent/10 rounded-2xl"
               : "bg-background/50 backdrop-blur-md border border-accent/5 rounded-2xl"
