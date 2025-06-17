@@ -198,13 +198,6 @@ const GalleryGrid = () => {
         type: "image",
       },
       {
-        id: "folder2-4",
-        url: "/images/gallery/Folder-2/WEDDING DECOR.png",
-        alt: "Wedding Decor",
-        folder: "Gallery-2",
-        type: "image",
-      },
-      {
         id: "folder2-5",
         url: "/images/gallery/Folder-2/WEDDING CHOREOGRAPHY.png",
         alt: "Wedding Choreography",
@@ -489,10 +482,10 @@ const GalleryGrid = () => {
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                  {/* <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
                     <p className="text-sm font-medium truncate">{item.alt}</p>
                     <p className="text-xs text-white/70">{item.folder}</p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </motion.div>

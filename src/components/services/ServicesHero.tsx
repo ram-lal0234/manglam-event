@@ -15,11 +15,12 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 // Service videos from the services list
 const serviceVideos = [
-  "/images/services/Sangeet Making.MP4",
-  "/images/services/Pooja Vedant - 3.mp4",
-  "/images/services/Haldi Entry - Amritam.MP4",
-  "/images/services/Jaisalmer Rangmahal.mp4",
-  "/images/services/Carnival - Dior Decor.MP4",
+  // "/images/services/Sangeet Making.MP4",
+  // "/images/services/Pooja Vedant - 3.mp4",
+  // "/images/services/Haldi Entry - Amritam.MP4",
+  // "/images/services/Jaisalmer Rangmahal.mp4",
+  // "/images/services/Carnival - Dior Decor.MP4",
+  "https://wjbc2q51yihequgs.public.blob.vercel-storage.com/WEBSITE%20VDO-wu0559IOpeKQDBL8Hfe5qU4zIMVMJa.mp4",
 ];
 
 const ServicesHero = () => {
@@ -155,7 +156,7 @@ const ServicesHero = () => {
                 src={src}
                 autoPlay
                 loop
-                muted
+                controls
                 playsInline
                 className="object-cover w-full h-full min-h-screen"
                 initial={{ opacity: 0, scale: 1.1 }}
@@ -168,7 +169,10 @@ const ServicesHero = () => {
           ))}
         </Swiper>
         {/* Enhanced Animated Particles */}
-        <div ref={sparklesRef} className="absolute inset-0 pointer-events-none z-20">
+        <div
+          ref={sparklesRef}
+          className="absolute inset-0 pointer-events-none z-20"
+        >
           {[...Array(40)].map((_, i) => (
             <motion.div
               key={i}

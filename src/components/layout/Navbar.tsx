@@ -143,7 +143,7 @@ const Navbar = () => {
                     <UserMenu />
                   ) : (
                     <>
-                      <button
+                      {/* <button
                         onClick={() => {
                           setAuthMode("login");
                           setShowAuthModal(true);
@@ -160,7 +160,7 @@ const Navbar = () => {
                         className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                       >
                         Sign Up
-                      </button>
+                      </button> */}
                     </>
                   )}
                 </div>
@@ -280,7 +280,7 @@ const Navbar = () => {
                         <UserMenu isMobile />
                       ) : (
                         <>
-                          <button
+                          {/* <button
                             onClick={() => {
                               setAuthMode("login");
                               setShowAuthModal(true);
@@ -299,7 +299,7 @@ const Navbar = () => {
                             className="w-full px-4 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                           >
                             Sign Up
-                          </button>
+                          </button> */}
                         </>
                       )}
                     </motion.div>
