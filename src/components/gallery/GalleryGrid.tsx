@@ -376,13 +376,13 @@ const GalleryGrid = () => {
         folder: "Services",
         type: "image",
       },
-      {
-        id: "service-7",
-        url: "/images/services/0C3A5361.jpg",
-        alt: "Service Event Photo 7",
-        folder: "Services",
-        type: "image",
-      },
+      // {
+      //   id: "service-7",
+      //   url: "/images/services/0C3A5361.jpg",
+      //   alt: "Service Event Photo 7",
+      //   folder: "Services",
+      //   type: "image",
+      // },
     ];
 
     setItems([...folder1Photos, ...folder2Photos, ...servicePhotos]);
