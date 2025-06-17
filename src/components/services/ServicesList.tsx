@@ -117,7 +117,7 @@ const services = [
     title: "Printing & Stationery",
     description:
       "The finest details often lie in the smallest touches. At Manglam Event, we elevate your celebration with custom printing and stationery that reflect your unique style. From elegant invites to personalized keepsakes, every piece is crafted with care, setting the tone and adding a personal touch to your unforgettable day.",
-    image: "/images/gallery/Folder-2/23.png",
+    image: "/images/gallery/Folder-2/PRINTING AND STATIONARY.png",
     icon: "📝",
   },
 ];
