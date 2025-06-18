@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from 'react-hot-toast';
 import RootLayoutWrapper from "@/components/layout/RootLayoutWrapper";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({
@@ -40,6 +41,7 @@ export default function RootLayout({
             <Preloader />
             <RootLayoutWrapper>
               {children}
+              <SpeedInsights />
             </RootLayoutWrapper>
             <WhatsAppButton />
             <Toaster />
