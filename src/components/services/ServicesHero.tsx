@@ -20,7 +20,7 @@ const serviceVideos = [
   // "/images/services/Haldi Entry - Amritam.MP4",
   // "/images/services/Jaisalmer Rangmahal.mp4",
   // "/images/services/Carnival - Dior Decor.MP4",
-  "https://wjbc2q51yihequgs.public.blob.vercel-storage.com/WEBSITE%20VDO-wu0559IOpeKQDBL8Hfe5qU4zIMVMJa.mp4",
+  "https://wjbc2q51yihequgs.public.blob.vercel-storage.com/website%20video1-mJ2FDBUvWVhns3IoqCKdjOOs6wRUBV.mp4",
 ];
 
 const ServicesHero = () => {

@@ -255,7 +255,7 @@ const Hero = () => {
             onLoadedData={handleVideoLoad}
           >
             <source
-              src="https://wjbc2q51yihequgs.public.blob.vercel-storage.com/WEBSITE%20VDO-wu0559IOpeKQDBL8Hfe5qU4zIMVMJa.mp4"
+              src="https://wjbc2q51yihequgs.public.blob.vercel-storage.com/website%20video1-mJ2FDBUvWVhns3IoqCKdjOOs6wRUBV.mp4"
               type="video/mp4"
             />
           </video>
