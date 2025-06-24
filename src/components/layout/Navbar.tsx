@@ -4,21 +4,24 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import UserMenu from "../auth/UserMenu";
-import { FaBars, FaHashtag } from "react-icons/fa";
+import { FaBars, FaHashtag, FaTimes } from "react-icons/fa";
 import AuthModal from "../auth/AuthModal";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
+  const { scrollY } = useScroll();
+  const lastScrollY = useRef(0);
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -28,14 +31,22 @@ const Navbar = () => {
     { name: "Contact", path: "/contact" },
   ];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // Enhanced scroll behavior with show/hide functionality
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = lastScrollY.current;
+    const direction = latest > previous ? "down" : "up";
+    
+    setIsScrolled(latest > 50);
+    
+    // Show navbar when scrolling up, hide when scrolling down (after 100px)
+    if (latest > 100) {
+      setIsVisible(direction === "up");
+    } else {
+      setIsVisible(true);
+    }
+    
+    lastScrollY.current = latest;
+  });
 
   // Close mobile menu when clicking outside
   useEffect(() => {
@@ -61,111 +72,207 @@ const Navbar = () => {
     };
   }, [isOpen]);
 
+  // Enhanced button component with ripple effect
+  const RippleButton = ({ children, onClick, className, ...props }: any) => {
+    const [ripples, setRipples] = useState<Array<{ x: number; y: number; id: number }>>([]);
+
+    const addRipple = (event: React.MouseEvent) => {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      const newRipple = { x, y, id: Date.now() };
+      
+      setRipples(prev => [...prev, newRipple]);
+      
+      // Remove ripple after animation
+      setTimeout(() => {
+        setRipples(prev => prev.filter(ripple => ripple.id !== newRipple.id));
+      }, 600);
+      
+      onClick?.(event);
+    };
+
+    return (
+      <motion.button
+        className={`relative overflow-hidden ${className}`}
+        onClick={addRipple}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ duration: 0.2 }}
+        {...props}
+      >
+        {children}
+        {ripples.map(ripple => (
+          <motion.span
+            key={ripple.id}
+            className="absolute bg-white/30 rounded-full pointer-events-none"
+            style={{
+              left: ripple.x - 10,
+              top: ripple.y - 10,
+              width: 20,
+              height: 20,
+            }}
+            initial={{ scale: 0, opacity: 1 }}
+            animate={{ scale: 4, opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          />
+        ))}
+      </motion.button>
+    );
+  };
+
   return (
     <>
       <motion.nav
         ref={navRef}
         className="fixed w-full z-50"
         initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5 }}
+        animate={{ 
+          y: isVisible ? 0 : -100,
+          transition: { duration: 0.3, ease: "easeInOut" }
+        }}
       >
-        <div
+        <motion.div
           className={`mx-4 mt-4 transition-all duration-500 ${
             isScrolled
-              ? "bg-background/80 backdrop-blur-xl shadow-lg border border-accent/10 rounded-2xl"
-              : "bg-background/50 backdrop-blur-md border border-accent/5 rounded-2xl"
+              ? "bg-background/95 backdrop-blur-xl shadow-xl border border-accent/20 rounded-2xl"
+              : "bg-background/70 backdrop-blur-md border border-accent/10 rounded-2xl"
           }`}
+          animate={{
+            scale: isScrolled ? 0.98 : 1,
+            y: isScrolled ? 4 : 0,
+          }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
-              {/* Logo */}
+              {/* Logo with enhanced hover effect */}
               <Link
                 href="/"
-                className="relative w-32 h-12 transition-all duration-300 hover:scale-105 hover:brightness-110"
+                className="relative w-32 h-12 group"
               >
-                <Image
-                  src="/images/logo.png"
-                  alt="Manglam Event Logo"
-                  fill
-                  className="object-contain"
-                  priority
-                />
+                <motion.div
+                  whileHover={{ 
+                    scale: 1.05,
+                    rotateY: 5,
+                  }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="w-full h-full"
+                >
+                  <Image
+                    src="/images/logo.png"
+                    alt="Manglam Event Logo"
+                    fill
+                    className="object-contain transition-all duration-300 group-hover:brightness-110 group-hover:drop-shadow-lg"
+                    priority
+                  />
+                </motion.div>
               </Link>
 
-              {/* Desktop Navigation */}
+              {/* Desktop Navigation with enhanced animations */}
               <div className="hidden md:flex items-center space-x-8">
-                {navItems.map((item) => (
-                  <Link
+                {navItems.map((item, index) => (
+                  <motion.div
                     key={item.path}
-                    href={item.path}
-                    className={`nav-item relative text-sm font-medium transition-all duration-300 group ${
-                      pathname === item.path
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <Link
+                      href={item.path}
+                      className={`nav-item relative text-sm font-medium transition-all duration-300 group ${
+                        pathname === item.path
+                          ? "text-primary"
+                          : "text-foreground hover:text-primary"
+                      }`}
+                    >
+                      <motion.span
+                        whileHover={{ y: -2 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {item.name}
+                      </motion.span>
+                      <motion.span 
+                        className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent transition-all duration-300 group-hover:w-full" 
+                        whileHover={{ scaleX: 1 }}
+                        initial={{ scaleX: 0 }}
+                      />
+                      {pathname === item.path && (
+                        <motion.div
+                          className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-primary to-accent"
+                          layoutId="navbar-indicator"
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 30,
+                          }}
+                        />
+                      )}
+                    </Link>
+                  </motion.div>
+                ))}
+
+                {/* Hashtag Generator Link with icon animation */}
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: navItems.length * 0.1 }}
+                >
+                  <Link
+                    href="/hashtag-generator"
+                    className={`nav-item relative text-sm font-medium transition-all duration-300 group flex items-center space-x-2 ${
+                      pathname === "/hashtag-generator"
                         ? "text-primary"
                         : "text-foreground hover:text-primary"
                     }`}
                   >
-                    {item.name}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent transition-all duration-300 group-hover:w-full" />
-                    {pathname === item.path && (
-                      <motion.div
-                        className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-primary to-accent"
-                        layoutId="navbar-indicator"
-                        transition={{
-                          type: "spring",
-                          stiffness: 300,
-                          damping: 30,
-                        }}
-                      />
-                    )}
+                    <motion.div
+                      whileHover={{ rotate: 360, scale: 1.1 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <FaHashtag className="w-4 h-4" />
+                    </motion.div>
+                    <motion.span
+                      whileHover={{ y: -2 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      Hashtags
+                    </motion.span>
                   </Link>
-                ))}
-
-                {/* Hashtag Generator Link */}
-                <Link
-                  href="/hashtag-generator"
-                  className={`nav-item relative text-sm font-medium transition-all duration-300 group flex items-center space-x-2 ${
-                    pathname === "/hashtag-generator"
-                      ? "text-primary"
-                      : "text-foreground hover:text-primary"
-                  }`}
-                >
-                  <FaHashtag className="w-4 h-4" />
-                  <span>Hashtags</span>
-                </Link>
+                </motion.div>
               </div>
 
               {/* Right side items */}
               <div className="flex items-center space-x-4">
-                {/* Auth Buttons */}
+                {/* Auth Buttons with enhanced effects */}
                 <div className="hidden md:flex items-center space-x-4">
                   {user ? (
                     <UserMenu />
                   ) : (
                     <>
-                      <button
+                      <RippleButton
                         onClick={() => {
                           setAuthMode("login");
                           setShowAuthModal(true);
                         }}
-                        className="px-4 py-2 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="px-4 py-2 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary/10 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/20"
                       >
                         Login
-                      </button>
-                      <button
+                      </RippleButton>
+                      <RippleButton
                         onClick={() => {
                           setAuthMode("signup");
                           setShowAuthModal(true);
                         }}
-                        className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/20"
                       >
                         Sign Up
-                      </button>
+                      </RippleButton>
                     </>
                   )}
                 </div>
 
-                {/* Mobile menu button */}
+                {/* Enhanced Mobile menu button with morphing animation */}
                 <motion.button
                   className="md:hidden relative w-10 h-10 flex items-center justify-center rounded-xl text-foreground hover:text-primary focus:outline-none transition-all duration-300 bg-gradient-to-br from-background/95 to-background/80 hover:from-background hover:to-background/95 border border-accent/20 hover:border-accent/30 shadow-lg hover:shadow-xl"
                   onClick={() => setIsOpen(!isOpen)}
@@ -173,16 +280,42 @@ const Navbar = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <div className="relative flex items-center justify-center w-6 h-6">
-                    <FaBars className="object-contain" />
-                  </div>
+                  <motion.div
+                    className="relative flex items-center justify-center w-6 h-6"
+                    animate={{ rotate: isOpen ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <AnimatePresence mode="wait">
+                      {isOpen ? (
+                        <motion.div
+                          key="close"
+                          initial={{ opacity: 0, rotate: -90 }}
+                          animate={{ opacity: 1, rotate: 0 }}
+                          exit={{ opacity: 0, rotate: 90 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <FaTimes />
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="menu"
+                          initial={{ opacity: 0, rotate: 90 }}
+                          animate={{ opacity: 1, rotate: 0 }}
+                          exit={{ opacity: 0, rotate: -90 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <FaBars />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
                 </motion.button>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Mobile Navigation */}
+        {/* Enhanced Mobile Navigation */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -193,16 +326,17 @@ const Navbar = () => {
               transition={{ duration: 0.3 }}
               className="md:hidden fixed inset-0 z-[100]"
             >
-              {/* Backdrop */}
+              {/* Enhanced Backdrop with blur animation */}
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0 bg-background/90 backdrop-blur-xl"
+                initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+                animate={{ opacity: 1, backdropFilter: "blur(20px)" }}
+                exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+                transition={{ duration: 0.3 }}
+                className="absolute inset-0 bg-background/90"
                 onClick={() => setIsOpen(false)}
               />
 
-              {/* Menu Content */}
+              {/* Enhanced Menu Content */}
               <motion.div
                 className="absolute top-24 left-4 right-4"
                 initial={{ opacity: 0, y: -20, scale: 0.95 }}
@@ -261,12 +395,17 @@ const Navbar = () => {
                         }`}
                         onClick={() => setIsOpen(false)}
                       >
-                        <FaHashtag className="w-5 h-5" />
+                        <motion.div
+                          whileHover={{ rotate: 360 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <FaHashtag className="w-5 h-5" />
+                        </motion.div>
                         <span>Hashtag Generator</span>
                       </Link>
                     </motion.div>
 
-                    {/* Mobile Auth Section */}
+                    {/* Enhanced Mobile Auth Section */}
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -280,7 +419,7 @@ const Navbar = () => {
                         <UserMenu isMobile />
                       ) : (
                         <>
-                          <button
+                          <RippleButton
                             onClick={() => {
                               setAuthMode("login");
                               setShowAuthModal(true);
@@ -289,8 +428,8 @@ const Navbar = () => {
                             className="w-full px-4 py-3 text-base font-medium text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                           >
                             Login
-                          </button>
-                          <button
+                          </RippleButton>
+                          <RippleButton
                             onClick={() => {
                               setAuthMode("signup");
                               setShowAuthModal(true);
@@ -299,7 +438,7 @@ const Navbar = () => {
                             className="w-full px-4 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                           >
                             Sign Up
-                          </button>
+                          </RippleButton>
                         </>
                       )}
                     </motion.div>
