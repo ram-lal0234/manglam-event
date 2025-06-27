@@ -148,7 +148,7 @@ const Navbar = () => {
                           setAuthMode('login');
                           setShowAuthModal(true);
                         }}
-                        className="px-4 py-2 text-base font-semibold font-dancing text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="cursor-pointer px-4 py-2 text-base font-semibold font-dancing text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                       >
                         Login
                       </button>
@@ -157,7 +157,7 @@ const Navbar = () => {
                           setAuthMode('signup');
                           setShowAuthModal(true);
                         }}
-                        className="px-4 py-2 text-base font-semibold font-dancing text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="cursor-pointer px-4 py-2 text-base font-semibold font-dancing text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                       >
                         Sign Up
                       </button>
