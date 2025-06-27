@@ -64,7 +64,11 @@ const FeaturedServices = () => {
     setHoveredId(id);
     await controls.start({
       scale: [1, 1.02, 1],
-      transition: { duration: 0.5, ease: "easeInOut" },
+      transition: { 
+        duration: 0.8, 
+        ease: [0.25, 0.46, 0.45, 0.94],
+        times: [0, 0.5, 1]
+      },
     });
   };
 
@@ -105,7 +109,7 @@ const FeaturedServices = () => {
           transition={{ duration: 0.8 }}
         >
           <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-6 text-primary"
+            className="heading-elegant-large mb-6 text-elegant-gradient"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -129,12 +133,11 @@ const FeaturedServices = () => {
           {services.map((service, index) => (
             <motion.div
               key={service.id}
-              className="group relative bg-background/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/40 transition-all duration-300"
+              className="group relative elegant-card bg-background/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/40"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -5 }}
+              transition={{ duration: 0.6, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
               onHoverStart={() => handleHover(service.id)}
               animate={controls}
             >
@@ -143,26 +146,41 @@ const FeaturedServices = () => {
                   src={service.image}
                   alt={service.title}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="object-cover transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-105 group-hover:brightness-110"
                 />
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-80`}
+                  className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-80 transition-opacity duration-500 group-hover:opacity-70`}
                 />
                 <motion.div
-                  className={`absolute top-4 right-4 w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center ${service.textColor} backdrop-blur-sm`}
+                  className={`absolute top-4 right-4 w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center ${service.textColor} backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]`}
                   initial={{ scale: 0, rotate: -180 }}
                   whileInView={{ scale: 1, rotate: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, type: "spring" }}
-                  whileHover={{ rotate: 360, scale: 1.1 }}
+                  transition={{ duration: 0.8, type: "spring", stiffness: 100, damping: 15 }}
+                  whileHover={{ 
+                    rotate: 360, 
+                    scale: 1.15,
+                    transition: { 
+                      duration: 0.6,
+                      ease: [0.25, 0.46, 0.45, 0.94]
+                    }
+                  }}
                 >
-                  {service.icon}
+                  <motion.div
+                    className="transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
+                    whileHover={{ 
+                      scale: 1.1,
+                      transition: { duration: 0.3 }
+                    }}
+                  >
+                    {service.icon}
+                  </motion.div>
                 </motion.div>
               </div>
 
               <div className="p-8">
                 <motion.h3
-                  className="text-2xl font-semibold text-foreground mb-4"
+                  className="heading-elegant-small text-foreground mb-4"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
@@ -184,19 +202,22 @@ const FeaturedServices = () => {
                   {service.features.map((feature, idx) => (
                     <motion.div
                       key={idx}
-                      className="flex items-center text-sm text-foreground/80"
+                      className="flex items-center text-sm text-foreground/80 transition-all duration-300 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.4 + idx * 0.1 }}
-                      whileHover={{ x: 5 }}
+                      transition={{ duration: 0.6, delay: 0.4 + idx * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+                      whileHover={{ 
+                        x: 8,
+                        transition: { duration: 0.3 }
+                      }}
                     >
                       <motion.span
-                        className={`w-1.5 h-1.5 rounded-full ${service.textColor} mr-2`}
+                        className={`w-1.5 h-1.5 rounded-full ${service.textColor} mr-2 transition-all duration-300`}
                         animate={{
-                          scale: hoveredId === service.id ? [1, 1.5, 1] : 1,
+                          scale: hoveredId === service.id ? [1, 1.8, 1] : 1,
                         }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
                       />
                       {feature}
                     </motion.div>
@@ -204,28 +225,28 @@ const FeaturedServices = () => {
                 </div>
 
                 <motion.div
-                  className="relative h-12 overflow-hidden"
+                  className="relative h-12 overflow-hidden rounded-lg"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
+                  transition={{ duration: 0.6, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
                   <motion.div
-                    className={`absolute inset-0 bg-gradient-to-r ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                    className={`absolute inset-0 bg-gradient-to-r ${service.color} opacity-0 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]`}
                     animate={{
                       x: hoveredId === service.id ? [0, 100, 0] : 0,
                     }}
-                    transition={{ duration: 2, repeat: Infinity }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                   />
                   <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
+                    className="absolute inset-0 flex items-center justify-center transition-all duration-300"
                     animate={{
-                      y: hoveredId === service.id ? [0, -5, 0] : 0,
+                      y: hoveredId === service.id ? [0, -3, 0] : 0,
                     }}
-                    transition={{ duration: 1, repeat: Infinity }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                   >
                     <span
-                      className={`text-sm font-medium ${service.textColor}`}
+                      className={`text-sm font-medium ${service.textColor} transition-all duration-300 group-hover:font-semibold`}
                     >
                       Explore {service.title}
                     </span>

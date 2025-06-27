@@ -10,7 +10,7 @@ const ContactMap = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <motion.h2
-            className="text-4xl font-bold text-foreground mb-4"
+            className="heading-elegant-large mb-4 text-elegant-gradient"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

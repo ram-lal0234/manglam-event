@@ -1,31 +1,31 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { useAuth } from "@/context/AuthContext";
-import UserMenu from "../auth/UserMenu";
-import { FaBars, FaHashtag } from "react-icons/fa";
-import AuthModal from "../auth/AuthModal";
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '@/context/AuthContext';
+import UserMenu from '../auth/UserMenu';
+import { FaBars, FaHashtag } from 'react-icons/fa';
+import AuthModal from '../auth/AuthModal';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
 
   const navItems = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Services", path: "/services" },
-    { name: "Gallery", path: "/gallery" },
-    { name: "Contact", path: "/contact" },
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Services', path: '/services' },
+    { name: 'Gallery', path: '/gallery' },
+    { name: 'Contact', path: '/contact' },
   ];
 
   useEffect(() => {
@@ -33,8 +33,8 @@ const Navbar = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Close mobile menu when clicking outside
@@ -45,19 +45,19 @@ const Navbar = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = 'unset';
     }
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
 
@@ -73,8 +73,8 @@ const Navbar = () => {
         <div
           className={`mx-4 mt-4 transition-all duration-500 ${
             isScrolled
-              ? "bg-background/80 backdrop-blur-xl shadow-lg border border-accent/10 rounded-2xl"
-              : "bg-background/50 backdrop-blur-md border border-accent/5 rounded-2xl"
+              ? 'bg-background/80 backdrop-blur-xl shadow-lg border border-accent/10 rounded-2xl'
+              : 'bg-background/50 backdrop-blur-md border border-accent/5 rounded-2xl'
           }`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -99,10 +99,10 @@ const Navbar = () => {
                   <Link
                     key={item.path}
                     href={item.path}
-                    className={`nav-item relative text-sm font-medium transition-all duration-300 group ${
+                    className={`nav-item relative text-base font-semibold font-dancing transition-all duration-300 group ${
                       pathname === item.path
-                        ? "text-primary"
-                        : "text-foreground hover:text-primary"
+                        ? 'text-primary'
+                        : 'text-foreground hover:text-primary'
                     }`}
                   >
                     {item.name}
@@ -112,7 +112,7 @@ const Navbar = () => {
                         className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-primary to-accent"
                         layoutId="navbar-indicator"
                         transition={{
-                          type: "spring",
+                          type: 'spring',
                           stiffness: 300,
                           damping: 30,
                         }}
@@ -124,14 +124,14 @@ const Navbar = () => {
                 {/* Hashtag Generator Link */}
                 <Link
                   href="/hashtag-generator"
-                  className={`nav-item relative text-sm font-medium transition-all duration-300 group flex items-center space-x-2 ${
-                    pathname === "/hashtag-generator"
-                      ? "text-primary"
-                      : "text-foreground hover:text-primary"
+                  className={`nav-item relative text-base font-semibold font-dancing transition-all duration-300 group flex items-center space-x-2 ${
+                    pathname === '/hashtag-generator'
+                      ? 'text-primary'
+                      : 'text-foreground hover:text-primary'
                   }`}
                 >
                   <FaHashtag className="w-4 h-4" />
-                  <span>Hashtags</span>
+                  <span className="font-dancing">Hashtags</span>
                 </Link>
               </div>
 
@@ -145,19 +145,19 @@ const Navbar = () => {
                     <>
                       <button
                         onClick={() => {
-                          setAuthMode("login");
+                          setAuthMode('login');
                           setShowAuthModal(true);
                         }}
-                        className="px-4 py-2 text-sm font-medium text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="px-4 py-2 text-base font-semibold font-dancing text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                       >
                         Login
                       </button>
                       <button
                         onClick={() => {
-                          setAuthMode("signup");
+                          setAuthMode('signup');
                           setShowAuthModal(true);
                         }}
-                        className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="px-4 py-2 text-base font-semibold font-dancing text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                       >
                         Sign Up
                       </button>
@@ -221,10 +221,10 @@ const Navbar = () => {
                       >
                         <Link
                           href={item.path}
-                          className={`nav-item block px-4 py-4 rounded-xl text-base font-medium transition-all duration-300 ${
+                          className={`nav-item block px-4 py-4 rounded-xl text-lg font-semibold font-dancing transition-all duration-300 ${
                             pathname === item.path
-                              ? "text-primary bg-gradient-to-r from-primary/10 to-accent/5"
-                              : "text-foreground hover:text-primary hover:bg-gradient-to-r hover:from-primary/5 hover:to-accent/5"
+                              ? 'text-primary bg-gradient-to-r from-primary/10 to-accent/5'
+                              : 'text-foreground hover:text-primary hover:bg-gradient-to-r hover:from-primary/5 hover:to-accent/5'
                           }`}
                           onClick={() => setIsOpen(false)}
                         >
@@ -232,7 +232,7 @@ const Navbar = () => {
                             className="relative inline-block"
                             whileHover={{ x: 4 }}
                             transition={{
-                              type: "spring",
+                              type: 'spring',
                               stiffness: 300,
                               damping: 20,
                             }}
@@ -254,15 +254,15 @@ const Navbar = () => {
                     >
                       <Link
                         href="/hashtag-generator"
-                        className={`nav-item block px-4 py-4 rounded-xl text-base font-medium transition-all duration-300 flex items-center space-x-2 ${
-                          pathname === "/hashtag-generator"
-                            ? "text-primary bg-gradient-to-r from-primary/10 to-accent/5"
-                            : "text-foreground hover:text-primary hover:bg-gradient-to-r hover:from-primary/5 hover:to-accent/5"
+                        className={`nav-item block px-4 py-4 rounded-xl text-lg font-semibold font-dancing transition-all duration-300 flex items-center space-x-2 ${
+                          pathname === '/hashtag-generator'
+                            ? 'text-primary bg-gradient-to-r from-primary/10 to-accent/5'
+                            : 'text-foreground hover:text-primary hover:bg-gradient-to-r hover:from-primary/5 hover:to-accent/5'
                         }`}
                         onClick={() => setIsOpen(false)}
                       >
                         <FaHashtag className="w-5 h-5" />
-                        <span>Hashtag Generator</span>
+                        <span className="font-dancing">Hashtag Generator</span>
                       </Link>
                     </motion.div>
 
@@ -282,21 +282,21 @@ const Navbar = () => {
                         <>
                           <button
                             onClick={() => {
-                              setAuthMode("login");
+                              setAuthMode('login');
                               setShowAuthModal(true);
                               setIsOpen(false);
                             }}
-                            className="w-full px-4 py-3 text-base font-medium text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                            className="w-full px-4 py-3 text-lg font-semibold font-dancing text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                           >
                             Login
                           </button>
                           <button
                             onClick={() => {
-                              setAuthMode("signup");
+                              setAuthMode('signup');
                               setShowAuthModal(true);
                               setIsOpen(false);
                             }}
-                            className="w-full px-4 py-3 text-base font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                            className="w-full px-4 py-3 text-lg font-semibold font-dancing text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
                           >
                             Sign Up
                           </button>

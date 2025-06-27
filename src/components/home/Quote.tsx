@@ -20,36 +20,50 @@ const Quote = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Enhanced text animation with split text
+      // Enhanced text animation with smoother split text
       const text = textRef.current?.querySelector('.quote-text');
       if (text) {
         const words = text.textContent?.split(' ') || [];
-        text.innerHTML = words.map(word => `<span class="inline-block">${word}</span>`).join(' ');
+        text.innerHTML = words.map(word => `<span class="inline-block opacity-0">${word}</span>`).join(' ');
         
-        gsap.from(text.children, {
-          opacity: 0,
-          y: 50,
-          duration: 0.8,
-          stagger: {
-            amount: 1.5,
-            ease: "power2.out"
+        gsap.fromTo(text.children, 
+          {
+            opacity: 0,
+            y: 30,
+            rotationX: -90,
           },
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top center+=100',
-            toggleActions: 'play none none reverse'
+          {
+            opacity: 1,
+            y: 0,
+            rotationX: 0,
+            duration: 1.2,
+            stagger: {
+              amount: 2,
+              ease: "power2.out"
+            },
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top center+=100',
+              end: 'bottom center-=100',
+              toggleActions: 'play none none reverse',
+              scrub: 1,
+            }
           }
-        });
+        );
       }
 
-      // Floating animation for decorative elements
+      // Floating animation for decorative elements with smoother easing
       gsap.to('.floating-element', {
-        y: '20px',
-        duration: 2,
+        y: '15px',
+        duration: 3,
         ease: 'power1.inOut',
         yoyo: true,
-        repeat: -1
+        repeat: -1,
+        stagger: {
+          amount: 1,
+          ease: "power2.out"
+        }
       });
     }, sectionRef);
 
@@ -185,7 +199,7 @@ const Quote = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.8 }}
               />
-              <span>Manglam Event Team</span>
+              <span className="heading-elegant-small">Manglam Event Team</span>
               <motion.div
                 className="w-8 h-[2px] bg-primary"
                 initial={{ scaleX: 0 }}

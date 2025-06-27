@@ -75,7 +75,7 @@ const ContactInfo = () => {
                 {info.icon}
               </motion.div>
               <motion.h3
-                className="text-xl font-semibold text-foreground mb-4"
+                className="heading-elegant-small text-foreground mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -101,7 +101,7 @@ const ContactInfo = () => {
 
         <div className="text-center">
           <motion.h4
-            className="text-xl font-semibold text-foreground mb-6"
+            className="heading-elegant-small text-foreground mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

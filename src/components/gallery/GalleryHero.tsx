@@ -155,7 +155,7 @@ const GalleryHero = () => {
           <span className="text-6xl">📸</span>
         </motion.div>
         
-        <h1 className="section-title text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-accent-light to-white">
+        <h1 className="section-title heading-elegant-large mb-6 text-elegant-gradient">
           Our Gallery
         </h1>
         

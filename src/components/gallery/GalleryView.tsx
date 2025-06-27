@@ -87,7 +87,7 @@ export default function GalleryView({ event }: GalleryViewProps) {
               <ArrowLeft className="icon" />
             </button>
             <div>
-              <h1 className="text-xl font-bold text-gray-800">{event.title}</h1>
+              <h1 className="heading-elegant-small text-gray-800">{event.title}</h1>
               <p className="text-sm text-gray-600 mt-1">{event.description}</p>
             </div>
           </div>

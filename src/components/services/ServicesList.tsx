@@ -269,28 +269,28 @@ const ServicesList = () => {
         >
           <motion.div
             className="inline-block mb-8"
-            // initial={{ scale: 0 }}
-            // whileInView={{ scale: 1 }}
-            // viewport={{ once: true, amount: 0.3 }}
-            // transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
           >
             <span className="text-7xl">✨</span>
           </motion.div>
           <motion.h2
-            className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary/50 via-primary to-primary mb-6"
-            // initial={{ opacity: 0, y: 20 }}
-            // whileInView={{ opacity: 1, y: 0 }}
-            // viewport={{ once: true, amount: 0.3 }}
-            // transition={{ duration: 0.8, delay: 0.2 }}
+            className="heading-elegant-large mb-6 text-elegant-gradient"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
             Our Services
           </motion.h2>
           <motion.p
             className="text-xl md:text-2xl text-foreground/90 max-w-3xl mx-auto leading-relaxed"
-            // initial={{ opacity: 0, y: 20 }}
-            // whileInView={{ opacity: 1, y: 0 }}
-            // viewport={{ once: true, amount: 0.3 }}
-            // transition={{ duration: 0.8, delay: 0.3 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
           >
             Discover our comprehensive range of event planning and management
             services
@@ -302,7 +302,7 @@ const ServicesList = () => {
           {services.map((service, index) => (
             <motion.div
               key={service.title}
-              className="group relative aspect-[4/3] h-96 w-full rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="group relative aspect-[4/3] h-96 w-full rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-105"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
@@ -324,30 +324,53 @@ const ServicesList = () => {
               <motion.img
                 src={service.image}
                 alt={service.title}
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
                 initial={{ scale: 1 }}
-                animate={{ scale: activeService === service.title ? 1.1 : 1 }}
-                transition={{ duration: 0.5 }}
+                animate={{ scale: activeService === service.title ? 1.15 : 1 }}
+                transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
               />
 
               {/* Gradient Overlay */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30"
+                className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
                 initial={{ opacity: 0.6 }}
                 animate={{
-                  opacity: activeService === service.title ? 0.8 : 0.6,
+                  opacity: activeService === service.title ? 0.7 : 0.6,
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
               />
+
+              {/* Service Icon */}
+              <motion.div
+                className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
+                initial={{ scale: 0, rotate: -180 }}
+                whileInView={{ scale: 1, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, type: "spring", stiffness: 100, damping: 15 }}
+                whileHover={{ 
+                  rotate: 360, 
+                  scale: 1.2,
+                  transition: { 
+                    duration: 0.6,
+                    ease: [0.25, 0.46, 0.45, 0.94]
+                  }
+                }}
+              >
+                {service.icon}
+              </motion.div>
 
               {/* Content */}
               <div className="absolute inset-0 p-8 flex flex-col justify-end">
                 <motion.h3
-                  className="text-2xl font-bold text-primary text-center mb-4 drop-shadow-sm"
+                  className="heading-elegant-small text-primary text-center mb-4 drop-shadow-lg transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
+                  animate={{
+                    y: activeService === service.title ? -5 : 0,
+                    scale: activeService === service.title ? 1.05 : 1,
+                  }}
                 >
                   {service.title}
                 </motion.h3>
@@ -358,19 +381,28 @@ const ServicesList = () => {
                   animate={{
                     height: activeService === service.title ? "auto" : 0,
                   }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
                   <motion.p
-                    className="text-white text-lg leading-relaxed drop-shadow-md"
+                    className="text-white text-lg leading-relaxed drop-shadow-md transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
                     initial={{ opacity: 0 }}
                     animate={{
                       opacity: activeService === service.title ? 1 : 0,
                     }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
                   >
                     {service.description}
                   </motion.p>
                 </motion.div>
+
+                {/* Hover Effect Border */}
+                <motion.div
+                  className="absolute inset-0 border-2 border-primary/30 rounded-3xl transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
+                  animate={{
+                    borderColor: activeService === service.title ? "rgba(255, 255, 255, 0.6)" : "rgba(255, 255, 255, 0.1)",
+                    borderWidth: activeService === service.title ? "3px" : "2px",
+                  }}
+                />
               </div>
             </motion.div>
           ))}

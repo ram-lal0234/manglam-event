@@ -52,7 +52,7 @@ const FAQ = () => {
   return (
     <section className="py-24 bg-gradient-to-br from-background via-background/95 to-background/90 relative overflow-hidden">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl md:text-5xl font-bold text-primary mb-12 text-center">
+        <h2 className="heading-elegant-large mb-12 text-center text-elegant-gradient">
           Frequently Asked Questions
         </h2>
         <div className="space-y-6">
@@ -62,7 +62,7 @@ const FAQ = () => {
               className="bg-background/80 border border-primary/20 rounded-2xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg relative"
             >
               <button
-                className="w-full flex items-center justify-between px-6 py-5 text-left focus:outline-none group"
+                className="w-full flex items-center justify-between px-6 py-5 text-left focus:outline-none group cursor-pointer"
                 onClick={() => toggle(idx)}
                 aria-expanded={openIndex === idx}
               >

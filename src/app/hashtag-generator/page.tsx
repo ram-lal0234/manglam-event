@@ -17,7 +17,7 @@ export default function HashtagGeneratorPage() {
             <Sparkles className="w-5 h-5" />
             <span className="text-sm font-medium">Powered by Advanced AI</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">
+          <h1 className="heading-elegant-large mb-6 text-elegant-gradient">
             Wedding Hashtag Generator
           </h1>
           <p className="text-lg text-foreground/80 max-w-2xl mx-auto">

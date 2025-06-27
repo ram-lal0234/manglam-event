@@ -187,7 +187,7 @@ const ServiceCTA = () => {
             <span className="text-7xl">✨</span>
           </motion.div>
           <motion.h2 
-            className="section-title text-5xl font-bold text-gradient mb-6"
+            className="section-title heading-elegant-large mb-6 text-elegant-gradient"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}

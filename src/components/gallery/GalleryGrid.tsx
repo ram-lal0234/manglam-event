@@ -3,15 +3,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, EffectFade } from "swiper/modules";
-import type { Swiper as SwiperType } from "swiper";
 import { useGallery } from "@/context/GalleryContext";
 import Image from "next/image";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/effect-fade";
+import Masonry from './Masonry';
 
 interface GalleryItem {
   id: string;
@@ -19,25 +13,26 @@ interface GalleryItem {
   alt: string;
   folder: string;
   type: 'image' | 'video';
+  height?: number; // For masonry layout
 }
 
 const GalleryGrid = () => {
   const router = useRouter();
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { selectedCategory } = useGallery();
 
   useEffect(() => {
-    // Load photos from gallery folders
+    // Load photos from gallery folders with random heights for masonry
     const folder1Photos = Array.from({ length: 26 }, (_, i) => ({
       id: `folder1-${i + 1}`,
       url: `/images/gallery/Folder-1/${i + 1}.png`,
       alt: `Gallery Image ${i + 1} from Folder 1`,
       folder: "Gallery-1",
-      type: 'image' as const
+      type: 'image' as const,
+      height: Math.random() * 200 + 200 // Random height between 200-400px
     }));
 
     const folder2Photos = Array.from({ length: 20 }, (_, i) => ({
@@ -45,7 +40,8 @@ const GalleryGrid = () => {
       url: `/images/gallery/Folder-2/${i + 1}.png`,
       alt: `Gallery Image ${i + 1} from Folder 2`,
       folder: "Gallery-2",
-      type: 'image' as const
+      type: 'image' as const,
+      height: Math.random() * 200 + 200 // Random height between 200-400px
     }));
 
     // Load service photos
@@ -55,84 +51,96 @@ const GalleryGrid = () => {
         url: '/images/services/VMP02941.jpg',
         alt: 'Service Event Photo 1',
         folder: 'Services',
-        type: 'image'
+        type: 'image',
+        height: Math.random() * 200 + 200
       },
       {
         id: 'service-2',
         url: '/images/services/VMP02808.jpg',
         alt: 'Service Event Photo 2',
         folder: 'Services',
-        type: 'image'
+        type: 'image',
+        height: Math.random() * 200 + 200
       },
       {
         id: 'service-3',
         url: '/images/services/RK_07840.jpg',
         alt: 'Service Event Photo 3',
         folder: 'Services',
-        type: 'image'
+        type: 'image',
+        height: Math.random() * 200 + 200
       },
       {
         id: 'service-4',
         url: '/images/services/PTVF8365.jpg',
         alt: 'Service Event Photo 4',
         folder: 'Services',
-        type: 'image'
+        type: 'image',
+        height: Math.random() * 200 + 200
       },
       {
         id: 'service-5',
         url: '/images/services/PTVF8191.jpg',
         alt: 'Service Event Photo 5',
         folder: 'Services',
-        type: 'image'
+        type: 'image',
+        height: Math.random() * 200 + 200
       },
       {
         id: 'service-6',
         url: '/images/services/DTI04044.jpg',
         alt: 'Service Event Photo 6',
         folder: 'Services',
-        type: 'image'
+        type: 'image',
+        height: Math.random() * 200 + 200
       },
       {
         id: 'service-7',
         url: '/images/services/0C3A5361.jpg',
         alt: 'Service Event Photo 7',
         folder: 'Services',
-        type: 'image'
+        type: 'image',
+        height: Math.random() * 200 + 200
       },
       {
         id: 'service-video-1',
         url: '/images/services/Sangeet Making.MP4',
         alt: 'Sangeet Making Video',
         folder: 'Services',
-        type: 'video'
+        type: 'video',
+        height: 300
       },
       {
         id: 'service-video-2',
         url: '/images/services/Pooja Vedant - 3.mp4',
         alt: 'Pooja Vedant Video',
         folder: 'Services',
-        type: 'video'
+        type: 'video',
+        height: 300
       },
       {
         id: 'service-video-3',
         url: '/images/services/Haldi Entry - Amritam.MP4',
         alt: 'Haldi Entry Video',
         folder: 'Services',
-        type: 'video'
+        type: 'video',
+        height: 300
       },
       {
         id: 'service-video-4',
         url: '/images/services/Jaisalmer Rangmahal.mp4',
         alt: 'Jaisalmer Rangmahal Video',
         folder: 'Services',
-        type: 'video'
+        type: 'video',
+        height: 300
       },
       {
         id: 'service-video-5',
         url: '/images/services/Carnival - Dior Decor.MP4',
         alt: 'Carnival Dior Decor Video',
         folder: 'Services',
-        type: 'video'
+        type: 'video',
+        height: 300
       }
     ];
 
@@ -227,7 +235,7 @@ const GalleryGrid = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/70 to-primary">
+          <h2 className="heading-elegant-large mb-6 text-elegant-gradient">
             Our Event Gallery
           </h2>
           <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
@@ -235,21 +243,28 @@ const GalleryGrid = () => {
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6"
-        >
+        <Masonry columns={4} gap={16} className="mb-8">
           {filteredItems.map((item, index) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer"
+              initial={{ opacity: 0, scale: 0.8, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: -30 }}
+              transition={{ 
+                duration: 0.6, 
+                delay: index * 0.05,
+                ease: [0.25, 0.46, 0.45, 0.94] // Custom cubic-bezier easing
+              }}
+              whileHover={{ 
+                scale: 1.02,
+                y: -8,
+                transition: { 
+                  duration: 0.4,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }
+              }}
+              className="group relative rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl elegant-image"
+              style={{ height: item.height || 300 }}
               onClick={() => handleItemClick(item, index)}
             >
               {item.type === 'image' ? (
@@ -258,22 +273,22 @@ const GalleryGrid = () => {
                   alt={item.alt}
                   fill
                   loading="lazy"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-110 group-hover:brightness-110 group-hover:contrast-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 />
               ) : (
                 <div className="relative w-full h-full bg-black/20">
                   <video
                     src={item.url}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-105 group-hover:brightness-110 group-hover:contrast-105"
                     muted
                     loop
                     playsInline
                     preload="none"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                      <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-white/30">
+                      <svg className="w-8 h-8 text-white transition-all duration-300 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
@@ -281,15 +296,15 @@ const GalleryGrid = () => {
                   </div>
                 </div>
               )}
-              {/* <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <p className="text-sm opacity-90">{item.folder}</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]">
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]">
+                  <p className="text-sm font-medium opacity-90">{item.folder}</p>
                   <p className="text-xs opacity-75 mt-1">{item.type === 'video' ? 'Video' : 'Image'}</p>
                 </div>
-              </div> */}
+              </div>
             </motion.div>
           ))}
-        </motion.div>
+        </Masonry>
       </div>
 
       {/* Preview Modal */}
@@ -299,14 +314,22 @@ const GalleryGrid = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
             onClick={() => setSelectedItem(null)}
           >
-            <div className="relative w-full max-w-7xl h-full" onClick={(e) => e.stopPropagation()}>
+            <motion.div 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="relative w-full max-w-7xl h-full" 
+              onClick={(e) => e.stopPropagation()}
+            >
               {/* Close Button */}
               <button
                 onClick={() => setSelectedItem(null)}
-                className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:text-primary transition-colors"
+                className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:text-primary transition-colors cursor-pointer"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -317,7 +340,7 @@ const GalleryGrid = () => {
               {currentIndex > 0 && (
                 <button
                   onClick={handlePrevious}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:text-primary transition-colors"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:text-primary transition-colors cursor-pointer"
                 >
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -327,7 +350,7 @@ const GalleryGrid = () => {
               {currentIndex < filteredItems.length - 1 && (
                 <button
                   onClick={handleNext}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:text-primary transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:text-primary transition-colors cursor-pointer"
                 >
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -360,7 +383,7 @@ const GalleryGrid = () => {
                   />
                 )}
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -114,7 +114,7 @@ const WhyChooseUs = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-foreground mb-4">
+          <h2 className="heading-elegant-large mb-4 text-elegant-gradient">
             Why Choose Us
           </h2>
           <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
@@ -153,7 +153,7 @@ const WhyChooseUs = () => {
               <div className="text-primary mb-4">
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">
+              <h3 className="heading-elegant-small text-foreground mb-2">
                 {feature.title}
               </h3>
               <p className="text-foreground/80">

@@ -42,15 +42,15 @@ const EnquiryForm = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          {/* <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-6 text-primary"
+          <motion.h2
+            className="heading-elegant-large mb-6 text-elegant-gradient"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Get in Touch
-          </motion.h2> */}
+            Wedding Event Checklist
+          </motion.h2>
           <motion.p
             className="text-lg text-foreground/90 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}

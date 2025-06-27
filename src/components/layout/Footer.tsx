@@ -74,20 +74,20 @@ const Footer = () => {
       name: "Facebook",
       url: "https://www.facebook.com/ManglamEventJodhpur/",
       icon: <Facebook className="w-5 h-5" />,
-      color: "hover:bg-[#1877F2]",
+      color: "hover:bg-[#1877F2] transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]",
     },
     {
       name: "Instagram",
       url: "https://www.instagram.com/manglamevents/",
       icon: <Instagram className="w-5 h-5" />,
       color:
-        "hover:bg-gradient-to-tr from-[#F9CE34] via-[#EE2A7B] to-[#6228D7]",
+        "hover:bg-gradient-to-tr from-[#F9CE34] via-[#EE2A7B] to-[#6228D7] transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]",
     },
     {
       name: "Pinterest",
       url: "https://in.pinterest.com/manglamevent_jodhpur/",
       icon: <FaPinterest className="w-5 h-5" />,
-      color: "hover:bg-[#E60023]",
+      color: "hover:bg-[#E60023] transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]",
     },
   ];
 
@@ -109,7 +109,7 @@ const Footer = () => {
         >
           <Link
             href="/"
-            className="relative w-48 h-16 transition-all duration-300 hover:scale-105 hover:brightness-110"
+            className="relative w-48 h-16 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:scale-105 hover:brightness-110 hover:shadow-lg"
           >
             <Image
               src="/images/logo.png"
@@ -130,9 +130,9 @@ const Footer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-background/50 backdrop-blur-sm rounded-xl p-6 border border-accent/10 hover:border-accent/20 transition-all duration-300 hover:shadow-lg"
+              className="bg-background/50 backdrop-blur-sm rounded-xl p-6 border border-accent/10 hover:border-accent/20 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:shadow-lg hover:shadow-accent/10"
             >
-              <h3 className="text-lg font-semibold  mb-6 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+              <h3 className="heading-elegant-small mb-6 text-elegant-gradient">
                 {section.title}
               </h3>
               <ul
@@ -150,12 +150,12 @@ const Footer = () => {
                   >
                     <Link
                       href={link.href}
-                      className="flex items-start text-muted-foreground hover:text-primary transition-colors group"
+                      className="flex items-start text-muted-foreground hover:text-primary transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group"
                     >
                       {link.icon && (
-                        <span className="text-primary">{link.icon}</span>
+                        <span className="text-primary transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]">{link.icon}</span>
                       )}
-                      <span className="text-sm group-hover:translate-x-1 transition-transform duration-300">
+                      <span className="text-sm transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:translate-x-1">
                         {link.name}
                       </span>
                     </Link>
@@ -167,13 +167,13 @@ const Footer = () => {
 
           {/* Newsletter */}
           <motion.div
-            className="bg-background/50 backdrop-blur-sm rounded-xl p-6 border border-accent/10 hover:border-accent/20 transition-all duration-300 hover:shadow-lg"
+            className="bg-background/50 backdrop-blur-sm rounded-xl p-6 border border-accent/10 hover:border-accent/20 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:shadow-lg hover:shadow-accent/10"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h3 className="text-lg font-semibold text-foreground mb-4 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+            <h3 className="heading-elegant-small mb-4 text-elegant-gradient">
               Subscribe to Newsletter
             </h3>
             <p className="text-muted-foreground text-sm mb-6">
@@ -193,11 +193,11 @@ const Footer = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="px-4 py-3 rounded-lg bg-accent/10 text-sm border border-accent/30 focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-300"
+                className="px-4 py-3 rounded-lg bg-accent/10 text-sm border border-accent/30 focus:outline-none focus:ring-2 focus:ring-accent transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:border-accent/50 focus:border-primary/50"
               />
               <motion.button
                 type="submit"
-                className="bg-primary hover:bg-accent text-white py-3 rounded-lg text-sm transition-all duration-300 font-medium"
+                className="bg-primary cursor-pointer hover:bg-accent text-white hover:text-primary py-3 rounded-lg text-sm transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] font-medium hover:shadow-lg hover:shadow-primary/20 border border-transparent hover:border-primary/30"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -215,15 +215,14 @@ const Footer = () => {
               href={card.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex items-center justify-center w-12 h-12 rounded-full bg-background/40 backdrop-blur-sm border border-accent/20 transition-all duration-300 group ${card.color}`}
+              className={`social-icon flex items-center justify-center w-14 h-14 rounded-full bg-background/40 backdrop-blur-sm border border-accent/20 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${card.color}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              whileHover={{ y: -5, scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="text-foreground/80 group-hover:text-white transition-colors duration-300">
+              <span className="text-foreground/80 transition-all duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:text-white">
                 {card.icon}
               </span>
               <span className="sr-only">{card.name}</span>

@@ -83,7 +83,7 @@ const GalleryCTA = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
-                  className="text-4xl md:text-5xl font-bold mb-6 text-primary"
+                  className="heading-elegant-large mb-6 text-elegant-gradient"
                 >
                   Ready to Create Your Perfect Event?
                 </motion.h2>

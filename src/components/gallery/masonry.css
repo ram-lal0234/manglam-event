@@ -1,0 +1,126 @@
+/* Masonry Layout Styles using CSS Columns */
+.masonry-grid {
+  column-count: 4;
+  column-gap: 16px;
+  column-fill: balance;
+  width: 100%;
+}
+
+/* Responsive columns */
+@media (max-width: 640px) {
+  .masonry-grid {
+    column-count: 1;
+    column-gap: 12px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .masonry-grid {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .masonry-grid {
+    column-count: 3;
+  }
+}
+
+@media (min-width: 1025px) {
+  .masonry-grid {
+    column-count: 4;
+  }
+}
+
+/* Ensure items don't break across columns */
+.masonry-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 16px;
+  display: block;
+  width: 100%;
+}
+
+/* Remove margin from last item in each column */
+.masonry-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Smooth transitions for masonry items */
+.masonry-item {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, box-shadow;
+}
+
+/* Enhanced hover effects */
+.masonry-item:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.15),
+    0 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+/* Image hover effects */
+.masonry-item img {
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, filter;
+}
+
+.masonry-item:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.1) contrast(1.05);
+}
+
+/* Video hover effects */
+.masonry-item video {
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, filter;
+}
+
+.masonry-item:hover video {
+  transform: scale(1.05);
+  filter: brightness(1.1) contrast(1.05);
+}
+
+/* Overlay hover effects */
+.masonry-item .group:hover .absolute {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Smooth loading animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.masonry-item {
+  animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Fix for better space distribution */
+.masonry-grid {
+  column-fill: balance;
+  orphans: 1;
+  widows: 1;
+}
+
+/* Ensure proper aspect ratios and prevent distortion */
+.masonry-item .group {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Better responsive behavior */
+@media (max-width: 640px) {
+  .masonry-item {
+    margin-bottom: 12px;
+  }
+}

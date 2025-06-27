@@ -1,71 +1,71 @@
-"use client";
+'use client';
 
-import { useRef } from "react";
+import { useRef } from 'react';
 import {
   motion,
   useScroll,
   useTransform,
   AnimatePresence,
-} from "framer-motion";
-import { Users, Calendar, Star, Award } from "lucide-react";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+} from 'framer-motion';
+import { Users, Calendar, Star, Award } from 'lucide-react';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 const stats = [
   {
     icon: <Users className="w-8 h-8" />,
-    value: "500+",
-    label: "Happy Clients",
-    description: "Families who trusted us with their special moments",
+    value: '500+',
+    label: 'Happy Clients',
+    description: 'Families who trusted us with their special moments',
   },
   {
     icon: <Calendar className="w-8 h-8" />,
-    value: "1000+",
-    label: "Events Completed",
-    description: "Successfully organized celebrations",
+    value: '1000+',
+    label: 'Events Completed',
+    description: 'Successfully organized celebrations',
   },
   {
     icon: <Star className="w-8 h-8" />,
-    value: "4.9",
-    label: "Client Rating",
-    description: "Based on verified customer reviews",
+    value: '4.9',
+    label: 'Client Rating',
+    description: 'Based on verified customer reviews',
   },
   {
     icon: <Award className="w-8 h-8" />,
-    value: "15+",
-    label: "Years Experience",
-    description: "Creating unforgettable memories",
+    value: '15+',
+    label: 'Years Experience',
+    description: 'Creating unforgettable memories',
   },
 ];
 
 const clientLogos = [
   {
-    name: "Anjani",
-    logo: "/images/footprints/anjani.png",
+    name: 'Anjani',
+    logo: '/images/footprints/anjani.png',
   },
   {
-    name: "asg",
-    logo: "/images/footprints/asg.png",
+    name: 'asg',
+    logo: '/images/footprints/asg.png',
   },
   {
-    name: "capsitech",
-    logo: "/images/footprints/capsitech.png",
+    name: 'capsitech',
+    logo: '/images/footprints/capsitech.png',
   },
   {
-    name: "iTorrent",
-    logo: "/images/footprints/iTorrent.png",
+    name: 'iTorrent',
+    logo: '/images/footprints/iTorrent.png',
   },
   {
-    name: "latiyal_handicrafts",
-    logo: "/images/footprints/latiyal_handicrafts.png",
-  }
+    name: 'latiyal_handicrafts',
+    logo: '/images/footprints/latiyal_handicrafts.png',
+  },
 ];
 
 const OurFootprint = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start end", "end start"],
+    offset: ['start end', 'end start'],
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
@@ -112,7 +112,7 @@ const OurFootprint = () => {
           transition={{ duration: 0.8 }}
         >
           <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-6 text-primary"
+            className="heading-elegant-large mb-6 text-elegant-gradient"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -149,7 +149,7 @@ const OurFootprint = () => {
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, type: "spring" }}
+                transition={{ duration: 0.5, type: 'spring' }}
               >
                 {stat.icon}
               </motion.div>
@@ -227,7 +227,7 @@ const OurFootprint = () => {
                       className="object-contain p-2"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = "/images/placeholder-logo.png"; // Make sure to add a placeholder image
+                        target.src = '/images/placeholder-logo.png'; // Make sure to add a placeholder image
                       }}
                     />
                   </motion.div>
@@ -242,7 +242,7 @@ const OurFootprint = () => {
                   key={index}
                   onClick={() => setCurrentIndex(index)}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    currentIndex === index ? "bg-primary w-4" : "bg-primary/30"
+                    currentIndex === index ? 'bg-primary w-4' : 'bg-primary/30'
                   }`}
                 />
               ))}
@@ -260,7 +260,7 @@ const OurFootprint = () => {
           transition={{
             duration: 8,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: 'easeInOut',
           }}
         />
         <motion.div
@@ -272,7 +272,7 @@ const OurFootprint = () => {
           transition={{
             duration: 8,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: 'easeInOut',
           }}
         />
       </div>
