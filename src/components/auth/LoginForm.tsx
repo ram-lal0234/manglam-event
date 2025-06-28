@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { Loader2, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
+import EnhancedInput from "@/components/common/EnhancedInput";
+import EnhancedButton from "@/components/common/EnhancedButton";
 
 interface LoginFormProps {
   onSuccess: () => void;

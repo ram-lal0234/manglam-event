@@ -4,10 +4,13 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay, Pagination, EffectCoverflow } from "swiper/modules";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { FaQuoteLeft, FaHeart, FaStar, FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
+import EnhancedCard from "@/components/common/EnhancedCard";
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/effect-coverflow";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -101,75 +104,213 @@ export default function Testimonials() {
   return (
     <motion.section
       ref={sectionRef}
-      className="py-24 bg-primary relative overflow-hidden"
+      className="py-24 bg-gradient-to-br from-primary via-primary/95 to-primary/90 relative overflow-hidden"
       style={{ opacity, scale }}
     >
-      {/* Subtle Background Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent" />
+      {/* Enhanced Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Animated Heart Icons */}
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-white/10"
+            style={{
+              left: `${10 + i * 15}%`,
+              top: `${10 + (i % 3) * 25}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              scale: [0.8, 1.2, 0.8],
+              rotate: [0, 15, -15, 0],
+            }}
+            transition={{
+              duration: 4 + i,
+              repeat: Infinity,
+              delay: i * 0.5,
+            }}
+          >
+            <FaHeart className="w-8 h-8" />
+          </motion.div>
+        ))}
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent" />
+      </div>
 
-      <div className="max-w-5xl mx-auto px-4 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 relative z-10">
+        {/* Enhanced Header */}
         <motion.div
-          className="text-center mt-6"
-          initial={{ y: 20, opacity: 0 }}
+          className="text-center mb-16"
+          initial={{ y: 30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+          <motion.div
+            className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6"
+            initial={{ scale: 0, rotate: -180 }}
+            whileInView={{ scale: 1, rotate: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <FaQuoteLeft className="w-8 h-8 text-white" />
+          </motion.div>
+          
+          <motion.h2
+            className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-6"
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
             Client Stories
-          </h2>
-          <p className="text-white text-lg max-w-xl mx-auto font-light">
-            Real experiences from our cherished clients
-          </p>
+          </motion.h2>
+          
+          <motion.p
+            className="text-white/90 text-xl max-w-2xl mx-auto font-light leading-relaxed"
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            Real experiences from our cherished clients who trusted us with their most precious moments
+          </motion.p>
         </motion.div>
 
-        <Swiper
-          modules={[Autoplay, Pagination]}
-          grabCursor={true}
-          centeredSlides={true}
-          slidesPerView={1}
-          spaceBetween={30}
-          pagination={{
-            clickable: true,
-            dynamicBullets: true,
-          }}
-          autoplay={{
-            delay: 6000,
-            disableOnInteraction: false,
-          }}
-          className="testimonials-swiper"
+        {/* Enhanced Swiper */}
+        <motion.div
+          initial={{ y: 40, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.5 }}
         >
-          {testimonials.map((t) => (
-            <SwiperSlide key={t.id}>
-              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-12 max-w-3xl mx-auto border border-white/10">
-                <div className="flex flex-col items-center text-center">
-                  {/* Stars */}
-                  <div className="mb-6">
-                    {[...Array(t.rating)].map((_, i) => (
-                      <span key={i} className="text-yellow-400 text-xl mx-0.5">
-                        ★
-                      </span>
-                    ))}
-                  </div>
+          <Swiper
+            modules={[Autoplay, Pagination, EffectCoverflow]}
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={1}
+            spaceBetween={40}
+            effect="coverflow"
+            coverflowEffect={{
+              rotate: 15,
+              stretch: 0,
+              depth: 200,
+              modifier: 1,
+              slideShadows: true,
+            }}
+            pagination={{
+              clickable: true,
+              dynamicBullets: true,
+            }}
+            autoplay={{
+              delay: 7000,
+              disableOnInteraction: false,
+            }}
+            breakpoints={{
+              768: {
+                slidesPerView: 1.5,
+                spaceBetween: 30,
+              },
+              1024: {
+                slidesPerView: 2,
+                spaceBetween: 40,
+              },
+            }}
+            className="testimonials-swiper"
+          >
+            {testimonials.map((t, index) => (
+              <SwiperSlide key={t.id}>
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="h-full"
+                >
+                                     <EnhancedCard
+                     className="bg-white/10 backdrop-blur-md border border-white/20 h-full min-h-[400px] flex flex-col"
+                     hover3D={true}
+                     glow={true}
+                     magnetic={true}
+                   >
+                    <div className="p-8 md:p-10 flex flex-col h-full">
+                      {/* Rating Stars */}
+                      <motion.div
+                        className="flex justify-center mb-6"
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                      >
+                        {[...Array(t.rating)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            initial={{ opacity: 0, scale: 0 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.3, delay: 0.4 + i * 0.1 }}
+                            whileHover={{ scale: 1.2 }}
+                          >
+                            <FaStar className="text-yellow-400 text-xl mx-0.5" />
+                          </motion.div>
+                        ))}
+                      </motion.div>
 
-                  {/* Testimonial */}
-                  <p className="text-white text-xl leading-relaxed mb-8 font-light italic">
-                    "{t.content}"
-                  </p>
+                      {/* Quote Icon */}
+                      <motion.div
+                        className="text-center mb-4"
+                        initial={{ opacity: 0, rotate: -45 }}
+                        whileInView={{ opacity: 1, rotate: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                      >
+                        <FaQuoteLeft className="text-white/30 text-3xl mx-auto" />
+                      </motion.div>
 
-                  {/* Footer */}
-                  <div className="text-white">
-                    <h4 className="font-medium text-xl mb-1">{t.name}</h4>
-                    <p className="text-base text-white/80">
-                      {t.role} • {t.date}
-                      {t.location && ` • ${t.location}`}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+                      {/* Testimonial Content */}
+                      <motion.div
+                        className="flex-grow flex items-center"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                      >
+                        <p className="text-white text-lg leading-relaxed font-light italic text-center">
+                          "{t.content}"
+                        </p>
+                      </motion.div>
+
+                      {/* Client Info */}
+                      <motion.div
+                        className="text-center pt-6 border-t border-white/20 mt-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.6 }}
+                      >
+                        <h4 className="font-semibold text-xl text-white mb-2">{t.name}</h4>
+                        <p className="text-white/80 text-base mb-3">{t.role}</p>
+                        
+                        <div className="flex items-center justify-center space-x-4 text-sm text-white/70">
+                          <div className="flex items-center space-x-1">
+                            <FaCalendarAlt className="w-3 h-3" />
+                            <span>{t.date}</span>
+                          </div>
+                          {t.location && (
+                            <div className="flex items-center space-x-1">
+                              <FaMapMarkerAlt className="w-3 h-3" />
+                              <span>{t.location}</span>
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    </div>
+                  </EnhancedCard>
+                </motion.div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </motion.div>
       </div>
 
       <style jsx global>{`

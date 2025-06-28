@@ -7,9 +7,11 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
-import { Users, Calendar, Star, Award } from "lucide-react";
+import { Users, Calendar, Star, Award, Trophy, Heart, Sparkles } from "lucide-react";
+import { FaHandshake, FaCrown, FaGem, FaFire } from "react-icons/fa";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import EnhancedCard from "@/components/common/EnhancedCard";
 
 const stats = [
   {
@@ -97,89 +99,195 @@ const OurFootprint = () => {
     <motion.section
       ref={sectionRef}
       style={{ opacity, scale }}
-      className="relative py-24 overflow-hidden bg-gradient-to-br from-background via-background to-background"
+      className="relative py-24 overflow-hidden bg-gradient-to-br from-background via-muted/30 to-background"
     >
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-[url('/images/grain.png')] opacity-5 mix-blend-soft-light" />
+      {/* Enhanced Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/images/grain.png')] opacity-5 mix-blend-soft-light" />
+        
+        {/* Floating Event Icons */}
+        {[FaGem, FaCrown, FaHandshake, FaFire].map((Icon, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-primary/10"
+            style={{
+              left: `${15 + i * 20}%`,
+              top: `${20 + (i % 2) * 40}%`,
+            }}
+            animate={{
+              y: [0, -40, 0],
+              rotate: [0, 360],
+              scale: [0.8, 1.2, 0.8],
+            }}
+            transition={{
+              duration: 8 + i * 2,
+              repeat: Infinity,
+              delay: i * 2,
+            }}
+          >
+            <Icon className="w-12 h-12" />
+          </motion.div>
+        ))}
+
+        {/* Sparkle Effects */}
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              scale: [0, 1, 0],
+              rotate: [0, 180],
+              opacity: [0, 1, 0],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+          >
+            <Sparkles className="w-6 h-6 text-accent/30" />
+          </motion.div>
+        ))}
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
+        {/* Enhanced Section Header */}
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
+          <motion.div
+            className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 mb-8"
+            initial={{ scale: 0, rotate: -180 }}
+            whileInView={{ scale: 1, rotate: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <Trophy className="w-10 h-10 text-primary" />
+          </motion.div>
+
           <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+            className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            style={{
+              backgroundSize: "200% auto",
+              animation: "gradient-x 3s ease infinite",
+            }}
           >
             Our Footprint
           </motion.h2>
+          
           <motion.p
-            className="text-lg text-foreground/80 max-w-2xl mx-auto"
+            className="text-xl text-foreground/80 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
           >
             Years of excellence in creating unforgettable moments and building
-            lasting relationships
+            lasting relationships across celebrations
           </motion.p>
         </motion.div>
 
-        {/* Stats Grid */}
+        {/* Enhanced Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
-              className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-primary/10 hover:border-primary/30 transition-all duration-300 shadow-lg hover:shadow-xl"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="h-full"
             >
-              <motion.div
-                className="w-16 h-16 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center text-primary mb-6"
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, type: "spring" }}
+              <EnhancedCard
+                className="bg-white/90 backdrop-blur-md border border-primary/10 h-full group"
+                hover3D={true}
+                glow={true}
+                magnetic={true}
               >
-                {stat.icon}
-              </motion.div>
-              <motion.h3
-                className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-2"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                {stat.value}
-              </motion.h3>
-              <motion.p
-                className="text-lg font-semibold text-foreground/90 mb-2"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                {stat.label}
-              </motion.p>
-              <motion.p
-                className="text-sm text-foreground/70"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-              >
-                {stat.description}
-              </motion.p>
+                <div className="p-8">
+                  <motion.div
+                    className="relative w-20 h-20 mx-auto mb-6"
+                    initial={{ scale: 0, rotate: -90 }}
+                    whileInView={{ scale: 1, rotate: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, type: "spring", delay: 0.2 + index * 0.1 }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center text-primary group-hover:from-primary/30 group-hover:to-accent/30 transition-all duration-300">
+                      {stat.icon}
+                    </div>
+                    
+                    {/* Pulse Effect */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.5, 0, 0.5],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        delay: index * 0.5,
+                      }}
+                    />
+                  </motion.div>
+
+                  <motion.div
+                    className="text-center"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                  >
+                    <motion.h3
+                      className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-3"
+                      animate={{
+                        backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                      }}
+                      style={{
+                        backgroundSize: "200% auto",
+                      }}
+                    >
+                      {stat.value}
+                    </motion.h3>
+                    
+                    <motion.p
+                      className="text-lg font-semibold text-foreground/90 mb-3"
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                    >
+                      {stat.label}
+                    </motion.p>
+                    
+                    <motion.p
+                      className="text-sm text-foreground/70 leading-relaxed"
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                    >
+                      {stat.description}
+                    </motion.p>
+                  </motion.div>
+                </div>
+              </EnhancedCard>
             </motion.div>
           ))}
         </div>

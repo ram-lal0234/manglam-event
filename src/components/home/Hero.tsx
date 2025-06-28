@@ -10,7 +10,9 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import Image from "next/image";
-import { FaVolumeMute, FaVolumeUp } from "react-icons/fa";
+import { FaVolumeMute, FaVolumeUp, FaPlay, FaCalendarAlt, FaStar } from "react-icons/fa";
+import EnhancedButton from "@/components/common/EnhancedButton";
+import { useScrollAnimation } from "@/lib/hooks/useScrollAnimation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -297,40 +299,163 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4">
+      <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4 max-w-6xl mx-auto">
+        {/* Event Stats Bar */}
+        <motion.div
+          className="absolute top-32 left-1/2 transform -translate-x-1/2 w-full max-w-4xl"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
+          <div className="flex justify-center space-x-8 md:space-x-16">
+            {[
+              { icon: FaStar, number: "500+", label: "Events Created" },
+              { icon: FaCalendarAlt, number: "15+", label: "Years Experience" },
+              { icon: FaPlay, number: "98%", label: "Client Satisfaction" },
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                className="text-center"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
+                whileHover={{ scale: 1.1 }}
+              >
+                <motion.div
+                  className="w-12 h-12 mx-auto mb-2 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20"
+                  whileHover={{ 
+                    backgroundColor: "rgba(215, 38, 56, 0.2)",
+                    borderColor: "rgba(215, 38, 56, 0.5)"
+                  }}
+                >
+                  <stat.icon className="w-5 h-5 text-white" />
+                </motion.div>
+                <motion.div
+                  className="text-xl md:text-2xl font-bold text-white"
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  {stat.number}
+                </motion.div>
+                <div className="text-xs md:text-sm text-white/80">{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Company name with split animation */}
-        <div
+        <motion.div
           ref={textRef}
-          className="text-6xl md:text-8xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white via-accent-light to-white drop-shadow-lg hover:glow"
+          className="text-6xl md:text-8xl lg:text-9xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white via-accent-light to-white drop-shadow-2xl"
+          style={{
+            filter: "drop-shadow(0 0 30px rgba(255,255,255,0.3))"
+          }}
         />
 
-        {/* Tagline */}
-        <motion.p
-          className="tagline text-2xl md:text-3xl mb-12 text-white/90 font-light tracking-wide"
+        {/* Enhanced Tagline */}
+        <motion.div
+          className="mb-12 space-y-4"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
         >
-          Creating Unforgettable Moments
-        </motion.p>
+          <motion.p
+            className="tagline text-2xl md:text-4xl lg:text-5xl text-white/95 font-light tracking-wide leading-tight"
+            animate={{
+              textShadow: [
+                "0 0 10px rgba(255,255,255,0.3)",
+                "0 0 20px rgba(255,255,255,0.5)",
+                "0 0 10px rgba(255,255,255,0.3)"
+              ]
+            }}
+            transition={{ duration: 3, repeat: Infinity }}
+          >
+            Creating Unforgettable Moments
+          </motion.p>
+          
+          <motion.p
+            className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+          >
+            From intimate celebrations to grand corporate events, we craft experiences that linger in hearts and memories forever.
+          </motion.p>
+        </motion.div>
 
-        {/* CTA Buttons */}
-        {/* <div className="flex flex-col sm:flex-row gap-4">
-          <motion.button
-            className="cta-button px-8 py-3 bg-gradient-to-r from-primary to-accent rounded-full text-white font-medium hover:from-primary/90 hover:to-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+        {/* Enhanced CTA Buttons */}
+        <motion.div
+          className="flex flex-col sm:flex-row gap-6 items-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1 }}
+        >
+          <motion.div
+            className="cta-button"
+            whileHover={{ y: -2 }}
+            whileTap={{ y: 0 }}
           >
-            Get Started
-          </motion.button>
-          <motion.button
-            className="cta-button px-8 py-3 bg-white/10 backdrop-blur-sm rounded-full text-white font-medium hover:bg-white/20 transition-all duration-300 border border-white/20"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            <EnhancedButton
+              variant="primary"
+              size="lg"
+              glow={true}
+              ripple={true}
+              magnetic={true}
+              className="px-8 py-4 text-lg font-semibold bg-gradient-to-r from-primary via-primary to-primary/90 shadow-2xl"
+            >
+              <div className="flex items-center space-x-3">
+                <FaCalendarAlt className="w-5 h-5" />
+                <span>Plan Your Event</span>
+              </div>
+            </EnhancedButton>
+          </motion.div>
+
+          <motion.div
+            className="cta-button"
+            whileHover={{ y: -2 }}
+            whileTap={{ y: 0 }}
           >
-            Learn More
-          </motion.button>
-        </div> */}
+            <EnhancedButton
+              variant="outline"
+              size="lg"
+              glow={false}
+              ripple={true}
+              className="px-8 py-4 text-lg font-semibold bg-white/10 backdrop-blur-md border-2 border-white/30 text-white hover:bg-white/20 hover:border-white/50"
+            >
+              <div className="flex items-center space-x-3">
+                <FaPlay className="w-4 h-4" />
+                <span>View Portfolio</span>
+              </div>
+            </EnhancedButton>
+          </motion.div>
+        </motion.div>
+
+        {/* Floating Event Types */}
+        <motion.div
+          className="absolute bottom-40 left-1/2 transform -translate-x-1/2 hidden lg:block"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.5 }}
+        >
+          <div className="flex space-x-6">
+            {["Weddings", "Corporate", "Birthdays", "Anniversaries"].map((type, index) => (
+              <motion.div
+                key={type}
+                className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/90 text-sm"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 1.7 + index * 0.1 }}
+                whileHover={{ 
+                  scale: 1.1,
+                  backgroundColor: "rgba(215, 38, 56, 0.2)",
+                  borderColor: "rgba(215, 38, 56, 0.5)"
+                }}
+              >
+                {type}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
         {/* Scroll Indicator */}
         <motion.div

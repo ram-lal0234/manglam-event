@@ -4,6 +4,8 @@ import { motion, useAnimation } from "framer-motion";
 import { Calendar, Users, Camera } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import EnhancedCard from "@/components/common/EnhancedCard";
+import EnhancedButton from "@/components/common/EnhancedButton";
 
 const services = [
   {
@@ -129,15 +131,19 @@ const FeaturedServices = () => {
           {services.map((service, index) => (
             <motion.div
               key={service.id}
-              className="group relative bg-background/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/40 transition-all duration-300"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -5 }}
-              onHoverStart={() => handleHover(service.id)}
-              animate={controls}
             >
+              <EnhancedCard
+                className="group relative overflow-hidden border-primary/20 hover:border-primary/40"
+                hover3D={true}
+                glow={true}
+                tilt={true}
+                scale={true}
+                onClick={() => handleHover(service.id)}
+              >
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src={service.image}
@@ -232,6 +238,7 @@ const FeaturedServices = () => {
                   </motion.div>
                 </motion.div>
               </div>
+              </EnhancedCard>
             </motion.div>
           ))}
         </div>

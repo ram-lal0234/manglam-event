@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { FaHeart, FaStar, FaGem } from 'react-icons/fa';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -62,7 +63,7 @@ const Quote = () => {
       className="py-32 bg-gradient-to-b from-accent via-accent/5 to-accent relative overflow-hidden"
       style={{ opacity, scale }}
     >
-      {/* Enhanced Background Elements */}
+      {/* Enhanced Background Elements with Event Theme */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
           className="floating-element absolute -top-24 -left-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"
@@ -88,24 +89,52 @@ const Quote = () => {
             repeatType: 'reverse',
           }}
         />
-        {/* Animated Particles */}
+        {/* Animated Event Icons */}
         <div className="absolute inset-0">
-          {[...Array(15)].map((_, i) => (
+          {[FaHeart, FaStar, FaGem].map((Icon, i) => (
             <motion.div
               key={i}
-              className="absolute w-1 h-1 bg-primary/30 rounded-full"
+              className="absolute text-primary/20"
+              style={{
+                left: `${20 + i * 30}%`,
+                top: `${20 + i * 15}%`,
+              }}
+              animate={{
+                y: [0, -20, 0],
+                rotate: [0, 180, 360],
+                scale: [0.8, 1.2, 0.8],
+              }}
+              transition={{
+                duration: 6 + i * 2,
+                repeat: Infinity,
+                delay: i * 2,
+              }}
+            >
+              <Icon className="w-6 h-6" />
+            </motion.div>
+          ))}
+        </div>
+        {/* Enhanced Particles */}
+        <div className="absolute inset-0">
+          {[...Array(12)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-gradient-to-r from-primary/40 to-accent/40 rounded-full"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
               }}
               animate={{
-                y: [0, -100],
+                y: [0, -120],
+                x: [0, Math.random() * 40 - 20],
                 opacity: [0, 1, 0],
+                scale: [0.5, 1, 0.5],
               }}
               transition={{
-                duration: Math.random() * 3 + 2,
+                duration: Math.random() * 4 + 3,
                 repeat: Infinity,
-                delay: Math.random() * 2,
+                delay: Math.random() * 3,
+                ease: "easeOut",
               }}
             />
           ))}
