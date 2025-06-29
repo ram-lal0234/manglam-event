@@ -233,54 +233,6 @@ const Quote = () => {
               </div>
             </div>
           </motion.div>
-
-          {/* Bottom Stats */}
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            {[
-              { number: "500+", label: "Happy Clients", icon: FaHeart },
-              { number: "1000+", label: "Events Planned", icon: FaStar },
-              { number: "5+", label: "Years Experience", icon: FaHeart }
-            ].map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                className="text-center space-y-4"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.7 + index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <motion.div
-                  className="w-16 h-16 mx-auto rounded-full flex items-center justify-center"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
-                    border: "1px solid rgba(215, 38, 56, 0.2)"
-                  }}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  <stat.icon className="w-8 h-8 text-primary" />
-                </motion.div>
-                <div>
-                  <motion.div
-                    className="text-3xl font-bold text-foreground font-playfair"
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    {stat.number}
-                  </motion.div>
-                  <div className="text-muted-foreground font-cormorant">{stat.label}</div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
         </motion.div>
       </div>
 

@@ -65,83 +65,69 @@ const Navbar = () => {
     <>
       <motion.nav
         ref={navRef}
-        className="fixed w-full z-50"
+        className="fixed w-full z-50 top-0"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        {/* SVG Wave Background */}
-        <div className="absolute inset-0 overflow-hidden">
-          <svg
-            className="w-full h-full"
-            viewBox="0 0 1200 120"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
-              opacity=".25"
-              className="fill-primary"
-            />
-            <path
-              d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
-              opacity=".5"
-              className="fill-primary"
-            />
-            <path
-              d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
-              className="fill-primary"
-            />
-          </svg>
+        {/* Enhanced Background with better visibility */}
+        <div className="absolute inset-0">
+          <div
+            className={`w-full h-full transition-all duration-500 ${
+              isScrolled
+                ? "bg-white/95 backdrop-blur-xl shadow-lg"
+                : "bg-white/80 backdrop-blur-lg"
+            }`}
+          />
+          {/* Subtle gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5" />
         </div>
 
         {/* Main Navbar Container */}
-        <div className="px-4 sm:px-6 lg:px-8 pt-4">
+        <div className="relative px-4 sm:px-6 lg:px-8 py-3">
           <motion.div
-            className={`max-w-7xl mx-auto transition-all duration-1000 ease-out rounded-3xl overflow-hidden ${
-              isScrolled ? 'floating' : ''
+            className={`max-w-7xl mx-auto transition-all duration-500 ease-out rounded-2xl overflow-hidden ${
+              isScrolled ? "shadow-xl" : "shadow-lg"
             }`}
             style={{
-              background: isScrolled 
-                ? "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%)"
-                : "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)",
+              background: isScrolled
+                ? "linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.95) 100%)"
+                : "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%)",
               backdropFilter: "blur(20px)",
               WebkitBackdropFilter: "blur(20px)",
-              border: "1px solid rgba(215, 38, 56, 0.1)",
-              boxShadow: isScrolled 
-                ? "0 25px 50px -12px rgba(215, 38, 56, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.3) inset"
-                : "0 10px 25px -5px rgba(215, 38, 56, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.2) inset"
+              border: "1px solid rgba(215, 38, 56, 0.15)",
+              boxShadow: isScrolled
+                ? "0 20px 40px -12px rgba(215, 38, 56, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.4) inset"
+                : "0 10px 30px -5px rgba(215, 38, 56, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.3) inset",
             }}
             whileHover={{
-              scale: 1.005,
-              transition: { duration: 0.3 }
+              scale: 1.002,
+              transition: { duration: 0.3 },
             }}
           >
-            {/* Flower Decorations */}
-            <div className="absolute top-2 left-4 flower-decoration">
-              <svg viewBox="0 0 24 24">
-                <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M12,18C13.1,18 14,18.9 14,20C14,21.1 13.1,22 12,22C10.9,22 10,21.1 10,20C10,18.9 10.9,18 12,18M12,8C13.1,8 14,8.9 14,10C14,11.1 13.1,12 12,12C10.9,12 10,11.1 10,10C10,8.9 10.9,8 12,8M12,14C13.1,14 14,14.9 14,16C14,17.1 13.1,18 12,18C10.9,18 10,17.1 10,16C10,14.9 10.9,14 12,14Z"/>
-              </svg>
-            </div>
-            
-            <div className="absolute top-2 right-4 flower-decoration">
-              <svg viewBox="0 0 24 24">
-                <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M12,18C13.1,18 14,18.9 14,20C14,21.1 13.1,22 12,22C10.9,22 10,21.1 10,20C10,18.9 10.9,18 12,18M12,8C13.1,8 14,8.9 14,10C14,11.1 13.1,12 12,12C10.9,12 10,11.1 10,10C10,8.9 10.9,8 12,8M12,14C13.1,14 14,14.9 14,16C14,17.1 13.1,18 12,18C10.9,18 10,17.1 10,16C10,14.9 10.9,14 12,14Z"/>
+            {/* Enhanced Flower Decorations */}
+            <div className="absolute top-3 left-6 flower-decoration">
+              <svg viewBox="0 0 24 24" className="w-4 h-4 text-primary/60">
+                <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M12,18C13.1,18 14,18.9 14,20C14,21.1 13.1,22 12,22C10.9,22 10,21.1 10,20C10,18.9 10.9,18 12,18M12,8C13.1,8 14,8.9 14,10C14,11.1 13.1,12 12,12C10.9,12 10,11.1 10,10C10,8.9 10.9,8 12,8M12,14C13.1,14 14,14.9 14,16C14,17.1 13.1,18 12,18C10.9,18 10,17.1 10,16C10,14.9 10.9,14 12,14Z" />
               </svg>
             </div>
 
-            <div className="relative px-6 py-4">
+            <div className="absolute top-3 right-6 flower-decoration">
+              <svg viewBox="0 0 24 24" className="w-4 h-4 text-primary/60">
+                <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M12,18C13.1,18 14,18.9 14,20C14,21.1 13.1,22 12,22C10.9,22 10,21.1 10,20C10,18.9 10.9,18 12,18M12,8C13.1,8 14,8.9 14,10C14,11.1 13.1,12 12,12C10.9,12 10,11.1 10,10C10,8.9 10.9,8 12,8M12,14C13.1,14 14,14.9 14,16C14,17.1 13.1,18 12,18C10.9,18 10,17.1 10,16C10,14.9 10.9,14 12,14Z" />
+              </svg>
+            </div>
+
+            <div className="relative px-6 py-3">
               <div className="flex items-center justify-between">
                 {/* Enhanced Logo */}
                 <motion.div
                   className="relative"
-                  whileHover={{ scale: 1.1 }}
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Link
-                    href="/"
-                    className="relative w-32 h-12 block group"
-                  >
+                  <Link href="/" className="relative w-36 h-14 block group">
                     <motion.div
                       className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary-light/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100"
                       transition={{ duration: 0.3 }}
@@ -156,68 +142,61 @@ const Navbar = () => {
                   </Link>
                 </motion.div>
 
-                {/* Desktop Navigation with Smooth Animations */}
-                <div className="hidden md:flex items-center space-x-1">
+                {/* Desktop Navigation with Enhanced Styling */}
+                <div className="hidden md:flex items-center space-x-2">
                   {navItems.map((item, index) => (
                     <motion.div
                       key={item.path}
                       initial={{ opacity: 0, y: -20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ 
-                        duration: 0.6, 
+                      transition={{
+                        duration: 0.6,
                         delay: index * 0.1,
-                        ease: "easeOut"
+                        ease: "easeOut",
                       }}
                     >
                       <Link
                         href={item.path}
-                        className={`nav-item relative px-6 py-3 text-sm font-medium font-great-vibes transition-all duration-400 group rounded-2xl overflow-hidden ${
+                        className={`nav-item relative px-6 py-3 text-base font-large font-semibold font-great-vibes transition-all duration-400 group rounded-xl overflow-hidden ${
                           pathname === item.path
-                            ? "text-primary"
-                            : "text-foreground hover:text-primary"
+                            ? "text-primary bg-primary/10"
+                            : "text-foreground hover:text-primary hover:bg-primary/5"
                         }`}
                       >
-                        {/* Smooth background effect */}
+                        {/* Enhanced background effect */}
                         <motion.div
                           className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent opacity-0 group-hover:opacity-100"
-                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 30,
+                          }}
                         />
-                        
-                        {/* Text with smooth hover */}
+
+                        {/* Text with enhanced hover */}
                         <motion.span
                           className="relative z-10 block"
-                          whileHover={{ 
+                          whileHover={{
                             scale: 1.05,
-                            textShadow: "0 0 8px rgba(215, 38, 56, 0.3)"
+                            textShadow: "0 0 8px rgba(215, 38, 56, 0.3)",
                           }}
-                          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 17,
+                          }}
                         >
                           {item.name}
                         </motion.span>
-                        
-                        {/* Smooth active indicator */}
+
+                        {/* Enhanced active indicator */}
                         {pathname === item.path && (
                           <motion.div
-                            className="absolute inset-0 bg-gradient-to-r from-primary/15 via-primary/10 to-transparent rounded-2xl"
-                            layoutId="navbar-active"
+                            className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-primary-light"
+                            layoutId="activeTab"
                             transition={{
                               type: "spring",
-                              stiffness: 500,
-                              damping: 30,
-                            }}
-                          />
-                        )}
-                        
-                        {/* Floating dot indicator */}
-                        {pathname === item.path && (
-                          <motion.div
-                            className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-primary rounded-full"
-                            layoutId="navbar-dot"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{
-                              type: "spring",
-                              stiffness: 500,
+                              stiffness: 400,
                               damping: 30,
                             }}
                           />
@@ -225,103 +204,90 @@ const Navbar = () => {
                       </Link>
                     </motion.div>
                   ))}
+                </div>
 
-                  {/* Enhanced Hashtag Generator Link */}
+                {/* Right Side Actions */}
+                <div className="flex items-center space-x-4">
+                  {/* Hashtag Generator Button */}
                   <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ 
-                      duration: 0.6, 
-                      delay: navItems.length * 0.1,
-                      ease: "easeOut"
-                    }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
                   >
                     <Link
                       href="/hashtag-generator"
-                      className={`nav-item relative px-6 py-3 text-sm font-medium font-great-vibes transition-all duration-400 group flex items-center space-x-2 rounded-2xl overflow-hidden ${
+                      className={`nav-item relative px-4 py-2 text-sm font-large font-semibold font-great-vibes transition-all duration-400 group flex items-center space-x-2 rounded-xl overflow-hidden ${
                         pathname === "/hashtag-generator"
-                          ? "text-primary"
-                          : "text-foreground hover:text-primary"
+                          ? "text-primary bg-primary/10"
+                          : "text-foreground hover:text-primary hover:bg-primary/5"
                       }`}
                     >
                       <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent opacity-0 group-hover:opacity-100"
-                        transition={{ duration: 0.3 }}
+                        className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100"
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30,
+                        }}
                       />
-                      <motion.div
-                        whileHover={{ rotate: 180, scale: 1.1 }}
-                        transition={{ duration: 0.3 }}
-                        className="relative z-10"
-                      >
-                        <FaHashtag className="w-4 h-4" />
-                      </motion.div>
-                      <span className="relative z-10">Hashtags</span>
+                      <FaHashtag className="relative z-10 w-4 h-4" />
+                      <span className="relative z-10">Hashtag</span>
                     </Link>
                   </motion.div>
-                </div>
 
-                {/* Right side items */}
-                <div className="flex items-center space-x-4">
-                  {/* Auth Buttons */}
-                  <div className="hidden md:flex items-center space-x-4">
+                  {/* Auth/User Section - Hidden for now */}
+                  {/* <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6, delay: 0.6 }}
+                  >
                     {user ? (
                       <UserMenu />
                     ) : (
-                      <>
-                        {/* Auth buttons commented out as in original */}
-                      </>
+                      <motion.button
+                        onClick={() => {
+                          setAuthMode("login");
+                          setShowAuthModal(true);
+                        }}
+                        className="px-6 py-2 bg-gradient-to-r from-primary to-primary-light text-white font-great-vibes rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        Login
+                      </motion.button>
                     )}
-                  </div>
+                  </motion.div> */}
 
-                  {/* Smooth Mobile menu button */}
+                  {/* Mobile Menu Button */}
                   <motion.button
-                    className="md:hidden relative w-12 h-12 flex items-center justify-center rounded-2xl text-foreground hover:text-primary focus:outline-none transition-all duration-400 overflow-hidden group"
-                    style={{
-                      background: "linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.4) 100%)",
-                      backdropFilter: "blur(10px)",
-                      border: "1px solid rgba(215, 38, 56, 0.1)",
-                      boxShadow: "0 8px 16px -4px rgba(215, 38, 56, 0.15)"
-                    }}
+                    className="md:hidden p-2 rounded-xl hover:bg-primary/10 transition-colors duration-300"
                     onClick={() => setIsOpen(!isOpen)}
-                    aria-label="Toggle menu"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
-                    {/* Smooth background effect */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-primary/10 to-primary-light/10 opacity-0 group-hover:opacity-100"
-                      transition={{ duration: 0.3 }}
-                    />
-                    
-                    <motion.div
-                      className="relative flex items-center justify-center w-6 h-6 z-10"
-                      animate={{ rotate: isOpen ? 180 : 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <AnimatePresence mode="wait">
-                        {isOpen ? (
-                          <motion.div
-                            key="close"
-                            initial={{ rotate: -90, opacity: 0 }}
-                            animate={{ rotate: 0, opacity: 1 }}
-                            exit={{ rotate: 90, opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <FaTimes className="w-5 h-5" />
-                          </motion.div>
-                        ) : (
-                          <motion.div
-                            key="menu"
-                            initial={{ rotate: 90, opacity: 0 }}
-                            animate={{ rotate: 0, opacity: 1 }}
-                            exit={{ rotate: -90, opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <FaBars className="w-5 h-5" />
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
+                    <AnimatePresence mode="wait">
+                      {isOpen ? (
+                        <motion.div
+                          key="close"
+                          initial={{ rotate: -90, opacity: 0 }}
+                          animate={{ rotate: 0, opacity: 1 }}
+                          exit={{ rotate: 90, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <FaTimes className="w-6 h-6 text-primary" />
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="menu"
+                          initial={{ rotate: 90, opacity: 0 }}
+                          animate={{ rotate: 0, opacity: 1 }}
+                          exit={{ rotate: -90, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <FaBars className="w-6 h-6 text-primary" />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </motion.button>
                 </div>
               </div>
@@ -329,164 +295,98 @@ const Navbar = () => {
           </motion.div>
         </div>
 
-        {/* Enhanced Mobile Navigation */}
+        {/* Enhanced Mobile Menu */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
               ref={menuRef}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              className="md:hidden fixed inset-0 z-[100] pt-24"
+              className="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-primary/10 shadow-xl"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
             >
-              {/* Smooth backdrop */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0"
-                style={{
-                  background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(0, 0, 0, 0.6) 100%)",
-                  backdropFilter: "blur(20px)"
-                }}
-                onClick={() => setIsOpen(false)}
-              />
-
-              {/* Smooth Menu Content */}
-              <motion.div
-                className="relative px-4"
-                initial={{ opacity: 0, y: -30, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -30, scale: 0.9 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-              >
-                <div 
-                  className="max-w-sm mx-auto overflow-hidden rounded-3xl shadow-2xl"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%)",
-                    backdropFilter: "blur(25px)",
-                    border: "1px solid rgba(215, 38, 56, 0.2)",
-                    boxShadow: "0 25px 50px -12px rgba(215, 38, 56, 0.3)"
-                  }}
-                >
-                  {/* Creative header pattern */}
-                  <div className="relative h-2 overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary-light to-primary animate-pulse" />
-                  </div>
-
-                  <div className="px-6 py-8 space-y-2">
-                    {navItems.map((item, index) => (
+              <div className="px-4 py-6 space-y-4">
+                {navItems.map((item, index) => (
+                  <motion.div
+                    key={item.path}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <Link
+                      href={item.path}
+                      className={`nav-item flex px-6 py-4 rounded-2xl text-lg font-large font-semibold font-great-vibes transition-all duration-400 group relative overflow-hidden ${
+                        pathname === item.path
+                          ? "text-primary bg-primary/10"
+                          : "text-foreground hover:text-primary hover:bg-primary/5"
+                      }`}
+                      onClick={() => setIsOpen(false)}
+                    >
                       <motion.div
-                        key={item.path}
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ 
-                          duration: 0.5, 
-                          delay: index * 0.1,
-                          ease: "easeOut"
+                        className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100"
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30,
                         }}
-                      >
-                        <Link
-                          href={item.path}
-                          className={`nav-item flex px-6 py-4 rounded-2xl text-lg font-medium font-great-vibes transition-all duration-400 group relative overflow-hidden ${
-                            pathname === item.path
-                              ? "text-primary"
-                              : "text-foreground hover:text-primary"
-                          }`}
-                          onClick={() => setIsOpen(false)}
-                        >
-                          {/* Smooth background */}
-                          <motion.div
-                            className="absolute inset-0 bg-gradient-to-r from-primary/15 via-primary/8 to-transparent opacity-0 group-hover:opacity-100"
-                            transition={{ duration: 0.3 }}
-                          />
-                          
-                          <motion.span
-                            className=" flex items-center justify-center z-10"
-                            whileHover={{ x: 8, scale: 1.02 }}
-                            transition={{
-                              type: "spring",
-                              stiffness: 400,
-                              damping: 20,
-                            }}
-                          >
-                            {item.name}
-                          </motion.span>
-                          
-                          {/* Active indicator */}
-                          {pathname === item.path && (
-                            <motion.div
-                              className="absolute left-2 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-primary rounded-full"
-                              layoutId="mobile-active"
-                              transition={{
-                                type: "spring",
-                                stiffness: 500,
-                                damping: 30,
-                              }}
-                            />
-                          )}
-                        </Link>
-                      </motion.div>
-                    ))}
+                      />
+                      <span className="relative z-10">{item.name}</span>
+                    </Link>
+                  </motion.div>
+                ))}
 
-                    {/* Enhanced Hashtag Generator Link (Mobile) */}
+                {/* Mobile Hashtag Generator */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: 0.5 }}
+                >
+                  <Link
+                    href="/hashtag-generator"
+                    className={`nav-item px-6 py-4 rounded-2xl text-lg font-large font-semibold font-great-vibes transition-all duration-400 group flex items-center space-x-3 relative overflow-hidden ${
+                      pathname === "/hashtag-generator"
+                        ? "text-primary bg-primary/10"
+                        : "text-foreground hover:text-primary hover:bg-primary/5"
+                    }`}
+                    onClick={() => setIsOpen(false)}
+                  >
                     <motion.div
-                      initial={{ opacity: 0, x: -30 }}
-                      animate={{ opacity: 1, x: 0 }}
+                      className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100"
                       transition={{
-                        duration: 0.5,
-                        delay: navItems.length * 0.1,
-                        ease: "easeOut"
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 30,
                       }}
-                    >
-                      <Link
-                        href="/hashtag-generator"
-                        className={`nav-item  px-6 py-4 rounded-2xl text-lg font-medium font-great-vibes transition-all duration-400 group flex items-center space-x-3 relative overflow-hidden ${
-                          pathname === "/hashtag-generator"
-                            ? "text-primary"
-                            : "text-foreground hover:text-primary"
-                        }`}
-                        onClick={() => setIsOpen(false)}
-                      >
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-primary/15 via-primary/8 to-transparent opacity-0 group-hover:opacity-100"
-                          transition={{ duration: 0.3 }}
-                        />
-                        
-                        <motion.div
-                          whileHover={{ rotate: 180, scale: 1.1 }}
-                          transition={{ duration: 0.3 }}
-                          className="relative z-10"
-                        >
-                          <FaHashtag className="w-5 h-5" />
-                        </motion.div>
-                        <span className="relative z-10">Hashtag Generator</span>
-                      </Link>
-                    </motion.div>
+                    />
+                    <FaHashtag className="relative z-10 w-5 h-5" />
+                    <span className="relative z-10">Hashtag Generator</span>
+                  </Link>
+                </motion.div>
 
-                    {/* Mobile Auth Section */}
-                    <motion.div
-                      initial={{ opacity: 0, x: -30 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{
-                        duration: 0.5,
-                        delay: (navItems.length + 1) * 0.1,
-                        ease: "easeOut"
+                {/* Mobile Auth Button */}
+                {/* {!user && (
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.6 }}
+                    className="pt-4"
+                  >
+                    <motion.button
+                      onClick={() => {
+                        setAuthMode("login");
+                        setShowAuthModal(true);
+                        setIsOpen(false);
                       }}
-                      className="pt-4 space-y-3"
+                      className="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary-light text-white font-great-vibes rounded-2xl hover:shadow-lg transition-all duration-300"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      {user ? (
-                        <UserMenu isMobile />
-                      ) : (
-                        <>
-                          {/* Auth buttons commented out as in original */}
-                        </>
-                      )}
-                    </motion.div>
-                  </div>
-                </div>
-              </motion.div>
+                      Login / Sign Up
+                    </motion.button>
+                  </motion.div>
+                )} */}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

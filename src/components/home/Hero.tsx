@@ -115,50 +115,6 @@ const Hero = () => {
               </p>
             </motion.div>
 
-            {/* Stats */}
-            <motion.div
-              className="flex flex-wrap gap-8"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.6 }}
-            >
-              <div className="flex items-center space-x-3">
-                <motion.div
-                  className="w-12 h-12 rounded-full flex items-center justify-center"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
-                    border: "1px solid rgba(215, 38, 56, 0.2)"
-                  }}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  <FaUsers className="w-6 h-6 text-primary" />
-                </motion.div>
-                <div>
-                  <div className="text-2xl font-bold text-foreground font-playfair">500+</div>
-                  <div className="text-sm text-muted-foreground font-cormorant">Happy Clients</div>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-3">
-                <motion.div
-                  className="w-12 h-12 rounded-full flex items-center justify-center"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
-                    border: "1px solid rgba(215, 38, 56, 0.2)"
-                  }}
-                  whileHover={{ scale: 1.1, rotate: -5 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  <FaStar className="w-6 h-6 text-primary" />
-                </motion.div>
-                <div>
-                  <div className="text-2xl font-bold text-foreground font-playfair">1000+</div>
-                  <div className="text-sm text-muted-foreground font-cormorant">Events Planned</div>
-                </div>
-              </div>
-            </motion.div>
-
             {/* CTA Buttons */}
             <motion.div
               className="flex flex-col sm:flex-row gap-4"
@@ -268,38 +224,7 @@ const Hero = () => {
                   <FaPlay className="w-6 h-6 text-primary" />
                 </motion.div>
 
-                {/* Bottom Info Card */}
-                <motion.div
-                  className="absolute bottom-6 left-6 right-6 p-6 rounded-2xl"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%)",
-                    backdropFilter: "blur(20px)",
-                    border: "1px solid rgba(215, 38, 56, 0.1)",
-                    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)"
-                  }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 1 }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-lg font-bold text-foreground font-playfair">Wedding Planning</h3>
-                      <p className="text-sm text-muted-foreground font-cormorant">Complete wedding solutions</p>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      {[...Array(5)].map((_, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ duration: 0.3, delay: 1.2 + i * 0.1 }}
-                        >
-                          <FaStar className="w-4 h-4 text-yellow-400" />
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
+                
               </motion.div>
 
               {/* Floating Decorative Elements */}

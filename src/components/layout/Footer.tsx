@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaHeart, FaArrowUp } from "react-icons/fa";
+import Image from "next/image";
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram, FaLinkedin, FaHeart, FaArrowUp, FaPinterest } from "react-icons/fa";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -32,15 +33,15 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { name: "Facebook", icon: FaFacebook, href: "#", color: "hover:text-blue-600" },
-    { name: "Instagram", icon: FaInstagram, href: "#", color: "hover:text-pink-600" },
-    { name: "Twitter", icon: FaTwitter, href: "#", color: "hover:text-blue-400" },
+    { name: "Facebook", icon: FaFacebook, href: "https://www.facebook.com/ManglamEventJodhpur/", color: "hover:text-blue-600" },
+    { name: "Instagram", icon: FaInstagram, href: "https://www.instagram.com/manglamevents/", color: "hover:text-pink-600" },
+    { name: "Pinterest", icon: FaPinterest, href: "https://in.pinterest.com/manglamevent_jodhpur/", color: "hover:text-red-600" },
     { name: "LinkedIn", icon: FaLinkedin, href: "#", color: "hover:text-blue-700" }
   ];
 
   const contactInfo = [
-    { icon: FaPhone, text: "+91 98765 43210", href: "tel:+919876543210" },
-    { icon: FaEnvelope, text: "info@manglam-event.com", href: "mailto:info@manglam-event.com" },
+    { icon: FaPhone, text: "+91 82399 99000", href: "tel:+918239999000" },
+    { icon: FaEnvelope, text: "info@manglamevent.com", href: "mailto:info@manglamevent.com" },
     { icon: FaMapMarkerAlt, text: "Jodhpur, Rajasthan, India", href: "#" }
   ];
 
@@ -106,18 +107,22 @@ const Footer = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center"
-                  style={{
-                    background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
-                    boxShadow: "0 10px 30px rgba(215, 38, 56, 0.3)"
-                  }}
+                <Link
+                  href="/"
+                  className="relative w-32 h-12 block group"
                 >
-                  <span className="text-white font-bold text-xl">M</span>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-foreground font-playfair">Manglam Event</h3>
-                  <p className="text-muted-foreground font-cormorant">Creating Magic Moments</p>
-                </div>
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary-light/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100"
+                    transition={{ duration: 0.3 }}
+                  />
+                  <Image
+                    src="/images/logo.png"
+                    alt="Manglam Event Logo"
+                    fill
+                    className="object-contain relative z-10 transition-all duration-300 hover:brightness-110"
+                    priority
+                  />
+                </Link>
               </motion.div>
 
               {/* Description */}
