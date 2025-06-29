@@ -1,209 +1,376 @@
 "use client";
 
-import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
-import { motion, useScroll, useTransform } from "framer-motion";
-import "swiper/css";
-import "swiper/css/pagination";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { FaQuoteLeft, FaStar, FaHeart, FaUsers } from "react-icons/fa";
 
-gsap.registerPlugin(ScrollTrigger);
-
-const testimonials = [
-  {
-    id: 1,
-    name: "Jawarilal Kankariya",
-    role: "Grandfather of the Bride",
-    content:
-      "I truly appreciate the hard work, efforts, and creativity Manglam Event and team put in my granddaughter Nehal's wedding. My family and guests really loved the decoration and all the arrangements by Manglam Event. The team worked with excitement and happiness, and followed the changes as per requirement which fueled energy in wedding. Thankyou Manglam Event and team.",
-    rating: 5,
-    date: "January 2023",
-    location: "Garh Govind",
-  },
-  {
-    id: 2,
-    name: "Sneha & Dependra",
-    role: "Newlyweds",
-    content:
-      "I want to take a moment and appreciate the wedding planning by Manglam Event and team, they followed all our instructions really well, they took our ideas seriously and made our vision into life, they really arranged everything well, and their services were up to mark. We will highly recommend Manglam Event for your wedding planning.",
-    rating: 5,
-    date: "December 2023",
-    location: "Sardarclub",
-  },
-  {
-    id: 3,
-    name: "Shanky Bagrecha",
-    role: "Bride's Family",
-    content:
-      "The team really planned the wedding very well and we are grateful for that, aakash you didn't even sit for a moment and managed everything so perfectly as we didn't hear no from him even for whatever instant arrangements we asked. We didn't just hired wedding planner but also made a good bond with aakash & mansi which is again appreciable as it's important to get understood and connected with the one's who are planning the important day of your life. Thankyou Naveenji, mansi, and aakash.",
-    rating: 5,
-    date: "February 2022",
-    location: "Rangmahal Jaisalmer",
-  },
-  {
-    id: 4,
-    name: "Manohar Jethani",
-    role: "Groom's Father",
-    content:
-      "I can't describe in words the quality of work Manglam Event and team did at my son's wedding. We are really thankful to them as they really valued our vision and converted it into a beautiful wedding. We are really grateful to them.",
-    rating: 5,
-    date: "October 2022",
-    location: "Amargarh Resort by Neelkanth Alura",
-  },
-  {
-    id: 5,
-    name: "Justice Vinit Kumar",
-    role: "Client",
-    content:
-      "I really loved the decoration. Naveen ji and his team made the wedding memorable for us and our guests. All the arrangements and management was so smooth. Thankyou Manglam Event and team.",
-    rating: 5,
-    date: "November 2024",
-    location: "",
-  },
-  {
-    id: 6,
-    name: "Moti Singh Rajpurohit",
-    role: "Bride's Father",
-    content:
-      "I have no words to describe the efforts and hardwork Manglam Event and Team put in my daughter's wedding. I visioned the wedding and they converted my vision into life as this is one of the best wedding of the year for me. I am really grateful to Naveen ji. I wish them success ahead.",
-    rating: 5,
-    date: "November 2024",
-    location: "LalBagh, Ranakpur",
-  },
-  {
-    id: 7,
-    name: "Rumit & Sakshi",
-    role: "Newlyweds",
-    content:
-      "Manglam Event has done wonders. They not only organized but the hardwork and efforts they put in were really appreciable. My guests were from different corners of the world and they really enjoyed the wedding whole heartedly. The wedding for me and my guests was mindblowing. I wish them success ahead and good wishes. Thankyou so much.",
-    rating: 5,
-    date: "November 2024",
-    location: "Kings Muthaliya Resort, Takhatgarh",
-  },
-];
-
-export default function Testimonials() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.8, 1],
-    [0.95, 1, 1, 0.95]
-  );
+const Testimonials = () => {
+  const testimonials = [
+    {
+      id: 1,
+      name: "Priya & Rajesh",
+      role: "Wedding Couple",
+      image: "/images/testimonials/",
+      content: "Manglam Event made our wedding day absolutely magical! Every detail was perfect, from the venue decoration to the coordination. They truly understood our vision and brought it to life beyond our expectations.",
+      rating: 5
+    },
+    {
+      id: 2,
+      name: "Anita Sharma",
+      role: "Corporate Client",
+      image: "/images/testimonials/",
+      content: "Professional, reliable, and creative! Our corporate event was a huge success thanks to their exceptional planning and execution. The team went above and beyond to ensure everything was flawless.",
+      rating: 5
+    },
+    {
+      id: 3,
+      name: "Rahul & Meera",
+      role: "Birthday Celebration",
+      image: "/images/testimonials/",
+      content: "Our daughter's birthday party was a dream come true! The theme, decorations, and entertainment were all perfect. The kids had an amazing time, and so did we. Highly recommended!",
+      rating: 5
+    },
+    {
+      id: 4,
+      name: "Sunita Patel",
+      role: "Family Event",
+      image: "/images/testimonials/",
+      content: "From the initial consultation to the final execution, Manglam Event exceeded our expectations. Their attention to detail and personalized approach made our family celebration truly special.",
+      rating: 5
+    }
+  ];
 
   return (
-    <motion.section
-      ref={sectionRef}
-      className="py-24 bg-primary relative overflow-hidden"
-      style={{ opacity, scale }}
-    >
-      {/* Subtle Background Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent" />
-
-      <div className="max-w-5xl mx-auto px-4 relative z-10">
-        <motion.div
-          className="text-center mt-6"
-          initial={{ y: 20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+    <section className="relative py-20 overflow-hidden">
+      {/* SVG Wave Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 1200 800"
+          preserveAspectRatio="none"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
-            Client Stories
-          </h2>
-          <p className="text-white text-lg max-w-xl mx-auto font-light">
-            Real experiences from our cherished clients
-          </p>
-        </motion.div>
-
-        <Swiper
-          modules={[Autoplay, Pagination]}
-          grabCursor={true}
-          centeredSlides={true}
-          slidesPerView={1}
-          spaceBetween={30}
-          pagination={{
-            clickable: true,
-            dynamicBullets: true,
-          }}
-          autoplay={{
-            delay: 6000,
-            disableOnInteraction: false,
-          }}
-          className="testimonials-swiper"
-        >
-          {testimonials.map((t) => (
-            <SwiperSlide key={t.id}>
-              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 md:p-12 max-w-3xl mx-auto border border-white/10">
-                <div className="flex flex-col items-center text-center">
-                  {/* Stars */}
-                  <div className="mb-6">
-                    {[...Array(t.rating)].map((_, i) => (
-                      <span key={i} className="text-yellow-400 text-xl mx-0.5">
-                        ★
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Testimonial */}
-                  <p className="text-white text-xl leading-relaxed mb-8 font-light italic">
-                    "{t.content}"
-                  </p>
-
-                  {/* Footer */}
-                  <div className="text-white">
-                    <h4 className="font-medium text-xl mb-1">{t.name}</h4>
-                    <p className="text-base text-white/80">
-                      {t.role} • {t.date}
-                      {t.location && ` • ${t.location}`}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+          <defs>
+            <linearGradient id="testimonialsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(215, 38, 56, 0.03)" />
+              <stop offset="50%" stopColor="rgba(215, 38, 56, 0.01)" />
+              <stop offset="100%" stopColor="rgba(215, 38, 56, 0.05)" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+            fill="url(#testimonialsGradient)"
+            opacity="0.4"
+          />
+        </svg>
       </div>
 
-      <style jsx global>{`
-        .testimonials-swiper {
-          padding: 2rem 0;
-        }
+      {/* Floating Flower Decorations */}
+      <div className="absolute top-20 left-20 flower-decoration floating">
+        <svg viewBox="0 0 24 24">
+          <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M12,18C13.1,18 14,18.9 14,20C14,21.1 13.1,22 12,22C10.9,22 10,21.1 10,20C10,18.9 10.9,18 12,18M12,8C13.1,8 14,8.9 14,10C14,11.1 13.1,12 12,12C10.9,12 10,11.1 10,10C10,8.9 10.9,8 12,8M12,14C13.1,14 14,14.9 14,16C14,17.1 13.1,18 12,18C10.9,18 10,17.1 10,16C10,14.9 10.9,14 12,14Z"/>
+        </svg>
+      </div>
+      
+      <div className="absolute bottom-20 right-20 flower-decoration floating-delayed">
+        <svg viewBox="0 0 24 24">
+          <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M12,18C13.1,18 14,18.9 14,20C14,21.1 13.1,22 12,22C10.9,22 10,21.1 10,20C10,18.9 10.9,18 12,18M12,8C13.1,8 14,8.9 14,10C14,11.1 13.1,12 12,12C10.9,12 10,11.1 10,10C10,8.9 10.9,8 12,8M12,14C13.1,14 14,14.9 14,16C14,17.1 13.1,18 12,18C10.9,18 10,17.1 10,16C10,14.9 10.9,14 12,14Z"/>
+        </svg>
+      </div>
 
-        .testimonials-swiper .swiper-pagination-bullet {
-          background: white;
-          opacity: 0.6;
-          width: 6px;
-          height: 6px;
-          transition: all 0.3s ease;
-        }
+      {/* Geometric Pattern Background */}
+      <div className="absolute inset-0 geometric-pattern opacity-10" />
 
-        .testimonials-swiper .swiper-pagination-bullet-active {
-          opacity: 1;
-          width: 24px;
-          border-radius: 3px;
-        }
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <motion.div
+          className="text-center space-y-8 mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          {/* Badge */}
+          <motion.div
+            className="inline-flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium"
+            style={{
+              background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
+              border: "1px solid rgba(215, 38, 56, 0.2)",
+              backdropFilter: "blur(10px)"
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            >
+              <FaHeart className="w-4 h-4 text-primary" />
+            </motion.div>
+            <span className="text-primary font-great-vibes">Client Testimonials</span>
+          </motion.div>
 
-        .swiper-slide {
-          transition: transform 0.3s ease;
-        }
+          {/* Main Heading */}
+          <motion.div
+            className="space-y-4"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl lg:text-6xl font-bold leading-tight">
+              <span className="text-gradient-primary font-playfair">
+                What Our
+              </span>
+              <br />
+              <span className="text-foreground font-playfair">
+                Clients Say
+              </span>
+            </h2>
+            
+            <p className="text-xl text-muted-foreground font-cormorant leading-relaxed max-w-3xl mx-auto">
+              Don't just take our word for it. Here's what our 
+              <span className="text-primary font-medium"> happy clients</span> have to say about their experience.
+            </p>
+          </motion.div>
+        </motion.div>
 
-        @font-face {
-          font-family: "Inter";
-          src: url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
-        }
+        {/* Testimonials Grid */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-8"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2 }}
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          {testimonials.map((testimonial, index) => (
+            <motion.div
+              key={testimonial.id}
+              className="group relative"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10 }}
+            >
+              {/* Testimonial Card */}
+              <div 
+                className="relative h-full p-8 rounded-3xl overflow-hidden"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%)",
+                  backdropFilter: "blur(20px)",
+                  border: "1px solid rgba(215, 38, 56, 0.1)",
+                  boxShadow: "0 10px 30px rgba(215, 38, 56, 0.1)"
+                }}
+              >
+                {/* Background Pattern */}
+                <div className="absolute inset-0 flower-pattern opacity-5" />
+                
+                {/* Quote Icon */}
+                <motion.div
+                  className="absolute top-6 right-6"
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center"
+                    style={{
+                      background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
+                      border: "1px solid rgba(215, 38, 56, 0.2)"
+                    }}
+                  >
+                    <FaQuoteLeft className="w-6 h-6 text-primary" />
+                  </div>
+                </motion.div>
 
-        * {
-          font-family: "Inter", sans-serif;
-        }
-      `}</style>
-    </motion.section>
+                {/* Content */}
+                <div className="relative z-10 space-y-6">
+                  {/* Rating */}
+                  <motion.div
+                    className="flex items-center space-x-1"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        transition={{ duration: 0.3, delay: 0.8 + index * 0.1 + i * 0.1 }}
+                        viewport={{ once: true }}
+                      >
+                        <FaStar className="w-5 h-5 text-yellow-400" />
+                      </motion.div>
+                    ))}
+                  </motion.div>
+
+                  {/* Testimonial Text */}
+                  <motion.p
+                    className="text-lg text-muted-foreground font-cormorant leading-relaxed"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 0.8 + index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    "{testimonial.content}"
+                  </motion.p>
+
+                  {/* Author Info */}
+                  <motion.div
+                    className="flex items-center space-x-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 1 + index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    {/* Avatar */}
+                    <motion.div
+                      className="relative"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                    >
+                      <div className="w-16 h-16 rounded-full overflow-hidden"
+                        style={{
+                          background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
+                          border: "3px solid rgba(255, 255, 255, 0.8)",
+                          boxShadow: "0 10px 30px rgba(215, 38, 56, 0.3)"
+                        }}
+                      >
+                        <div className="w-full h-full flex items-center justify-center">
+                          <FaUsers className="w-8 h-8 text-white" />
+                        </div>
+                      </div>
+                      
+                      {/* Floating Star */}
+                      <motion.div
+                        className="absolute -top-2 -right-2"
+                        animate={{ 
+                          rotate: [0, 360],
+                          scale: [1, 1.2, 1]
+                        }}
+                        transition={{ 
+                          duration: 3,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      >
+                        <FaStar className="w-4 h-4 text-yellow-400" />
+                      </motion.div>
+                    </motion.div>
+
+                    {/* Author Details */}
+                    <div>
+                      <motion.h4
+                        className="text-lg font-bold text-foreground font-playfair"
+                        whileHover={{ color: "var(--primary)" }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {testimonial.name}
+                      </motion.h4>
+                      <p className="text-muted-foreground font-cormorant">{testimonial.role}</p>
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* Floating Decorative Elements */}
+                <motion.div
+                  className="absolute -bottom-2 -left-2 w-8 h-8 rounded-full"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
+                    border: "1px solid rgba(215, 38, 56, 0.2)"
+                  }}
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    rotate: [360, 180, 0]
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                
+                <motion.div
+                  className="absolute -top-2 -right-2 w-6 h-6 rounded-full"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
+                    border: "1px solid rgba(215, 38, 56, 0.2)"
+                  }}
+                  animate={{ 
+                    scale: [1, 1.2, 1],
+                    rotate: [0, 180, 360]
+                  }}
+                  transition={{ 
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          className="text-center mt-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          <motion.div
+            className="inline-flex items-center space-x-4 px-8 py-4 rounded-2xl"
+            style={{
+              background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
+              border: "1px solid rgba(215, 38, 56, 0.2)",
+              backdropFilter: "blur(10px)"
+            }}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            >
+              <FaHeart className="w-6 h-6 text-primary" />
+            </motion.div>
+            <span className="text-foreground font-great-vibes text-lg">
+              Join our happy clients and create your perfect event!
+            </span>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Bottom Wave Divider */}
+      <div className="absolute bottom-0 left-0 right-0">
+        <svg
+          className="w-full h-16"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+            opacity=".25"
+            className="fill-background"
+          />
+          <path
+            d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
+            opacity=".5"
+            className="fill-background"
+          />
+          <path
+            d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
+            className="fill-background"
+          />
+        </svg>
+      </div>
+    </section>
   );
-}
+};
+
+export default Testimonials;

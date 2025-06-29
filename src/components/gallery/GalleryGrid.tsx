@@ -8,10 +8,32 @@ import { Navigation, Pagination, EffectFade } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { useGallery } from "@/context/GalleryContext";
 import Image from "next/image";
+import { FaHeart, FaStar, FaCamera, FaTimes, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import Masonry from "./Masonry";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
+
+// Custom styles for pagination
+const paginationStyles = `
+  .swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    margin: 0 4px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .swiper-pagination-bullet-active {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.2);
+  }
+  .swiper-pagination-bullet:hover {
+    background: rgba(255, 255, 255, 0.6);
+  }
+`;
 
 interface GalleryItem {
   id: string;
@@ -198,6 +220,13 @@ const GalleryGrid = () => {
         type: "image",
       },
       {
+        id: "folder2-4",
+        url: "/images/gallery/Folder-2/WEDDING DECOR.png",
+        alt: "Wedding Decor",
+        folder: "Gallery-2",
+        type: "image",
+      },
+      {
         id: "folder2-5",
         url: "/images/gallery/Folder-2/WEDDING CHOREOGRAPHY.png",
         alt: "Wedding Choreography",
@@ -221,378 +250,307 @@ const GalleryGrid = () => {
       {
         id: "folder2-8",
         url: "/images/gallery/Folder-2/3.png",
-        alt: "Wedding Service 3",
+        alt: "Wedding Celebration 3",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-9",
         url: "/images/gallery/Folder-2/6.png",
-        alt: "Wedding Service 6",
+        alt: "Wedding Celebration 6",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-10",
         url: "/images/gallery/Folder-2/7.png",
-        alt: "Wedding Service 7",
+        alt: "Wedding Celebration 7",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-11",
         url: "/images/gallery/Folder-2/8.png",
-        alt: "Wedding Service 8",
+        alt: "Wedding Celebration 8",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-12",
         url: "/images/gallery/Folder-2/10.png",
-        alt: "Wedding Service 10",
+        alt: "Wedding Celebration 10",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-13",
         url: "/images/gallery/Folder-2/11.png",
-        alt: "Wedding Service 11",
+        alt: "Wedding Celebration 11",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-14",
         url: "/images/gallery/Folder-2/12.png",
-        alt: "Wedding Service 12",
+        alt: "Wedding Celebration 12",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-15",
         url: "/images/gallery/Folder-2/13.png",
-        alt: "Wedding Service 13",
+        alt: "Wedding Celebration 13",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-16",
         url: "/images/gallery/Folder-2/15.png",
-        alt: "Wedding Service 15",
+        alt: "Wedding Celebration 15",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-17",
         url: "/images/gallery/Folder-2/16.png",
-        alt: "Wedding Service 16",
+        alt: "Wedding Celebration 16",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-18",
         url: "/images/gallery/Folder-2/17.png",
-        alt: "Wedding Service 17",
+        alt: "Wedding Celebration 17",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-19",
         url: "/images/gallery/Folder-2/18.png",
-        alt: "Wedding Service 18",
+        alt: "Wedding Celebration 18",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-20",
         url: "/images/gallery/Folder-2/19.png",
-        alt: "Wedding Service 19",
+        alt: "Wedding Celebration 19",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-21",
         url: "/images/gallery/Folder-2/20.png",
-        alt: "Wedding Service 20",
+        alt: "Wedding Celebration 20",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-22",
         url: "/images/gallery/Folder-2/21.png",
-        alt: "Wedding Service 21",
+        alt: "Wedding Celebration 21",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-23",
         url: "/images/gallery/Folder-2/22.png",
-        alt: "Wedding Service 22",
+        alt: "Wedding Celebration 22",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-24",
         url: "/images/gallery/Folder-2/23.png",
-        alt: "Wedding Service 23",
+        alt: "Wedding Celebration 23",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-25",
         url: "/images/gallery/Folder-2/24.png",
-        alt: "Wedding Service 24",
+        alt: "Wedding Celebration 24",
         folder: "Gallery-2",
         type: "image",
       },
       {
         id: "folder2-26",
         url: "/images/gallery/Folder-2/25.png",
-        alt: "Wedding Service 25",
+        alt: "Wedding Celebration 25",
+        folder: "Gallery-2",
+        type: "image",
+      },
+      {
+        id: "folder2-27",
+        url: "/images/gallery/Folder-2/27.png",
+        alt: "Wedding Celebration 27",
         folder: "Gallery-2",
         type: "image",
       },
     ];
 
-    // Load service photos
-    const servicePhotos: GalleryItem[] = [
-      {
-        id: "service-1",
-        url: "/images/services/VMP02941.jpg",
-        alt: "Service Event Photo 1",
-        folder: "Services",
-        type: "image",
-      },
-      {
-        id: "service-2",
-        url: "/images/services/VMP02808.jpg",
-        alt: "Service Event Photo 2",
-        folder: "Services",
-        type: "image",
-      },
-      {
-        id: "service-3",
-        url: "/images/services/RK_07840.jpg",
-        alt: "Service Event Photo 3",
-        folder: "Services",
-        type: "image",
-      },
-      // {
-      //   id: "service-7",
-      //   url: "/images/services/0C3A5361.jpg",
-      //   alt: "Service Event Photo 7",
-      //   folder: "Services",
-      //   type: "image",
-      // },
-    ];
-
-    setItems([...folder1Photos, ...folder2Photos, ...servicePhotos]);
+    const allPhotos = [...folder1Photos, ...folder2Photos];
+    setItems(allPhotos);
     setIsLoading(false);
   }, []);
 
-  const filteredItems =
-    selectedCategory === "all"
-      ? items
-      : items.filter((item) => item.folder === selectedCategory);
+  const filteredItems = selectedCategory === "all" 
+    ? items 
+    : items.filter(item => item.folder === selectedCategory);
 
-  const handleItemClick = useCallback((item: GalleryItem, index: number) => {
-    setSelectedItem(item);
+  const handleItemClick = useCallback((item: GalleryItem) => {
+    const index = filteredItems.findIndex(i => i.id === item.id);
     setCurrentIndex(index);
+    setSelectedItem(item);
+  }, [filteredItems]);
+
+  const handleClose = useCallback(() => {
+    setSelectedItem(null);
   }, []);
 
   const handlePrevious = useCallback(() => {
-    if (currentIndex > 0) {
-      const newIndex = currentIndex - 1;
-      setCurrentIndex(newIndex);
-      setSelectedItem(filteredItems[newIndex]);
+    if (swiper) {
+      swiper.slidePrev();
     }
-  }, [currentIndex, filteredItems]);
+  }, [swiper]);
 
   const handleNext = useCallback(() => {
-    if (currentIndex < filteredItems.length - 1) {
-      const newIndex = currentIndex + 1;
-      setCurrentIndex(newIndex);
-      setSelectedItem(filteredItems[newIndex]);
+    if (swiper) {
+      swiper.slideNext();
     }
-  }, [currentIndex, filteredItems]);
+  }, [swiper]);
 
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (selectedItem) {
-        if (e.key === "ArrowLeft") handlePrevious();
-        if (e.key === "ArrowRight") handleNext();
-        if (e.key === "Escape") setSelectedItem(null);
-      }
-    },
-    [selectedItem, handlePrevious, handleNext]
-  );
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleKeyDown]);
+  // Convert items to Masonry format
+  const masonryItems = filteredItems.map((item) => ({
+    id: item.id,
+    img: item.url,
+    height: 300, // Default height, will be calculated by Masonry component based on actual image dimensions
+    alt: item.alt,
+    folder: item.folder,
+  }));
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <motion.div
-          animate={{ scale: [1, 1.2, 1], rotate: [0, 360] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-          className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full"
-        />
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   return (
-    <section className="py-24 bg-gradient-to-br from-background via-background/95 to-background/90 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-primary/5 to-transparent"
-          animate={{
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
+    <div className="relative">
+      {/* Custom Styles */}
+      <style jsx global>{paginationStyles}</style>
+      
+      {/* Masonry Grid */}
+      <div className="p-4 md:p-8">
+        <Masonry
+          items={masonryItems}
+          ease="power3.out"
+          duration={0.6}
+          stagger={0.05}
+          animateFrom="bottom"
+          scaleOnHover={true}
+          hoverScale={0.95}
+          blurToFocus={true}
+          colorShiftOnHover={false}
+          onItemClick={(item) => {
+            const galleryItem = filteredItems.find(i => i.id === item.id);
+            if (galleryItem) {
+              handleItemClick(galleryItem);
+            }
           }}
         />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Gallery Grid - Masonry Layout */}
-        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-          {filteredItems.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="break-inside-avoid group relative overflow-hidden rounded-xl bg-accent/5 hover:bg-accent/10 transition-all duration-300 mb-4"
-              onClick={() => handleItemClick(item, index)}
-            >
-              <div className="relative aspect-[4/3]">
-                <Image
-                  src={item.url}
-                  alt={item.alt}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  {/* <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                    <p className="text-sm font-medium truncate">{item.alt}</p>
-                    <p className="text-xs text-white/70">{item.folder}</p>
-                  </div> */}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Lightbox */}
-        <AnimatePresence>
-          {selectedItem && (
-            <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm"
-                onClick={() => setSelectedItem(null)}
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {selectedItem && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleClose}
+          >
+            <div className="relative w-full h-full flex items-center justify-center p-4">
+              {/* Close Button */}
+              <button
+                onClick={handleClose}
+                className="absolute top-6 right-6 z-10 w-14 h-14 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300"
               >
-                <div className="relative w-full h-full max-w-7xl max-h-[90vh] p-4">
-                  <button
-                    className="absolute top-4 right-4 text-white hover:text-primary transition-colors z-[10000] bg-black/50 p-2 rounded-full hover:bg-black/70"
-                    onClick={() => setSelectedItem(null)}
-                  >
-                    <svg
-                      className="w-8 h-8"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
+                <FaTimes className="w-6 h-6 text-white" />
+              </button>
 
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={selectedItem.url}
-                      alt={selectedItem.alt}
-                      fill
-                      className="object-contain"
-                      priority
-                    />
-                  </div>
+              {/* Navigation Buttons */}
+              <button
+                onClick={handlePrevious}
+                className="absolute left-6 top-1/2 transform -translate-y-1/2 z-10 w-14 h-14 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300"
+              >
+                <FaChevronLeft className="w-6 h-6 text-white" />
+              </button>
 
-                  <button
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-primary transition-colors z-[10000] bg-black/50 p-3 rounded-full hover:bg-black/70"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handlePrevious();
-                    }}
-                  >
-                    <svg
-                      className="w-8 h-8"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 19l-7-7 7-7"
-                      />
-                    </svg>
-                  </button>
+              <button
+                onClick={handleNext}
+                className="absolute right-6 top-1/2 transform -translate-y-1/2 z-10 w-14 h-14 rounded-full flex items-center justify-center bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300"
+              >
+                <FaChevronRight className="w-6 h-6 text-white" />
+              </button>
 
-                  <button
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-primary transition-colors z-[10000] bg-black/50 p-3 rounded-full hover:bg-black/70"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleNext();
-                    }}
-                  >
-                    <svg
-                      className="w-8 h-8"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </button>
+              {/* Image Counter */}
+              <div className="absolute top-6 left-6 z-10 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm font-medium">
+                {currentIndex + 1} / {filteredItems.length}
+              </div>
 
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm bg-black/50 px-4 py-2 rounded-full z-[10000]">
-                    {currentIndex + 1} / {filteredItems.length}
-                  </div>
-                </div>
-              </motion.div>
-              {/* Hide navbar when lightbox is open */}
-              <style jsx global>{`
-                nav {
-                  display: none !important;
-                }
-              `}</style>
-            </>
-          )}
-        </AnimatePresence>
-      </div>
-    </section>
+              {/* Swiper */}
+              <div className="w-full max-w-6xl h-full max-h-[85vh]">
+                <Swiper
+                  onSwiper={setSwiper}
+                  initialSlide={currentIndex}
+                  modules={[Navigation, Pagination, EffectFade]}
+                  effect="fade"
+                  fadeEffect={{ crossFade: true }}
+                  navigation={false}
+                  pagination={{ 
+                    clickable: true,
+                    el: '.swiper-pagination',
+                    type: 'bullets',
+                    bulletClass: 'swiper-pagination-bullet',
+                    bulletActiveClass: 'swiper-pagination-bullet-active'
+                  }}
+                  className="w-full h-full"
+                  onSlideChange={(swiper) => setCurrentIndex(swiper.activeIndex)}
+                >
+                  {filteredItems.map((item) => (
+                    <SwiperSlide key={item.id}>
+                      <div className="w-full h-full flex items-center justify-center p-4">
+                        <div className="relative w-full h-full max-w-4xl max-h-full">
+                          <Image
+                            src={item.url}
+                            alt={item.alt}
+                            fill
+                            className="object-contain rounded-2xl"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+                          />
+                          {/* Image Info */}
+                          <div className="absolute bottom-4 left-4 right-4 bg-black/50 backdrop-blur-sm rounded-xl p-4 text-white">
+                            <h3 className="text-lg font-semibold mb-1">{item.alt}</h3>
+                            <p className="text-sm opacity-80">{item.folder}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+                
+                {/* Custom Pagination */}
+                <div className="swiper-pagination absolute bottom-6 left-1/2 transform -translate-x-1/2 z-10 flex space-x-2" />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 };
 

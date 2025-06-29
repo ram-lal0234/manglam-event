@@ -3,131 +3,38 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { SplitText } from "gsap/SplitText";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectFade, Autoplay, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/pagination";
+import { motion } from "framer-motion";
+import { FaHeart, FaStar, FaUsers, FaCalendarAlt } from "react-icons/fa";
 
-gsap.registerPlugin(ScrollTrigger, SplitText);
-
-// Service videos from the services list
-const serviceVideos = [
-  // "/images/services/Sangeet Making.MP4",
-  // "/images/services/Pooja Vedant - 3.mp4",
-  // "/images/services/Haldi Entry - Amritam.MP4",
-  // "/images/services/Jaisalmer Rangmahal.mp4",
-  // "/images/services/Carnival - Dior Decor.MP4",
-  "https://wjbc2q51yihequgs.public.blob.vercel-storage.com/website%20video1-mJ2FDBUvWVhns3IoqCKdjOOs6wRUBV.mp4",
-];
+gsap.registerPlugin(ScrollTrigger);
 
 const ServicesHero = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const sparklesRef = useRef<HTMLDivElement>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.2]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Split text animation
-      const title = textRef.current?.querySelector(".section-title");
-      if (title) {
-        const split = new SplitText(title, { type: "chars,words" });
-        gsap.from(split.chars, {
-          opacity: 0,
-          y: 50,
-          duration: 0.8,
-          stagger: {
-            amount: 1.2,
-            ease: "power2.out",
-          },
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top center+=100",
-            toggleActions: "play none none reverse",
-          },
-        });
-      }
-
-      // Background video fade in with enhanced parallax
-      gsap.from(bgRef.current, {
+      // Animate title elements
+      gsap.from(".hero-title", {
         opacity: 0,
-        scale: 1.2,
-        duration: 2,
-        ease: "power2.out",
+        y: 50,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top bottom",
+          start: "top center+=100",
           toggleActions: "play none none reverse",
         },
       });
 
-      // Enhanced gradient overlay slide in
-      gsap.from(overlayRef.current, {
-        opacity: 0,
-        y: 100,
-        duration: 1.5,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          toggleActions: "play none none reverse",
-        },
+      // Animate floating elements
+      gsap.to(".floating-element", {
+        y: "20px",
+        duration: 3,
+        ease: "power1.inOut",
+        yoyo: true,
+        repeat: -1,
       });
-
-      // Create enhanced sparkles
-      const createSparkle = () => {
-        const sparkle = document.createElement("div");
-        sparkle.className = "sparkle";
-        sparkle.style.left = Math.random() * 100 + "%";
-        sparkle.style.top = Math.random() * 100 + "%";
-        sparklesRef.current?.appendChild(sparkle);
-
-        gsap.to(sparkle, {
-          opacity: 0,
-          scale: 0,
-          duration: 1 + Math.random(),
-          ease: "power2.out",
-          onComplete: () => {
-            sparkle.remove();
-          },
-        });
-      };
-
-      // Create sparkles at intervals
-      const sparkleInterval = setInterval(createSparkle, 200);
-
-      // Custom cursor effect
-      const handleMouseMove = (e: MouseEvent) => {
-        if (cursorRef.current) {
-          gsap.to(cursorRef.current, {
-            x: e.clientX,
-            y: e.clientY,
-            duration: 0.5,
-            ease: "power2.out",
-          });
-        }
-      };
-
-      window.addEventListener("mousemove", handleMouseMove);
-
-      return () => {
-        clearInterval(sparkleInterval);
-        window.removeEventListener("mousemove", handleMouseMove);
-      };
     }, sectionRef);
 
     return () => ctx.revert();
@@ -136,133 +43,189 @@ const ServicesHero = () => {
   return (
     <motion.section
       ref={sectionRef}
-      className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-background via-accent/5 to-background"
-      style={{ opacity }}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1 }}
     >
-      {/* Enhanced Background with Video Carousel */}
-      <div className="absolute inset-0 z-0">
-        <Swiper
-          effect="fade"
-          modules={[EffectFade, Autoplay, Pagination]}
-          autoplay={{ delay: 4000, disableOnInteraction: false }}
-          loop={true}
-          pagination={{ clickable: true }}
-          className="h-full w-full"
+      {/* Background with gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
+      
+      {/* SVG Wave Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 1200 800"
+          preserveAspectRatio="none"
         >
-          {serviceVideos.map((src, idx) => (
-            <SwiperSlide key={idx} className="h-full w-full">
-              <motion.video
-                key={src}
-                src={src}
-                autoPlay
-                loop
-                controls
-                playsInline
-                className="object-cover w-full h-full min-h-screen"
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.2, ease: "easeInOut" }}
-                style={{ filter: "brightness(0.7) blur(1px)" }}
-              />
-              {/* Overlay for gradient and animation - removed as per request */}
-            </SwiperSlide>
-          ))}
-        </Swiper>
-        {/* Enhanced Animated Particles */}
-        <div
-          ref={sparklesRef}
-          className="absolute inset-0 pointer-events-none z-20"
-        >
-          {[...Array(40)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-accent/30 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -100],
-                opacity: [0, 1, 0],
-                scale: [0, 1, 0],
-              }}
-              transition={{
-                duration: Math.random() * 3 + 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-        </div>
+          <defs>
+            <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(215, 38, 56, 0.05)" />
+              <stop offset="50%" stopColor="rgba(215, 38, 56, 0.02)" />
+              <stop offset="100%" stopColor="rgba(215, 38, 56, 0.07)" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+            fill="url(#heroGradient)"
+            opacity="0.6"
+          />
+        </svg>
       </div>
-      {/* Hero Content */}
-      <div
-        ref={textRef}
-        className="relative h-full flex flex-col items-center justify-center text-center px-4 py-16 z-30"
-      >
-        {/* <motion.div
-          className="inline-block mb-4"
-          initial={{ scale: 0 }}
-          whileInView={{ scale: 1 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.5, type: "spring" }}
-        >
-          <span className="text-5xl drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]">✨</span>
-        </motion.div> */}
-        <motion.h1
-          className="section-title text-[2.5rem] md:text-[4rem] font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-accent via-primary to-accent drop-shadow-[0_4px_32px_rgba(0,0,0,0.85)] tracking-tight leading-tight font-serif"
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 1 }}
-        >
-          Celebrate Life's Grandest Moments
-        </motion.h1>
-        {/* <motion.p
-          className="text-lg md:text-2xl max-w-2xl mx-auto leading-relaxed text-white/90 font-medium drop-shadow-[0_2px_16px_rgba(0,0,0,0.85)] bg-black/30 rounded-xl px-6 py-3 backdrop-blur-md"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 1, delay: 0.2 }}
-        >
-          Experience unforgettable events with Manglam Event. From breathtaking weddings to spectacular corporate galas, our team crafts every detail with passion, creativity, and precision. Let us turn your dreams into cherished memories.
-        </motion.p> */}
-      </div>
-      {/* Custom Cursor */}
-      <motion.div
-        ref={cursorRef}
-        className="fixed w-8 h-8 rounded-full border-2 border-accent pointer-events-none z-50 mix-blend-difference"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 0.3 }}
-      />
-      {/* Decorative Elements */}
-      <motion.div
-        className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-accent/20 to-transparent z-40"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 0.5 }}
-      />
 
-      <style jsx global>{`
-        .sparkle {
-          position: absolute;
-          width: 4px;
-          height: 4px;
-          background: radial-gradient(
-            circle,
-            rgba(255, 255, 255, 0.8) 0%,
-            rgba(255, 255, 255, 0) 70%
-          );
-          border-radius: 50%;
-          pointer-events: none;
-          filter: blur(1px);
-        }
-        .parallax-bg {
-          transform-origin: center center;
-          will-change: transform;
-        }
-      `}</style>
+      {/* Floating Decorations */}
+      <div className="absolute top-20 left-20 floating-element">
+        <motion.div
+          animate={{ 
+            rotate: [0, 360],
+            scale: [1, 1.2, 1]
+          }}
+          transition={{ 
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <FaStar className="w-8 h-8 text-yellow-400" />
+        </motion.div>
+      </div>
+      
+      <div className="absolute bottom-20 right-20 floating-element">
+        <motion.div
+          animate={{ 
+            rotate: [0, -360],
+            scale: [1, 1.2, 1]
+          }}
+          transition={{ 
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <FaHeart className="w-8 h-8 text-primary" />
+        </motion.div>
+      </div>
+
+      {/* Geometric Pattern Background */}
+      <div className="absolute inset-0 geometric-pattern opacity-5" />
+
+      {/* Hero Content */}
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        {/* Badge */}
+        <motion.div
+          className="inline-flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium mb-8"
+          style={{
+            background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
+            border: "1px solid rgba(215, 38, 56, 0.2)",
+            backdropFilter: "blur(10px)"
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+          >
+            <FaHeart className="w-4 h-4 text-primary" />
+          </motion.div>
+          <span className="text-primary font-great-vibes">Our Services</span>
+        </motion.div>
+
+        {/* Main Title */}
+        <motion.h1
+          className="hero-title text-5xl lg:text-7xl font-bold leading-tight mb-8"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.4 }}
+          viewport={{ once: true }}
+        >
+          <span className="text-gradient-primary font-playfair">
+            Crafting
+          </span>
+          <br />
+          <span className="text-foreground font-playfair">
+            Perfect Moments
+          </span>
+        </motion.h1>
+
+        {/* Subtitle */}
+        <motion.p
+          className="hero-title text-xl lg:text-2xl text-muted-foreground font-cormorant leading-relaxed mb-12 max-w-3xl mx-auto"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6 }}
+          viewport={{ once: true }}
+        >
+          From intimate gatherings to grand celebrations, we transform your vision into 
+          <span className="text-primary font-medium"> unforgettable experiences</span> 
+          with our comprehensive range of event services.
+        </motion.p>
+
+        {/* Stats */}
+        <motion.div
+          className="hero-title grid grid-cols-2 md:grid-cols-4 gap-8 mt-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.8 }}
+          viewport={{ once: true }}
+        >
+          {[
+            { icon: FaHeart, value: "500+", label: "Events" },
+            { icon: FaUsers, value: "1000+", label: "Happy Clients" },
+            { icon: FaStar, value: "5.0", label: "Rating" },
+            { icon: FaCalendarAlt, value: "24/7", label: "Support" }
+          ].map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              className="text-center"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 1.0 + index * 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <div 
+                className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4"
+                style={{
+                  background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
+                  border: "1px solid rgba(215, 38, 56, 0.2)"
+                }}
+              >
+                <stat.icon className="w-8 h-8 text-primary" />
+              </div>
+              <div className="text-2xl font-bold text-foreground font-playfair">{stat.value}</div>
+              <div className="text-sm text-muted-foreground font-cormorant">{stat.label}</div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* CTA Button */}
+        <motion.div
+          className="hero-title mt-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1.2 }}
+          viewport={{ once: true }}
+        >
+          <motion.button
+            className="px-8 py-4 rounded-full text-lg font-medium transition-all duration-300"
+            style={{
+              background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
+              boxShadow: "0 10px 30px rgba(215, 38, 56, 0.3)"
+            }}
+            whileHover={{ 
+              scale: 1.05,
+              boxShadow: "0 15px 40px rgba(215, 38, 56, 0.4)"
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <span className="text-white">Explore Our Services</span>
+          </motion.button>
+        </motion.div>
+      </div>
     </motion.section>
   );
 };

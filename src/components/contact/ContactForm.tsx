@@ -265,439 +265,424 @@ const ContactForm = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-b from-background via-accent/5 to-background">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact-form" className="py-20 bg-gradient-to-b from-background via-accent/5 to-background">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.form
           onSubmit={handleSubmit}
-          className="bg-gradient-to-br from-background/95 to-background/90 backdrop-blur-xl rounded-2xl p-8 shadow-xl border border-accent/10"
+          className="bg-gradient-to-br from-background/95 to-background/90 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl border border-accent/10 relative overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Plan Your Special Day
-            </h2>
-            <p className="text-foreground/70 text-sm md:text-base max-w-2xl mx-auto">
-              Fill out the form below and we'll help you create an unforgettable celebration
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Personal Information */}
-            <div className="space-y-6">
+          {/* Background Decorative Elements */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl" />
+          
+          <div className="relative">
+            <div className="text-center mb-12">
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                className="inline-block mb-6"
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, type: "spring" }}
+              >
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mx-auto shadow-lg">
+                  <Calendar className="w-8 h-8 text-white" />
+                </div>
+              </motion.div>
+              <h2 className="text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent tracking-tight">
+                Plan Your Special Day
+              </h2>
+              <p className="text-foreground/70 text-lg max-w-2xl mx-auto leading-relaxed font-medium">
+                Fill out the form below and we'll help you create an unforgettable celebration that's uniquely yours
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Personal Information */}
+              <div className="space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <label className="block text-sm font-bold text-foreground mb-3">
+                    Your Name *
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className={`w-full px-4 py-4 rounded-xl bg-background/50 border-2 ${
+                      errors.name ? "border-red-500 focus:border-red-500" : "border-accent/20 focus:border-primary/50"
+                    } focus:ring-4 focus:ring-primary/10 transition-all duration-300 placeholder:text-foreground/40 text-lg font-medium`}
+                    placeholder="Enter your full name"
+                  />
+                  {renderError("name")}
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  <label className="block text-sm font-bold text-foreground mb-3">
+                    Partner's Name
+                  </label>
+                  <input
+                    type="text"
+                    name="partnerName"
+                    value={formData.partnerName}
+                    onChange={handleChange}
+                    className="w-full px-4 py-4 rounded-xl bg-background/50 border-2 border-accent/20 focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all duration-300 placeholder:text-foreground/40 text-lg font-medium"
+                    placeholder="Enter partner's name"
+                  />
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  <label className="block text-sm font-bold text-foreground mb-3">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className={`w-full px-4 py-4 rounded-xl bg-background/50 border-2 ${
+                      errors.email ? "border-red-500 focus:border-red-500" : "border-accent/20 focus:border-primary/50"
+                    } focus:ring-4 focus:ring-primary/10 transition-all duration-300 placeholder:text-foreground/40 text-lg font-medium`}
+                    placeholder="Enter your email address"
+                  />
+                  {renderError("email")}
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <label className="block text-sm font-bold text-foreground mb-3">
+                    Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    className={`w-full px-4 py-4 rounded-xl bg-background/50 border-2 ${
+                      errors.phone ? "border-red-500 focus:border-red-500" : "border-accent/20 focus:border-primary/50"
+                    } focus:ring-4 focus:ring-primary/10 transition-all duration-300 placeholder:text-foreground/40 text-lg font-medium`}
+                    placeholder="Enter your phone number"
+                  />
+                  {renderError("phone")}
+                </motion.div>
+              </div>
+
+              {/* Event Details */}
+              <div className="space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <label className="block text-sm font-bold text-foreground mb-3">
+                    Type of Event *
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {eventTypes.map((type) => (
+                      <label
+                        key={type.id}
+                        className={`flex items-center space-x-3 p-4 rounded-xl bg-background/50 border-2 ${
+                          errors.eventType ? "border-red-500" : "border-accent/20"
+                        } cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group`}
+                      >
+                        <input
+                          type="radio"
+                          name="eventType"
+                          value={type.id}
+                          checked={formData.eventType === type.id}
+                          onChange={handleChange}
+                          className="w-5 h-5 text-primary focus:ring-primary/50"
+                        />
+                        <span className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">{type.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {renderError("eventType")}
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  <label className="block text-sm font-bold text-foreground mb-3">
+                    Expected Number of Guests *
+                  </label>
+                  <input
+                    type="number"
+                    name="expectedGuests"
+                    value={formData.expectedGuests}
+                    onChange={handleChange}
+                    min="1"
+                    className={`w-full px-4 py-4 rounded-xl bg-background/50 border-2 ${
+                      errors.expectedGuests ? "border-red-500 focus:border-red-500" : "border-accent/20 focus:border-primary/50"
+                    } focus:ring-4 focus:ring-primary/10 transition-all duration-300 placeholder:text-foreground/40 text-lg font-medium`}
+                    placeholder="Enter expected number of guests"
+                  />
+                  {renderError("expectedGuests")}
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  <label className="block text-sm font-bold text-foreground mb-3">
+                    Tentative Year *
+                  </label>
+                  <div className="grid grid-cols-3 gap-3">
+                    {years.map((year) => (
+                      <label
+                        key={year}
+                        className={`flex items-center justify-center space-x-2 p-4 rounded-xl bg-background/50 border-2 ${
+                          errors.tentativeYear ? "border-red-500" : "border-accent/20"
+                        } cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group`}
+                      >
+                        <input
+                          type="radio"
+                          name="tentativeYear"
+                          value={year}
+                          checked={formData.tentativeYear === year}
+                          onChange={handleTentativeChange}
+                          className="w-4 h-4 text-primary focus:ring-primary/50"
+                        />
+                        <span className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">{year}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {renderError("tentativeYear")}
+                </motion.div>
+              </div>
+            </div>
+
+            {/* Additional Details */}
+            <div className="mt-8 space-y-6">
+              {/* Wedding Date Input */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
               >
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Your Name *
+                  Wedding Date (if finalized)
                 </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
-                    errors.name ? "border-red-500" : "border-accent/20"
-                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
-                  placeholder="Enter your full name"
-                />
-                {renderError("name")}
+                <div className="relative">
+                  <input
+                    type="date"
+                    name="weddingDate"
+                    value={formData.weddingDate}
+                    onChange={handleChange}
+                    min={dateConstraints?.min}
+                    max={dateConstraints?.max}
+                    className="w-full px-4 py-3 rounded-lg bg-background/50 border border-accent/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 appearance-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const input = document.querySelector('input[name="weddingDate"]') as HTMLInputElement;
+                      input?.showPicker();
+                    }}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 hover:bg-accent/10 rounded-lg transition-colors"
+                  >
+                    {/* <Calendar className="w-5 h-5 text-foreground/50" /> */}
+                  </button>
+                </div>
+                {formData.tentativeMonth && formData.tentativeYear && (
+                  <p className="mt-2 text-sm text-foreground/70">
+                    Available dates for {formData.tentativeMonth} {formData.tentativeYear} wedding season
+                  </p>
+                )}
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Partner's Name
+                  Preferred Location/Venue *
                 </label>
                 <input
                   type="text"
-                  name="partnerName"
-                  value={formData.partnerName}
+                  name="preferredLocation"
+                  value={formData.preferredLocation}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg bg-background/50 border border-accent/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40"
-                  placeholder="Enter partner's name"
+                  className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
+                    errors.preferredLocation ? "border-red-500" : "border-accent/20"
+                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
+                  placeholder="Enter preferred location or venue"
                 />
+                {renderError("preferredLocation")}
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Email Address *
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
-                    errors.email ? "border-red-500" : "border-accent/20"
-                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
-                  placeholder="Enter your email address"
-                />
-                {renderError("email")}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Phone Number *
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
-                    errors.phone ? "border-red-500" : "border-accent/20"
-                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
-                  placeholder="Enter your phone number"
-                />
-                {renderError("phone")}
-              </motion.div>
-            </div>
-
-            {/* Event Details */}
-            <div className="space-y-6">
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-              >
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Type of Event *
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  {eventTypes.map((type) => (
-                    <label
-                      key={type.id}
-                      className={`flex items-center space-x-2 p-3 rounded-lg bg-background/50 border ${
-                        errors.eventType ? "border-red-500" : "border-accent/20"
-                      } cursor-pointer hover:border-primary/50 transition-all duration-300`}
-                    >
-                      <input
-                        type="radio"
-                        name="eventType"
-                        value={type.id}
-                        checked={formData.eventType === type.id}
-                        onChange={handleChange}
-                        className="w-4 h-4 text-primary focus:ring-primary/50"
-                      />
-                      <span className="text-sm text-foreground">{type.label}</span>
-                    </label>
-                  ))}
-                </div>
-                {renderError("eventType")}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-              >
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Expected Number of Guests *
+                  Number of Nights *
                 </label>
                 <input
                   type="number"
-                  name="expectedGuests"
-                  value={formData.expectedGuests}
+                  name="numberOfNights"
+                  value={formData.numberOfNights}
                   onChange={handleChange}
                   min="1"
                   className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
-                    errors.expectedGuests ? "border-red-500" : "border-accent/20"
+                    errors.numberOfNights ? "border-red-500" : "border-accent/20"
                   } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
-                  placeholder="Enter expected number of guests"
+                  placeholder="Enter number of nights"
                 />
-                {renderError("expectedGuests")}
+                {renderError("numberOfNights")}
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Tentative Year *
-                </label>
-                <div className="grid grid-cols-3 gap-3">
-                  {years.map((year) => (
-                    <label
-                      key={year}
-                      className={`flex items-center space-x-2 p-3 rounded-lg bg-background/50 border ${
-                        errors.tentativeYear ? "border-red-500" : "border-accent/20"
-                      } cursor-pointer hover:border-primary/50 transition-all duration-300`}
-                    >
-                      <input
-                        type="radio"
-                        name="tentativeYear"
-                        value={year}
-                        checked={formData.tentativeYear === year}
-                        onChange={handleTentativeChange}
-                        className="w-4 h-4 text-primary focus:ring-primary/50"
-                      />
-                      <span className="text-sm text-foreground">{year}</span>
-                    </label>
-                  ))}
-                </div>
-                {renderError("tentativeYear")}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Tentative Month *
+                  Potential Itinerary/Functions *
                 </label>
-                <div className="grid grid-cols-3 gap-3">
-                  {months.map((month) => (
-                    <label
-                      key={month}
-                      className={`flex items-center space-x-2 p-3 rounded-lg bg-background/50 border ${
-                        errors.tentativeMonth ? "border-red-500" : "border-accent/20"
-                      } cursor-pointer hover:border-primary/50 transition-all duration-300`}
-                    >
-                      <input
-                        type="radio"
-                        name="tentativeMonth"
-                        value={month}
-                        checked={formData.tentativeMonth === month}
-                        onChange={handleTentativeChange}
-                        className="w-4 h-4 text-primary focus:ring-primary/50"
-                      />
-                      <span className="text-sm text-foreground">{month}</span>
-                    </label>
-                  ))}
-                </div>
-                {renderError("tentativeMonth")}
+                <textarea
+                  name="potentialItinerary"
+                  value={formData.potentialItinerary}
+                  onChange={handleChange}
+                  rows={3}
+                  className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
+                    errors.potentialItinerary ? "border-red-500" : "border-accent/20"
+                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
+                  placeholder="Describe your potential itinerary or functions"
+                />
+                {renderError("potentialItinerary")}
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Estimated Budget *
+                </label>
+                <input
+                  type="text"
+                  name="estimatedBudget"
+                  value={formData.estimatedBudget}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
+                    errors.estimatedBudget ? "border-red-500" : "border-accent/20"
+                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
+                  placeholder="Enter your estimated budget"
+                />
+                {renderError("estimatedBudget")}
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Tell us a little bit about yourself *
+                </label>
+                <textarea
+                  name="aboutYourself"
+                  value={formData.aboutYourself}
+                  onChange={handleChange}
+                  rows={4}
+                  className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
+                    errors.aboutYourself ? "border-red-500" : "border-accent/20"
+                  } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
+                  placeholder="Share some details about yourself and your vision"
+                />
+                {renderError("aboutYourself")}
               </motion.div>
             </div>
-          </div>
 
-          {/* Additional Details */}
-          <div className="mt-8 space-y-6">
-            {/* Wedding Date Input */}
+            {/* Submit Button */}
             <motion.div
+              className="mt-8"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
             >
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Wedding Date (if finalized)
-              </label>
-              <div className="relative">
-                <input
-                  type="date"
-                  name="weddingDate"
-                  value={formData.weddingDate}
-                  onChange={handleChange}
-                  min={dateConstraints?.min}
-                  max={dateConstraints?.max}
-                  className="w-full px-4 py-3 rounded-lg bg-background/50 border border-accent/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 appearance-none"
-                />
-                <button
-                  type="button"
-                  onClick={() => {
-                    const input = document.querySelector('input[name="weddingDate"]') as HTMLInputElement;
-                    input?.showPicker();
-                  }}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 hover:bg-accent/10 rounded-lg transition-colors"
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary/20"
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center">
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Sending...
+                  </span>
+                ) : (
+                  "Send Message"
+                )}
+              </button>
+            </motion.div>
+
+            {/* Status Messages */}
+            <AnimatePresence>
+              {submitStatus === "success" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="mt-4 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-500 text-center"
                 >
-                  {/* <Calendar className="w-5 h-5 text-foreground/50" /> */}
-                </button>
-              </div>
-              {formData.tentativeMonth && formData.tentativeYear && (
-                <p className="mt-2 text-sm text-foreground/70">
-                  Available dates for {formData.tentativeMonth} {formData.tentativeYear} wedding season
-                </p>
+                  Thank you for your message! We'll get back to you soon.
+                </motion.div>
               )}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Preferred Location/Venue *
-              </label>
-              <input
-                type="text"
-                name="preferredLocation"
-                value={formData.preferredLocation}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
-                  errors.preferredLocation ? "border-red-500" : "border-accent/20"
-                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
-                placeholder="Enter preferred location or venue"
-              />
-              {renderError("preferredLocation")}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Number of Nights *
-              </label>
-              <input
-                type="number"
-                name="numberOfNights"
-                value={formData.numberOfNights}
-                onChange={handleChange}
-                min="1"
-                className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
-                  errors.numberOfNights ? "border-red-500" : "border-accent/20"
-                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
-                placeholder="Enter number of nights"
-              />
-              {renderError("numberOfNights")}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Potential Itinerary/Functions *
-              </label>
-              <textarea
-                name="potentialItinerary"
-                value={formData.potentialItinerary}
-                onChange={handleChange}
-                rows={3}
-                className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
-                  errors.potentialItinerary ? "border-red-500" : "border-accent/20"
-                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
-                placeholder="Describe your potential itinerary or functions"
-              />
-              {renderError("potentialItinerary")}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Estimated Budget *
-              </label>
-              <input
-                type="text"
-                name="estimatedBudget"
-                value={formData.estimatedBudget}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
-                  errors.estimatedBudget ? "border-red-500" : "border-accent/20"
-                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
-                placeholder="Enter your estimated budget"
-              />
-              {renderError("estimatedBudget")}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Tell us a little bit about yourself *
-              </label>
-              <textarea
-                name="aboutYourself"
-                value={formData.aboutYourself}
-                onChange={handleChange}
-                rows={4}
-                className={`w-full px-4 py-3 rounded-lg bg-background/50 border ${
-                  errors.aboutYourself ? "border-red-500" : "border-accent/20"
-                } focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all duration-300 placeholder:text-foreground/40`}
-                placeholder="Share some details about yourself and your vision"
-              />
-              {renderError("aboutYourself")}
-            </motion.div>
+              {submitStatus === "error" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-center"
+                >
+                  Oops! Something went wrong. Please try again.
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-
-          {/* Submit Button */}
-          <motion.div
-            className="mt-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-          >
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary/20"
-            >
-              {isSubmitting ? (
-                <span className="flex items-center justify-center">
-                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  Sending...
-                </span>
-              ) : (
-                "Send Message"
-              )}
-            </button>
-          </motion.div>
-
-          {/* Status Messages */}
-          <AnimatePresence>
-            {submitStatus === "success" && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="mt-4 p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-500 text-center"
-              >
-                Thank you for your message! We'll get back to you soon.
-              </motion.div>
-            )}
-            {submitStatus === "error" && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-center"
-              >
-                Oops! Something went wrong. Please try again.
-              </motion.div>
-            )}
-          </AnimatePresence>
         </motion.form>
       </div>
       <style jsx>{`

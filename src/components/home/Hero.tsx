@@ -1,360 +1,370 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  AnimatePresence,
-} from "framer-motion";
+import { motion } from "framer-motion";
+import Link from "next/link";
 import Image from "next/image";
-import { FaVolumeMute, FaVolumeUp } from "react-icons/fa";
-
-gsap.registerPlugin(ScrollTrigger);
+import { FaPlay, FaArrowRight, FaHeart, FaStar, FaUsers } from "react-icons/fa";
 
 const Hero = () => {
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [isContentVisible, setIsContentVisible] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const sectionRef = useRef<HTMLElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const sparklesRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.2]);
-
-  useEffect(() => {
-    // Show content after a short delay to ensure smooth transition from preloader
-    const timer = setTimeout(() => {
-      setIsContentVisible(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (!isContentVisible) return;
-
-    const ctx = gsap.context(() => {
-      // Split text animation
-      const companyName = "Manglam Event";
-      const chars = companyName.split("");
-      const textContainer = textRef.current;
-      
-      if (textContainer) {
-        textContainer.innerHTML = "";
-        chars.forEach((char, i) => {
-          const span = document.createElement("span");
-          span.textContent = char;
-          span.className = "inline-block";
-          textContainer.appendChild(span);
-        });
-
-        gsap.from(textContainer.children, {
-          opacity: 0,
-          rotateY: 90,
-          y: 50,
-          duration: 1.2,
-          stagger: 0.05,
-          ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top center",
-            end: "bottom center",
-            toggleActions: "play none none reverse",
-            markers: false,
-          },
-        });
-      }
-
-      // Video animation
-      if (videoRef.current) {
-        gsap.from(videoRef.current, {
-          opacity: 0,
-          scale: 1.05,
-          duration: 2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top center",
-            end: "bottom center",
-            toggleActions: "play none none reverse",
-            markers: false,
-          },
-        });
-      }
-
-      // Gradient overlay animation
-      gsap.from(".gradient-overlay", {
-        y: -100,
-        opacity: 0,
-        duration: 1.5,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top center",
-          end: "bottom center",
-          toggleActions: "play none none reverse",
-          markers: false,
-        },
-      });
-
-      // Tagline animation
-      gsap.from(".tagline", {
-        x: -100,
-        opacity: 0,
-        duration: 1,
-        delay: 0.5,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top center",
-          end: "bottom center",
-          toggleActions: "play none none reverse",
-          markers: false,
-        },
-      });
-
-      // CTA buttons animation
-      gsap.from(".cta-button", {
-        scale: 0,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "back.out(1.7)",
-        delay: 0.8,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top center",
-          end: "bottom center",
-          toggleActions: "play none none reverse",
-          markers: false,
-        },
-      });
-
-      // Scroll indicator animation
-      gsap.from(".scroll-indicator", {
-        y: -20,
-        opacity: 0,
-        duration: 1,
-        delay: 1.2,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top center",
-          end: "bottom center",
-          toggleActions: "play none none reverse",
-          markers: false,
-        },
-      });
-
-      // Floating animation for decorative elements
-      gsap.to(".floating-element", {
-        y: "20px",
-        duration: 2,
-        ease: "power1.inOut",
-        yoyo: true,
-        repeat: -1,
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, [isContentVisible]);
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      const newMutedState = !isMuted;
-      videoRef.current.muted = newMutedState;
-      setIsMuted(newMutedState);
-    }
-  };
-
-  const handleVideoLoad = () => {
-    setIsVideoLoaded(true);
-  };
-
-  // Custom cursor effect
-  useEffect(() => {
-    const cursor = cursorRef.current;
-    if (!cursor) return;
-
-    const moveCursor = (e: MouseEvent) => {
-      gsap.to(cursor, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.1,
-        ease: "power2.out",
-      });
-    };
-
-    const handleMouseEnter = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.tagName === "A" || target.tagName === "BUTTON") {
-        gsap.to(cursor, {
-          scale: 2,
-          opacity: 0.5,
-          duration: 0.3,
-        });
-      }
-    };
-
-    const handleMouseLeave = () => {
-      gsap.to(cursor, {
-        scale: 1,
-        opacity: 1,
-        duration: 0.3,
-      });
-    };
-
-    window.addEventListener("mousemove", moveCursor);
-    document.addEventListener("mouseenter", handleMouseEnter);
-    document.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      window.removeEventListener("mousemove", moveCursor);
-      document.removeEventListener("mouseenter", handleMouseEnter);
-      document.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []);
-
   return (
-    <motion.section
-      ref={sectionRef}
-      className="relative h-screen w-full overflow-hidden"
-      style={{ opacity }}
-    >
-      {/* Custom cursor */}
-      <div
-        ref={cursorRef}
-        className="fixed w-8 h-8 border-2 border-accent rounded-full pointer-events-none z-50 mix-blend-difference"
-        style={{ transform: "translate(-50%, -50%)" }}
-      />
-
-      {/* Background with video */}
-      <div className="absolute inset-0">
-        <motion.div
-          className="absolute inset-0 parallax-bg"
-          style={{ scale, y }}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* SVG Wave Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 1200 800"
+          preserveAspectRatio="none"
         >
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            playsInline
-            muted
-            className="absolute inset-0 w-full h-full object-cover"
-            onLoadedData={handleVideoLoad}
-          >
-            <source
-              src="https://wjbc2q51yihequgs.public.blob.vercel-storage.com/website%20video1-mJ2FDBUvWVhns3IoqCKdjOOs6wRUBV.mp4"
-              type="video/mp4"
-            />
-          </video>
-
-          {/* Mute/Unmute Button */}
-          <motion.button
-            onClick={toggleMute}
-            className="fixed bottom-8 right-8 z-[100] p-3 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 hover:bg-black/40 transition-all duration-300 cursor-pointer"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            style={{ pointerEvents: 'auto' }}
-          >
-            {isMuted ? (
-              <FaVolumeMute className="w-6 h-6 text-white" />
-            ) : (
-              <FaVolumeUp className="w-6 h-6 text-white" />
-            )}
-          </motion.button>
-        </motion.div>
-
-        {/* Gradient overlay */}
-        <motion.div
-          className="absolute inset-0 gradient-overlay bg-gradient-to-b from-black/80 via-black/60 to-black/80"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
-        />
-
-        {/* Grain overlay */}
-        <div className="absolute inset-0 opacity-20 mix-blend-overlay">
-          <div className="absolute inset-0 bg-[url('/images/grain.png')] opacity-50" />
-        </div>
-
-        {/* Sparkles container */}
-        <div ref={sparklesRef} className="absolute inset-0 overflow-hidden" />
+          <defs>
+            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(215, 38, 56, 0.1)" />
+              <stop offset="50%" stopColor="rgba(215, 38, 56, 0.05)" />
+              <stop offset="100%" stopColor="rgba(215, 38, 56, 0.02)" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+            fill="url(#waveGradient)"
+            opacity="0.6"
+          />
+          <path
+            d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
+            fill="url(#waveGradient)"
+            opacity="0.4"
+          />
+        </svg>
       </div>
 
-      {/* Content */}
-      <div className="relative h-full flex flex-col items-center justify-center text-center text-white px-4">
-        {/* Company name with split animation */}
-        <div
-          ref={textRef}
-          className="text-6xl md:text-8xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white via-accent-light to-white drop-shadow-lg hover:glow"
-        />
+      {/* Floating Flower Decorations */}
+      <div className="absolute top-20 left-10 flower-decoration floating">
+        <svg viewBox="0 0 24 24">
+          <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M12,18C13.1,18 14,18.9 14,20C14,21.1 13.1,22 12,22C10.9,22 10,21.1 10,20C10,18.9 10.9,18 12,18M12,8C13.1,8 14,8.9 14,10C14,11.1 13.1,12 12,12C10.9,12 10,11.1 10,10C10,8.9 10.9,8 12,8M12,14C13.1,14 14,14.9 14,16C14,17.1 13.1,18 12,18C10.9,18 10,17.1 10,16C10,14.9 10.9,14 12,14Z"/>
+        </svg>
+      </div>
+      
+      <div className="absolute top-40 right-20 flower-decoration floating-delayed">
+        <svg viewBox="0 0 24 24">
+          <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M12,18C13.1,18 14,18.9 14,20C14,21.1 13.1,22 12,22C10.9,22 10,21.1 10,20C10,18.9 10.9,18 12,18M12,8C13.1,8 14,8.9 14,10C14,11.1 13.1,12 12,12C10.9,12 10,11.1 10,10C10,8.9 10.9,8 12,8M12,14C13.1,14 14,14.9 14,16C14,17.1 13.1,18 12,18C10.9,18 10,17.1 10,16C10,14.9 10.9,14 12,14Z"/>
+        </svg>
+      </div>
 
-        {/* Tagline */}
-        <motion.p
-          className="tagline text-2xl md:text-3xl mb-12 text-white/90 font-light tracking-wide"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-        >
-          Creating Unforgettable Moments
-        </motion.p>
+      <div className="absolute bottom-40 left-20 flower-decoration floating-slow">
+        <svg viewBox="0 0 24 24">
+          <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M12,18C13.1,18 14,18.9 14,20C14,21.1 13.1,22 12,22C10.9,22 10,21.1 10,20C10,18.9 10.9,18 12,18M12,8C13.1,8 14,8.9 14,10C14,11.1 13.1,12 12,12C10.9,12 10,11.1 10,10C10,8.9 10.9,8 12,8M12,14C13.1,14 14,14.9 14,16C14,17.1 13.1,18 12,18C10.9,18 10,17.1 10,16C10,14.9 10.9,14 12,14Z"/>
+        </svg>
+      </div>
 
-        {/* CTA Buttons */}
-        {/* <div className="flex flex-col sm:flex-row gap-4">
-          <motion.button
-            className="cta-button px-8 py-3 bg-gradient-to-r from-primary to-accent rounded-full text-white font-medium hover:from-primary/90 hover:to-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+      {/* Geometric Pattern Background */}
+      <div className="absolute inset-0 geometric-pattern opacity-30" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left Content */}
+          <motion.div
+            className="space-y-8"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
           >
-            Get Started
-          </motion.button>
-          <motion.button
-            className="cta-button px-8 py-3 bg-white/10 backdrop-blur-sm rounded-full text-white font-medium hover:bg-white/20 transition-all duration-300 border border-white/20"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Learn More
-          </motion.button>
-        </div> */}
-
-        {/* Scroll Indicator */}
-        <motion.div
-          className="scroll-indicator absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.2 }}
-        >
-          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+            {/* Badge */}
             <motion.div
-              className="w-1.5 h-3 bg-white/50 rounded-full mt-2"
-              animate={{
-                y: [0, 12, 0],
+              className="inline-flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium"
+              style={{
+                background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
+                border: "1px solid rgba(215, 38, 56, 0.2)",
+                backdropFilter: "blur(10px)"
               }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          </div>
-        </motion.div>
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              >
+                <FaHeart className="w-4 h-4 text-primary" />
+              </motion.div>
+              <span className="text-primary font-great-vibes">Creating Unforgettable Moments</span>
+            </motion.div>
+
+            {/* Main Heading */}
+            <motion.div
+              className="space-y-4"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.4 }}
+            >
+              <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
+                <span className="text-gradient-primary font-playfair">
+                  Dream
+                </span>
+                <br />
+                <span className="text-foreground font-playfair">
+                  Events to
+                </span>
+                <br />
+                <span className="text-gradient-primary font-playfair">
+                  Reality
+                </span>
+              </h1>
+              
+              <p className="text-xl text-muted-foreground font-cormorant leading-relaxed max-w-2xl">
+                Transform your special moments into extraordinary experiences with our 
+                <span className="text-primary font-medium"> premium event planning services</span>. 
+                From intimate gatherings to grand celebrations, we bring your vision to life.
+              </p>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              className="flex flex-wrap gap-8"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.6 }}
+            >
+              <div className="flex items-center space-x-3">
+                <motion.div
+                  className="w-12 h-12 rounded-full flex items-center justify-center"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
+                    border: "1px solid rgba(215, 38, 56, 0.2)"
+                  }}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  <FaUsers className="w-6 h-6 text-primary" />
+                </motion.div>
+                <div>
+                  <div className="text-2xl font-bold text-foreground font-playfair">500+</div>
+                  <div className="text-sm text-muted-foreground font-cormorant">Happy Clients</div>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <motion.div
+                  className="w-12 h-12 rounded-full flex items-center justify-center"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
+                    border: "1px solid rgba(215, 38, 56, 0.2)"
+                  }}
+                  whileHover={{ scale: 1.1, rotate: -5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  <FaStar className="w-6 h-6 text-primary" />
+                </motion.div>
+                <div>
+                  <div className="text-2xl font-bold text-foreground font-playfair">1000+</div>
+                  <div className="text-sm text-muted-foreground font-cormorant">Events Planned</div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* CTA Buttons */}
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.8 }}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <Link
+                  href="/services"
+                  className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white rounded-2xl overflow-hidden transition-all duration-400"
+                  style={{
+                    background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
+                    boxShadow: "0 10px 30px rgba(215, 38, 56, 0.3)"
+                  }}
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100"
+                    transition={{ duration: 0.3 }}
+                  />
+                  <span className="relative z-10 font-great-vibes">Explore Services</span>
+                  <motion.div
+                    className="relative z-10 ml-2"
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <FaArrowRight className="w-5 h-5" />
+                  </motion.div>
+                </Link>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <Link
+                  href="/contact"
+                  className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-2xl overflow-hidden transition-all duration-400"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)",
+                    border: "1px solid rgba(215, 38, 56, 0.2)",
+                    backdropFilter: "blur(10px)",
+                    color: "var(--foreground)"
+                  }}
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100"
+                    transition={{ duration: 0.3 }}
+                  />
+                  <span className="relative z-10 font-great-vibes">Get Quote</span>
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
+          {/* Right Content - Hero Image */}
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+          >
+            <div className="relative">
+              {/* Main Image Container */}
+              <motion.div
+                className="relative w-full h-[600px] rounded-3xl overflow-hidden"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
+                  backdropFilter: "blur(20px)",
+                  border: "1px solid rgba(215, 38, 56, 0.1)",
+                  boxShadow: "0 25px 50px -12px rgba(215, 38, 56, 0.25)"
+                }}
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* Background Pattern */}
+                <div className="absolute inset-0 flower-pattern opacity-20" />
+                
+                {/* Main Image */}
+                <Image
+                  src="/images/services/PTVF8191.jpg"
+                  alt="Wedding Event"
+                  fill
+                  className="object-cover rounded-3xl"
+                  priority
+                />
+                
+                {/* Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-3xl" />
+                
+                {/* Floating Elements */}
+                <motion.div
+                  className="absolute top-6 right-6 w-16 h-16 rounded-full flex items-center justify-center"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)",
+                    backdropFilter: "blur(10px)",
+                    border: "1px solid rgba(215, 38, 56, 0.2)"
+                  }}
+                  whileHover={{ scale: 1.1, rotate: 10 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  <FaPlay className="w-6 h-6 text-primary" />
+                </motion.div>
+
+                {/* Bottom Info Card */}
+                <motion.div
+                  className="absolute bottom-6 left-6 right-6 p-6 rounded-2xl"
+                  style={{
+                    background: "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%)",
+                    backdropFilter: "blur(20px)",
+                    border: "1px solid rgba(215, 38, 56, 0.1)",
+                    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)"
+                  }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 1 }}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-bold text-foreground font-playfair">Wedding Planning</h3>
+                      <p className="text-sm text-muted-foreground font-cormorant">Complete wedding solutions</p>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      {[...Array(5)].map((_, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ duration: 0.3, delay: 1.2 + i * 0.1 }}
+                        >
+                          <FaStar className="w-4 h-4 text-yellow-400" />
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* Floating Decorative Elements */}
+              <motion.div
+                className="absolute -top-4 -left-4 w-20 h-20 rounded-full"
+                style={{
+                  background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
+                  border: "2px solid rgba(215, 38, 56, 0.2)"
+                }}
+                animate={{ 
+                  scale: [1, 1.1, 1],
+                  rotate: [0, 180, 360]
+                }}
+                transition={{ 
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              
+              <motion.div
+                className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full"
+                style={{
+                  background: "linear-gradient(135deg, rgba(215, 38, 56, 0.1) 0%, rgba(215, 38, 56, 0.05) 100%)",
+                  border: "2px solid rgba(215, 38, 56, 0.2)"
+                }}
+                animate={{ 
+                  scale: [1, 1.2, 1],
+                  rotate: [360, 180, 0]
+                }}
+                transition={{ 
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            </div>
+          </motion.div>
+        </div>
       </div>
-    </motion.section>
+
+      {/* Bottom Wave Divider */}
+      <div className="absolute bottom-0 left-0 right-0">
+        <svg
+          className="w-full h-24"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+            opacity=".25"
+            className="fill-background"
+          />
+          <path
+            d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
+            opacity=".5"
+            className="fill-background"
+          />
+          <path
+            d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
+            className="fill-background"
+          />
+        </svg>
+      </div>
+    </section>
   );
 };
 

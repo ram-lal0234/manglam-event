@@ -6,9 +6,13 @@ import { GalleryProvider } from "@/context/GalleryContext";
 export default function GalleryPage() {
   return (
     <GalleryProvider>
-      {/* <GalleryHero /> */}
-      <GalleryGrid />
-      {/* <GalleryCTA /> */}
+      <div className="min-h-screen flex flex-col">
+        <GalleryHero />
+        <div className="flex-1 pb-20">
+          <GalleryGrid />
+        </div>
+        {/* <GalleryCTA /> */}
+      </div>
     </GalleryProvider>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaHashtag, FaCheck, FaCopy } from 'react-icons/fa';
+import { FaHashtag, FaCheck, FaCopy, FaStar, FaHeart, FaMagic } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 
 interface HashtagFormData {
@@ -82,175 +82,246 @@ export default function HashtagGenerator() {
   };
 
   return (
-    <div className="w-full">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium mb-2">Bride's Name *</label>
-            <input
-              {...register('brideName', { required: 'Bride name is required' })}
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary/50 bg-background/50 backdrop-blur-sm"
-              placeholder="Enter bride's name"
-            />
-            {errors.brideName && (
-              <p className="text-red-500 text-sm mt-1">{errors.brideName.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2">Groom's Name *</label>
-            <input
-              {...register('groomName', { required: 'Groom name is required' })}
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary/50 bg-background/50 backdrop-blur-sm"
-              placeholder="Enter groom's name"
-            />
-            {errors.groomName && (
-              <p className="text-red-500 text-sm mt-1">{errors.groomName.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2">Wedding Date</label>
-            <input
-              type="date"
-              {...register('weddingDate')}
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary/50 bg-background/50 backdrop-blur-sm"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2">Location</label>
-            <input
-              {...register('location')}
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary/50 bg-background/50 backdrop-blur-sm"
-              placeholder="Enter wedding location"
-            />
-          </div>
-
-          <div className="md:col-span-2">
-            <label className="block text-sm font-medium mb-2">Theme/Vibe</label>
-            <input
-              {...register('theme')}
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary/50 bg-background/50 backdrop-blur-sm"
-              placeholder="Enter wedding theme or vibe (e.g., rustic, modern, beach)"
-            />
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full bg-primary text-white py-3 px-6 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-primary/20"
-        >
-          {isLoading ? (
-            <span className="flex items-center justify-center space-x-2">
-              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              <span>Generating...</span>
-            </span>
-          ) : (
-            'Generate Hashtags'
-          )}
-        </button>
-      </form>
-
-      {error && (
+    <div className="w-full max-w-4xl mx-auto">
+      {/* Header */}
+      <motion.div
+        className="text-center mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-6 p-4 bg-red-50 text-red-600 rounded-lg border border-red-200"
+          className="inline-block mb-6"
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
         >
-          <p className="flex items-center space-x-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>{error}</span>
-          </p>
+          <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center shadow-2xl">
+            <FaStar className="text-3xl text-white" />
+          </div>
         </motion.div>
-      )}
+        <h2 className="text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent tracking-tight">
+          Wedding Hashtag Generator
+        </h2>
+        <p className="text-foreground/70 text-lg max-w-2xl mx-auto leading-relaxed font-medium">
+          Create the perfect hashtags for your special day. Let our AI craft unique, memorable hashtags that capture your love story.
+        </p>
+      </motion.div>
 
-      {hashtags.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-8"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold text-primary">Your Wedding Hashtags</h3>
-            <div className="flex items-center space-x-4">
-              <p className="text-sm text-foreground/60">{hashtags.length} hashtags generated</p>
-              <button
-                onClick={() => {
-                  const allHashtags = hashtags.join(" ");
-                  navigator.clipboard.writeText(allHashtags);
-                  toast.success('All hashtags copied to clipboard!', {
-                    duration: 2000,
-                    position: 'bottom-center',
-                    style: {
-                      background: 'var(--background)',
-                      color: 'var(--foreground)',
-                      border: '1px solid var(--accent)',
-                    },
-                  });
-                }}
-                className="flex items-center space-x-2 px-3 py-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-              >
-                <FaCopy className="w-4 h-4" />
-                <span>Copy All</span>
-              </button>
+      {/* Form */}
+      <motion.div
+        className="bg-gradient-to-br from-background/95 to-background/90 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-accent/10 mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <label className="block text-sm font-bold text-foreground mb-3">Bride's Name *</label>
+              <input
+                {...register('brideName', { required: 'Bride name is required' })}
+                className="w-full p-4 border-2 rounded-xl focus:ring-4 focus:ring-primary/10 bg-background/50 backdrop-blur-sm border-accent/20 focus:border-primary/50 transition-all duration-300 text-lg font-medium"
+                placeholder="Enter bride's name"
+              />
+              {errors.brideName && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-red-500 text-sm mt-2 flex items-center font-medium"
+                >
+                  <FaHeart className="w-4 h-4 mr-1" />
+                  {errors.brideName.message}
+                </motion.p>
+              )}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <label className="block text-sm font-bold text-foreground mb-3">Groom's Name *</label>
+              <input
+                {...register('groomName', { required: 'Groom name is required' })}
+                className="w-full p-4 border-2 rounded-xl focus:ring-4 focus:ring-primary/10 bg-background/50 backdrop-blur-sm border-accent/20 focus:border-primary/50 transition-all duration-300 text-lg font-medium"
+                placeholder="Enter groom's name"
+              />
+              {errors.groomName && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-red-500 text-sm mt-2 flex items-center font-medium"
+                >
+                  <FaHeart className="w-4 h-4 mr-1" />
+                  {errors.groomName.message}
+                </motion.p>
+              )}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <label className="block text-sm font-bold text-foreground mb-3">Wedding Date</label>
+              <input
+                type="date"
+                {...register('weddingDate')}
+                className="w-full p-4 border-2 rounded-xl focus:ring-4 focus:ring-primary/10 bg-background/50 backdrop-blur-sm border-accent/20 focus:border-primary/50 transition-all duration-300 text-lg font-medium"
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              <label className="block text-sm font-bold text-foreground mb-3">Location</label>
+              <input
+                {...register('location')}
+                className="w-full p-4 border-2 rounded-xl focus:ring-4 focus:ring-primary/10 bg-background/50 backdrop-blur-sm border-accent/20 focus:border-primary/50 transition-all duration-300 text-lg font-medium"
+                placeholder="Enter wedding location"
+              />
+            </motion.div>
+
+            <motion.div
+              className="md:col-span-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+            >
+              <label className="block text-sm font-bold text-foreground mb-3">Theme/Vibe</label>
+              <input
+                {...register('theme')}
+                className="w-full p-4 border-2 rounded-xl focus:ring-4 focus:ring-primary/10 bg-background/50 backdrop-blur-sm border-accent/20 focus:border-primary/50 transition-all duration-300 text-lg font-medium"
+                placeholder="Enter wedding theme or vibe (e.g., rustic, modern, beach, traditional)"
+              />
+            </motion.div>
+          </div>
+
+          <motion.button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-gradient-to-r from-primary to-primary/80 text-white py-4 px-8 rounded-xl hover:from-primary/90 hover:to-primary/70 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-primary/20 text-lg font-semibold"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            {isLoading ? (
+              <span className="flex items-center justify-center space-x-3">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                <span>Generating Magic...</span>
+              </span>
+            ) : (
+              <span className="flex items-center justify-center space-x-3">
+                <FaMagic className="w-5 h-5" />
+                <span>Generate Hashtags</span>
+              </span>
+            )}
+          </motion.button>
+        </form>
+      </motion.div>
+
+      {/* Error Message */}
+      <AnimatePresence>
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="mb-8 p-6 bg-red-500/10 border-2 border-red-500/20 rounded-2xl text-red-500 backdrop-blur-sm"
+          >
+            <p className="flex items-center space-x-3 text-lg">
+              <FaHeart className="w-5 h-5" />
+              <span>{error}</span>
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Results */}
+      <AnimatePresence>
+        {hashtags.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="bg-gradient-to-br from-background/95 to-background/90 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-accent/10"
+          >
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-2xl font-bold text-primary flex items-center space-x-3">
+                <FaStar className="w-6 h-6" />
+                <span>Your Wedding Hashtags</span>
+              </h3>
+              <div className="flex items-center space-x-4">
+                <p className="text-sm text-foreground/60 bg-accent/20 px-3 py-1 rounded-full font-medium">
+                  {hashtags.length} hashtags generated
+                </p>
+                <motion.button
+                  onClick={() => {
+                    const allHashtags = hashtags.join(" ");
+                    navigator.clipboard.writeText(allHashtags);
+                    toast.success('All hashtags copied to clipboard!', {
+                      duration: 2000,
+                      position: 'bottom-center',
+                      style: {
+                        background: 'var(--background)',
+                        color: 'var(--foreground)',
+                        border: '1px solid var(--accent)',
+                      },
+                    });
+                  }}
+                  className="flex items-center space-x-2 px-4 py-2 text-sm font-bold text-primary hover:text-primary/80 transition-colors bg-primary/10 hover:bg-primary/20 rounded-full"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <FaCopy className="w-4 h-4" />
+                  <span>Copy All</span>
+                </motion.button>
+              </div>
             </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
-            {hashtags.map((hashtag, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="group relative p-4 bg-gradient-to-br from-background/95 to-background/90 backdrop-blur-xl border border-accent/10 rounded-lg hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-start space-x-2 min-w-0 flex-1">
-                    <FaHashtag className="flex-shrink-0 w-4 h-4 text-primary group-hover:text-primary/80 transition-colors mt-1" />
-                    <p className="text-lg font-medium text-foreground group-hover:text-primary transition-colors break-all whitespace-normal w-full">
-                      {hashtag}
-                    </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {hashtags.map((hashtag, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="group relative"
+                >
+                  <div className="bg-gradient-to-br from-background/80 to-background/60 backdrop-blur-sm rounded-2xl p-4 border-2 border-accent/20 hover:border-primary/30 transition-all duration-300 hover:shadow-lg">
+                    <div className="flex items-center justify-between">
+                      <span className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                        {hashtag}
+                      </span>
+                      <motion.button
+                        onClick={() => copyToClipboard(hashtag, index)}
+                        className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      >
+                        {copiedIndex === index ? (
+                          <FaCheck className="w-4 h-4 text-green-500" />
+                        ) : (
+                          <FaCopy className="w-4 h-4 text-primary" />
+                        )}
+                      </motion.button>
+                    </div>
                   </div>
-                  <button
-                    onClick={() => copyToClipboard(hashtag, index)}
-                    className="flex-shrink-0 p-2 rounded-lg hover:bg-primary/10 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    aria-label="Copy hashtag"
-                  >
-                    <AnimatePresence mode="wait">
-                      {copiedIndex === index ? (
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          exit={{ scale: 0 }}
-                          className="text-green-500"
-                        >
-                          <FaCheck className="w-5 h-5" />
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          exit={{ scale: 0 }}
-                          className="text-foreground/60 group-hover:text-primary"
-                        >
-                          <FaCopy className="w-5 h-5" />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      )}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 } 
