@@ -1,13 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { FaHeart } from "react-icons/fa";
-
-gsap.registerPlugin(ScrollTrigger);
+import { FaHeart, FaArrowRight } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 const services = [
   {
@@ -141,102 +137,117 @@ const services = [
 ];
 
 const ServicesList = () => {
-  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
+  // Optimized animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        duration: 0.8,
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 60 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const floatingVariants = {
+    animate: {
+      y: [-20, 20, -20],
+      transition: {
+        duration: 8,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  const rotationVariants = {
+    animate: {
+      rotate: 360,
+      transition: {
+        duration: 20,
+        repeat: Infinity,
+        ease: "linear"
+      }
+    }
+  };
+
+  // Set visibility after component mounts to prevent layout shifts
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate service cards with improved timing
-      gsap.from(".service-card", {
-        opacity: 0,
-        y: 60,
-        duration: 1,
-        stagger: 0.08,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top center+=100",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      // Enhanced floating animations
-      gsap.to(".floating-element", {
-        y: "random(-30, 30)",
-        x: "random(-15, 15)",
-        rotation: "random(-8, 8)",
-        duration: "random(3, 6)",
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      // Rotating elements with varied speeds
-      gsap.to(".rotating-element", {
-        rotation: 360,
-        duration: "random(10, 20)",
-        repeat: -1,
-        ease: "none",
-      });
-
-      // Pulsing elements
-      gsap.to(".pulse-element", {
-        scale: "random(0.8, 1.2)",
-        opacity: "random(0.3, 0.8)",
-        duration: "random(2, 4)",
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
+    const timer = setTimeout(() => setIsVisible(true), 200);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <motion.section
-      ref={sectionRef}
+    <motion.section 
       className="relative py-32 overflow-hidden bg-gradient-to-br from-background via-background to-primary/5"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1 }}
+      variants={containerVariants}
+      initial="hidden"
+      animate={isVisible ? "visible" : "hidden"}
     >
-      {/* Enhanced Background with Theme Colors */}
+      {/* Background Elements */}
       <div className="absolute inset-0">
         {/* Gradient Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary/20 to-primary/5" />
         
-        {/* Animated SVG Elements with Theme Colors */}
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Flowing Lines */}
-          <svg className="absolute top-20 left-10 w-40 h-40 text-primary/15 floating-element" viewBox="0 0 100 100">
+        {/* Optimized Floating Elements */}
+        <motion.div 
+          className="absolute top-20 left-10 w-40 h-40 text-primary/15"
+          variants={floatingVariants}
+          animate="animate"
+        >
+          <svg viewBox="0 0 100 100">
             <path d="M10,10 Q50,5 90,10 Q85,50 90,90 Q50,95 10,90 Q5,50 10,10" fill="none" stroke="currentColor" strokeWidth="1.5"/>
           </svg>
-          
-          <svg className="absolute bottom-20 right-20 w-48 h-48 text-primary-light/20 floating-element" viewBox="0 0 100 100">
+        </motion.div>
+        
+        <motion.div 
+          className="absolute bottom-20 right-20 w-48 h-48 text-primary-light/20"
+          variants={floatingVariants}
+          animate="animate"
+        >
+          <svg viewBox="0 0 100 100">
             <path d="M20,20 C20,20 40,5 60,20 C80,35 95,60 80,80 C65,95 40,80 20,80 C5,65 5,35 20,20" fill="none" stroke="currentColor" strokeWidth="2"/>
           </svg>
+        </motion.div>
 
-          {/* Geometric Shapes */}
-          <svg className="absolute top-1/3 right-1/4 w-32 h-32 text-primary/25 rotating-element" viewBox="0 0 100 100">
+        {/* Optimized Rotating Elements */}
+        <motion.div 
+          className="absolute top-1/3 right-1/4 w-32 h-32 text-primary/25"
+          variants={rotationVariants}
+          animate="animate"
+        >
+          <svg viewBox="0 0 100 100">
             <polygon points="50,5 90,25 90,75 50,95 10,75 10,25" fill="none" stroke="currentColor" strokeWidth="1.5"/>
             <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" strokeWidth="1"/>
           </svg>
-
-          <svg className="absolute bottom-1/3 left-1/3 w-36 h-36 text-primary-light/20 rotating-element" viewBox="0 0 100 100">
-            <rect x="15" y="15" width="70" height="70" rx="8" fill="none" stroke="currentColor" strokeWidth="1.5"/>
-            <circle cx="50" cy="50" r="12" fill="currentColor" opacity="0.3"/>
-          </svg>
-
-          {/* Decorative Lines */}
-          <div className="absolute top-40 left-1/2 w-40 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent floating-element" />
-          <div className="absolute bottom-40 right-1/3 w-32 h-px bg-gradient-to-r from-transparent via-primary-light/30 to-transparent floating-element" />
-          
-          {/* Scattered Dots */}
-          <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-primary/40 rounded-full pulse-element" />
-          <div className="absolute top-3/4 right-1/4 w-2 h-2 bg-primary-light/50 rounded-full pulse-element" />
-          <div className="absolute bottom-1/4 left-3/4 w-2.5 h-2.5 bg-primary/35 rounded-full pulse-element" />
-        </div>
+        </motion.div>
 
         {/* Subtle dot pattern */}
         <div className="absolute inset-0 opacity-8">
@@ -248,21 +259,15 @@ const ServicesList = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Enhanced Section Header */}
+        {/* Section Header */}
         <motion.div
           className="text-center space-y-10 mb-20"
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          viewport={{ once: true }}
+          variants={itemVariants}
         >
-          {/* Enhanced Badge */}
+          {/* Badge */}
           <motion.div
             className="inline-flex items-center space-x-3 px-6 py-3 border-2 border-primary/30 rounded-full text-sm bg-primary/5 backdrop-blur-sm"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
+            variants={itemVariants}
           >
             <motion.div
               animate={{ rotate: 360 }}
@@ -273,13 +278,10 @@ const ServicesList = () => {
             <span className="text-primary font-great-vibes text-lg">What We Offer</span>
           </motion.div>
 
-          {/* Enhanced Main Heading */}
+          {/* Main Heading */}
           <motion.div
             className="space-y-6"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.4 }}
-            viewport={{ once: true }}
+            variants={itemVariants}
           >
             <h2 className="text-5xl lg:text-7xl font-bold leading-tight">
               <span className="text-gradient-primary font-playfair">
@@ -299,50 +301,38 @@ const ServicesList = () => {
           </motion.div>
         </motion.div>
 
-        {/* Enhanced Services Grid */}
+        {/* Services Grid */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.6 }}
-          viewport={{ once: true }}
+          variants={itemVariants}
         >
           {services.map((service, index) => (
             <motion.div
               key={service.title}
-              className="service-card group relative overflow-hidden rounded-3xl cursor-pointer h-[420px]"
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: index * 0.06 }}
-              viewport={{ once: true }}
+              className="group relative overflow-hidden rounded-3xl cursor-pointer h-[420px]"
+              variants={cardVariants}
               whileHover={{ 
                 y: -16,
                 scale: 1.03,
                 transition: { duration: 0.5, ease: "easeOut" }
               }}
             >
-              {/* Enhanced Card Container */}
+              {/* Card Container */}
               <div className="relative h-full bg-white border-2 border-primary/10 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-600 group-hover:shadow-primary/30 group-hover:border-primary/20 group-hover:shadow-[0_25px_50px_-12px_rgba(215,38,56,0.25)]">
                 
-                {/* Enhanced Service Image */}
+                {/* Service Image */}
                 <div className="relative h-full overflow-hidden">
                   <Image
                     src={service.image}
                     alt={service.title}
                     fill
-                    className="object-cover transition-all duration-800 group-hover:scale-110 group-hover:brightness-75 group-hover:filter group-hover:contrast-105 group-hover:saturate-105"
+                    className="object-cover transition-all duration-800 group-hover:scale-110 group-hover:brightness-75"
                   />
                   
-                  {/* Image Hover Effects */}
+                  {/* Image Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/5 to-black/25 group-hover:from-black/60 group-hover:via-black/15 group-hover:to-black/40 transition-all duration-500" />
                   
-                  {/* Image Shadow Effect */}
-                  <div className="absolute inset-0 shadow-xl group-hover:shadow-primary/20 transition-all duration-500 opacity-0 group-hover:opacity-100" />
-                  
-                  {/* Image Glow Effect */}
-                  <div className="absolute inset-0 bg-primary/15 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-lg scale-105" />
-                  
-                  {/* Enhanced Service Icon */}
+                  {/* Service Icon */}
                   <div className="absolute top-6 left-6 z-20">
                     <motion.div 
                       className="w-16 h-16 rounded-full flex items-center justify-center text-3xl bg-white/95 backdrop-blur-sm border-2 border-primary/20 shadow-xl"
@@ -353,14 +343,14 @@ const ServicesList = () => {
                     </motion.div>
                   </div>
                   
-                  {/* Enhanced Service Title */}
+                  {/* Service Title */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
                     <h3 className="text-2xl font-bold text-white font-great-vibes drop-shadow-xl">
                       {service.title}
                     </h3>
                   </div>
 
-                  {/* Enhanced Hover Content Overlay - Partial Coverage */}
+                  {/* Hover Content Overlay */}
                   <div className="absolute top-0 right-0 w-4/5 h-full bg-gradient-to-l from-primary/75 via-primary-light/70 to-primary-dark/80 backdrop-blur-md flex flex-col justify-center p-8 opacity-0 group-hover:opacity-100 transition-all duration-800 ease-out z-10 transform translate-x-full group-hover:translate-x-0">
                     <div className="text-center text-white">
                       {/* Service Title on Hover */}
@@ -385,13 +375,10 @@ const ServicesList = () => {
           ))}
         </motion.div>
 
-        {/* Enhanced Bottom CTA */}
+        {/* Bottom CTA */}
         <motion.div
           className="text-center mt-20"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.2 }}
-          viewport={{ once: true }}
+          variants={itemVariants}
         >
           <motion.button
             className="px-10 py-5 rounded-full text-xl font-medium transition-all duration-400 border-2 border-primary/40 bg-primary/10 hover:bg-primary hover:text-white font-great-vibes shadow-lg hover:shadow-2xl"

@@ -14,7 +14,7 @@ const MissionSection = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animate paragraphs
+      // Animate paragraphs with permanent visibility
       gsap.from(".mission-paragraph", {
         opacity: 0,
         y: 50,
@@ -24,7 +24,7 @@ const MissionSection = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top center+=100",
-          toggleActions: "play none none reverse",
+          toggleActions: "play none none none", // Changed to prevent reverse
         },
       });
     }, sectionRef);
@@ -36,7 +36,7 @@ const MissionSection = () => {
     <motion.section
       ref={sectionRef}
       className="relative py-24 overflow-hidden"
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 1 }} // Changed from 0 to 1
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 1 }}
@@ -68,7 +68,7 @@ const MissionSection = () => {
         {/* Section Header */}
         <motion.div 
           className="text-center space-y-8 mb-16"
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 1, y: 0 }} // Changed from opacity: 0, y: 50
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -76,7 +76,7 @@ const MissionSection = () => {
           {/* Clean badge */}
           <motion.div
             className="inline-flex items-center space-x-2 px-4 py-2 border border-primary/30 rounded-full text-sm"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 0 }} // Changed from opacity: 0, y: 20
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
@@ -93,7 +93,7 @@ const MissionSection = () => {
           {/* Main Heading */}
           <motion.div
             className="space-y-4"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 1, y: 0 }} // Changed from opacity: 0, y: 30
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
             viewport={{ once: true }}
@@ -118,7 +118,7 @@ const MissionSection = () => {
         {/* Mission Content */}
         <motion.div
           className="space-y-16"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }} // Changed from opacity: 0, y: 20
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
@@ -126,7 +126,7 @@ const MissionSection = () => {
           {/* Mission Section 1 - Name Meaning */}
           <motion.div
             className="mission-paragraph grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 1, x: 0 }} // Changed from opacity: 0, x: -50
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
@@ -134,7 +134,7 @@ const MissionSection = () => {
             {/* Clean image placeholder */}
             <motion.div
               className="relative"
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 1, scale: 1 }} // Changed from opacity: 0, scale: 0.8
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.4 }}
               viewport={{ once: true }}
@@ -163,7 +163,7 @@ const MissionSection = () => {
                 </h3>
               </div>
               
-              <div className="space-y-4 text-muted-foreground font-cormorant leading-relaxed">
+              <div className="text-xl space-y-4 text-muted-foreground font-cormorant leading-relaxed">
                 <p>
                   <span className="text-primary font-medium">"Manglam"</span> is derived from Sanskrit, 
                   meaning <span className="text-primary font-medium">"auspicious"</span> or 
@@ -202,7 +202,7 @@ const MissionSection = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <FaStar className="w-4 h-4 text-primary" />
-                  <span className="text-sm text-muted-foreground">Memorable Experiences</span>
+                  <span className="text-sm text-muted-foreground">Heartfelt Effort & Care</span>
                 </motion.div>
               </div>
             </div>
@@ -211,7 +211,7 @@ const MissionSection = () => {
           {/* Mission Section 2 - Our Approach */}
           <motion.div
             className="mission-paragraph grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 1, x: 0 }} // Changed from opacity: 0, x: 50
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
@@ -227,7 +227,7 @@ const MissionSection = () => {
                 </h3>
               </div>
               
-              <div className="space-y-4 text-muted-foreground font-cormorant leading-relaxed">
+              <div className="text-xl space-y-4 text-muted-foreground font-cormorant leading-relaxed">
                 <p>
                   We believe that every event should be a <span className="text-primary font-medium">reflection of the couple's dreams</span>. 
                   Our approach combines traditional values with modern innovation, creating celebrations 
@@ -265,7 +265,7 @@ const MissionSection = () => {
             {/* Clean image placeholder */}
             <motion.div
               className="relative"
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 1, scale: 1 }} // Changed from opacity: 0, scale: 0.8
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.6 }}
               viewport={{ once: true }}
@@ -287,7 +287,7 @@ const MissionSection = () => {
           {/* Mission Section 3 - Our Promise */}
           <motion.div
             className="mission-paragraph text-center max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 1, y: 0 }} // Changed from opacity: 0, y: 50
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             viewport={{ once: true }}
@@ -302,7 +302,7 @@ const MissionSection = () => {
                 </h3>
               </div>
               
-              <div className="space-y-4 text-muted-foreground font-cormorant leading-relaxed">
+              <div className="text-xl space-y-4 text-muted-foreground font-cormorant leading-relaxed">
                 <p className="text-lg">
                   We promise to create not just events, but <span className="text-primary font-medium">mangalmay</span> moments 
                   that will be cherished for a lifetime. Every celebration we plan is infused with 
@@ -324,7 +324,7 @@ const MissionSection = () => {
                 <h4 className="text-xl font-bold font-great-vibes text-primary mb-4">
                   Our Commitment
                 </h4>
-                <p className="text-muted-foreground font-cormorant">
+                <p className="text-xl text-muted-foreground font-cormorant">
                   To transform your dreams into <span className="text-primary font-medium">mangalmay</span> reality, 
                   creating celebrations that are not just beautiful, but truly blessed and auspicious.
                 </p>

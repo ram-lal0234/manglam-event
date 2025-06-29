@@ -7,7 +7,7 @@ export default function ServicesPage() {
   return (
     <main className="min-h-screen bg-background">
       <ServicesHero />
-      <div className="relative z-10">
+      <div className="relative z-10 bg-background">
         <ServiceList />
         {/* <ServiceCTA /> */}
       </div>

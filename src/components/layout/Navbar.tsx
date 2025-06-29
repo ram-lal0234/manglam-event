@@ -157,7 +157,7 @@ const Navbar = () => {
                     >
                       <Link
                         href={item.path}
-                        className={`nav-item relative px-6 py-3 text-base font-large font-semibold font-great-vibes transition-all duration-400 group rounded-xl overflow-hidden ${
+                        className={`nav-item relative px-6 py-3 text-base font-large font-semibold font-playfair transition-all duration-400 group rounded-xl overflow-hidden ${
                           pathname === item.path
                             ? "text-primary bg-primary/10"
                             : "text-foreground hover:text-primary hover:bg-primary/5"
@@ -216,7 +216,7 @@ const Navbar = () => {
                   >
                     <Link
                       href="/hashtag-generator"
-                      className={`nav-item relative px-4 py-2 text-sm font-large font-semibold font-great-vibes transition-all duration-400 group flex items-center space-x-2 rounded-xl overflow-hidden ${
+                      className={`nav-item relative px-4 py-2 text-sm font-large font-semibold font-playfair transition-all duration-400 group flex items-center space-x-2 rounded-xl overflow-hidden ${
                         pathname === "/hashtag-generator"
                           ? "text-primary bg-primary/10"
                           : "text-foreground hover:text-primary hover:bg-primary/5"
@@ -249,7 +249,7 @@ const Navbar = () => {
                           setAuthMode("login");
                           setShowAuthModal(true);
                         }}
-                        className="px-6 py-2 bg-gradient-to-r from-primary to-primary-light text-white font-great-vibes rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105"
+                        className="px-6 py-2 bg-gradient-to-r from-primary to-primary-light text-white font-playfair rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -316,7 +316,7 @@ const Navbar = () => {
                   >
                     <Link
                       href={item.path}
-                      className={`nav-item flex px-6 py-4 rounded-2xl text-lg font-large font-semibold font-great-vibes transition-all duration-400 group relative overflow-hidden ${
+                      className={`nav-item flex px-6 py-4 rounded-2xl text-lg font-large font-semibold font-playfair transition-all duration-400 group relative overflow-hidden ${
                         pathname === item.path
                           ? "text-primary bg-primary/10"
                           : "text-foreground hover:text-primary hover:bg-primary/5"
@@ -344,7 +344,7 @@ const Navbar = () => {
                 >
                   <Link
                     href="/hashtag-generator"
-                    className={`nav-item px-6 py-4 rounded-2xl text-lg font-large font-semibold font-great-vibes transition-all duration-400 group flex items-center space-x-3 relative overflow-hidden ${
+                    className={`nav-item px-6 py-4 rounded-2xl text-lg font-large font-semibold font-playfair transition-all duration-400 group flex items-center space-x-3 relative overflow-hidden ${
                       pathname === "/hashtag-generator"
                         ? "text-primary bg-primary/10"
                         : "text-foreground hover:text-primary hover:bg-primary/5"
@@ -378,7 +378,7 @@ const Navbar = () => {
                         setShowAuthModal(true);
                         setIsOpen(false);
                       }}
-                      className="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary-light text-white font-great-vibes rounded-2xl hover:shadow-lg transition-all duration-300"
+                      className="w-full px-6 py-4 bg-gradient-to-r from-primary to-primary-light text-white font-playfair rounded-2xl hover:shadow-lg transition-all duration-300"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >

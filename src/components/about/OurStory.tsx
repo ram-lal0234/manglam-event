@@ -14,7 +14,7 @@ const OurStory = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animate paragraphs
+      // Animate paragraphs with permanent visibility
       gsap.from(".story-paragraph", {
         opacity: 0,
         y: 50,
@@ -24,7 +24,7 @@ const OurStory = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top center+=100",
-          toggleActions: "play none none reverse",
+          toggleActions: "play none none none", // Changed to prevent reverse
         },
       });
     }, sectionRef);
@@ -36,7 +36,7 @@ const OurStory = () => {
     <motion.section
       ref={sectionRef}
       className="relative py-24 overflow-hidden"
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 1 }} // Changed from 0 to 1
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 1 }}
@@ -66,7 +66,7 @@ const OurStory = () => {
         {/* Section Header */}
         <motion.div
           className="text-center space-y-8 mb-16"
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 1, y: 0 }} // Changed from opacity: 0, y: 50
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true, margin: "-100px" }}
@@ -74,7 +74,7 @@ const OurStory = () => {
           {/* Clean badge */}
           <motion.div
             className="inline-flex items-center space-x-2 px-4 py-2 border border-primary/30 rounded-full text-sm"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 0 }} // Changed from opacity: 0, y: 20
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
@@ -91,7 +91,7 @@ const OurStory = () => {
           {/* Main Heading */}
           <motion.div
             className="space-y-4"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 1, y: 0 }} // Changed from opacity: 0, y: 30
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
             viewport={{ once: true }}
@@ -116,7 +116,7 @@ const OurStory = () => {
         {/* Story Content */}
         <motion.div
           className="space-y-16"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }} // Changed from opacity: 0, y: 20
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
@@ -124,7 +124,7 @@ const OurStory = () => {
           {/* Story Section 1 - Naveen's Legacy */}
           <motion.div
             className="story-paragraph grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 1, x: 0 }} // Changed from opacity: 0, x: -50
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
@@ -132,7 +132,7 @@ const OurStory = () => {
             {/* Clean image placeholder */}
             <motion.div
               className="relative"
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 1, scale: 1 }} // Changed from opacity: 0, scale: 0.8
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.4 }}
               viewport={{ once: true }}
@@ -161,7 +161,7 @@ const OurStory = () => {
                 </h3>
               </div>
               
-              <div className="space-y-4 text-muted-foreground font-cormorant leading-relaxed">
+              <div className="text-xl space-y-4 text-muted-foreground font-cormorant leading-relaxed">
                 <p>
                   With over <span className="text-primary font-medium">15 years</span> of experience in the wedding industry, 
                   Naveen has witnessed the evolution of celebrations from simple gatherings to grand spectacles. 
@@ -199,7 +199,7 @@ const OurStory = () => {
           {/* Story Section 2 - The Partnership */}
           <motion.div
             className="story-paragraph grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 1, x: 0 }} // Changed from opacity: 0, x: 50
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
@@ -215,7 +215,7 @@ const OurStory = () => {
                 </h3>
               </div>
               
-              <div className="space-y-4 text-muted-foreground font-cormorant leading-relaxed">
+              <div className="text-xl space-y-4 text-muted-foreground font-cormorant leading-relaxed">
                 <p>
                   When Naveen met his partner, it wasn't just a business decision—it was a meeting of 
                   <span className="text-primary font-medium"> kindred spirits</span>. Both shared the same vision: 
@@ -261,7 +261,7 @@ const OurStory = () => {
             {/* Clean image placeholder */}
             <motion.div
               className="relative"
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 1, scale: 1 }} // Changed from opacity: 0, scale: 0.8
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.6 }}
               viewport={{ once: true }}
@@ -283,7 +283,7 @@ const OurStory = () => {
           {/* Story Section 3 - The Name */}
           <motion.div
             className="story-paragraph text-center max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 1, y: 0 }} // Changed from opacity: 0, y: 50
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             viewport={{ once: true }}
@@ -298,7 +298,7 @@ const OurStory = () => {
                 </h3>
               </div>
               
-              <div className="space-y-4 text-muted-foreground font-cormorant leading-relaxed">
+              <div className="text-xl space-y-4 text-muted-foreground font-cormorant leading-relaxed">
                 <p className="text-lg">
                   The name <span className="text-primary font-medium">"Manglam"</span> holds deep significance. 
                   Derived from Sanskrit, it means <span className="text-primary font-medium">"auspicious"</span> or 
@@ -320,7 +320,7 @@ const OurStory = () => {
                 <h4 className="text-xl font-bold font-great-vibes text-primary mb-4">
                   Our Promise
                 </h4>
-                <p className="text-muted-foreground font-cormorant">
+                <p className="text-xl text-muted-foreground font-cormorant">
                   To create not just events, but <span className="text-primary font-medium">mangalmay</span> moments 
                   that bring joy, positivity, and blessings to every celebration.
                 </p>
